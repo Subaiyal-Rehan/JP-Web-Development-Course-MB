@@ -1,0 +1,14 @@
+.text-orange {
+    color: #ff5845 !important;
+}
+
+.btn-orange {
+    background-color: #ff5845 !important;
+    color: white !important;
+    border: 2px solid #ff5845 !important;
+}
+
+.btn-orange:hover {
+    background-color: white !important;
+    color: #ff5845 !important;
+}

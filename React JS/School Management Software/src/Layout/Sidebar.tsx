@@ -13,7 +13,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CustomList from "../Components/CustomList";
 import { Link } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -75,8 +74,10 @@ interface DrawerProps {
 const Drawer = styled("nav", {
   shouldForwardProp: (prop) => prop !== "open",
 })<DrawerProps>(({ theme, open }) => ({
-  width: drawerWidth,
+  display: 'flex',
+  flexDirection: 'column',
   flexShrink: 0,
+  width: drawerWidth,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
   ...(open && {
@@ -84,19 +85,28 @@ const Drawer = styled("nav", {
     backgroundColor: "var(--darkBlue)",
     "& .MuiDrawer-paper": {
       ...openedMixin(theme),
+      backgroundColor: "var(--darkBlue)",
+      display: 'flex',
+      flexDirection: 'column',
     },
   }),
   ...(!open && {
     ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
     backgroundColor: "var(--darkBlue)",
+    "& .MuiDrawer-paper": {
+      ...closedMixin(theme),
+      backgroundColor: "var(--darkBlue)",
+      display: 'flex',
+      flexDirection: 'column',
+    },
   }),
 }));
 
 export default function Sidebar(props: any) {
   const { pageName, breadcrumbLink, breadcrumbNestedLink, element } = props;
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
+  const [activeTab, setActiveTab] = React.useState<string | null>(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -104,6 +114,11 @@ export default function Sidebar(props: any) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleTabClick = (tabId: string) => {
+    setActiveTab(tabId);
+    setOpen(true);
   };
 
   return (
@@ -125,12 +140,12 @@ export default function Sidebar(props: any) {
           </IconButton>
           <Typography className="w-100" variant="h6" noWrap component="div">
             <h1 className="m-0 fs-2">
-            {pageName}
+              {pageName}
             </h1>
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer style={{ height: "100vh" }} open={open} theme={theme}>
+      <Drawer style={{zIndex: 100}} open={open} theme={theme}>
         <DrawerHeader>
           <IconButton className="text-white" onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
@@ -141,10 +156,10 @@ export default function Sidebar(props: any) {
           </IconButton>
         </DrawerHeader>
         <List>
-          <CustomList />
+          <CustomList  onTabClick={handleTabClick} activeTab={activeTab} />
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, minHeight: "100vh" }}>
         <DrawerHeader />
         <ul className="text-orange d-flex align-items-center list-unstyled gap-1">
           <li>

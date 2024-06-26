@@ -29,10 +29,6 @@ function AdmissionForm() {
         StudentImage: "",
     })
 
-    useEffect(() => {
-        console.log(StudentData)
-    }, [StudentData])
-
     const handleReset = () => {
         setStudentData({
             StudentFirstName: "",
@@ -53,29 +49,35 @@ function AdmissionForm() {
     }
 
     useEffect(() => {
+        handleReset()
+    }, [!loader])
+    
+
+    const fetchData =() => {
         setLoader(true)
-        getData("Students").then((res) => {
-            console.log(res)
-            setAllStudentsData([res])
+        getData("Students").then((res:any) => {
+            setAllStudentsData(res)
+            setStudentData({ ...StudentData, StudentRoll: res.length ? res.length + 1 : 1 })
             setLoader(false)
         }).catch((err) => {
             console.log(err)
             setLoader(false)
         })
+    }
+    useEffect(() => {
+        fetchData()
     }, [])
 
 
     const handleSave = (e: any) => {
         e.preventDefault();
-        setData("Students", StudentData).then((res: any) => {
-            console.log(res)
+        setData("Students", StudentData).then(() => {
             toastGreen("Student has been successfully added!")
-            handleReset()
+            fetchData()
         }).catch((err) => {
             console.log(err)
             toastRed("Student has been successfully added!")
         })
-        console.log("submitted")
     }
 
 
@@ -83,7 +85,7 @@ function AdmissionForm() {
         return (
             <>
                 <div className="container-fluid bg-white p-3 rounded">
-                    <h2 className='fs-4 mb-3'>Add New Students - Make Select Class Dynamic</h2>
+                    <h2 className='fs-4 mb-3'>Add New Students - Make Select Class Dynamic - It is not emptying after submitting the data</h2>
                     <form onSubmit={handleSave}>
                         <div className='mt-4 mb-0'>
                             <h3 className='fs-5 mb-0'>Personal Information</h3> <hr className='mt-2' />
@@ -152,7 +154,7 @@ function AdmissionForm() {
                         <Row className='row-gap-2'>
                             <Col md={12} lg={6} xl={3} className="mb-3">
                                 <div style={{ height: "58px" }}>
-                                    <FloatingInput label="Roll (Auto Generated)" disabled placeholder="" required={true} myValue={loader ? "Loading..." : allStudentsData.length ? allStudentsData.length + 1 : 0} type="text" />
+                                    <FloatingInput label="Roll (Auto Generated)" disabled placeholder="" required={true} myValue={loader ? "Loading..." : allStudentsData.length ? allStudentsData.length + 1 : 1} type="text" />
                                 </div>
                             </Col>
                             <Col md={12} lg={6} xl={3} className="mb-3">

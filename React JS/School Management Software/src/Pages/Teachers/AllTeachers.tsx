@@ -1,0 +1,499 @@
+import { useEffect, useState } from "react";
+import { deleteData, getData, setData } from "../../Config/FirebaseMethods";
+import Sidebar from "../../Layout/Sidebar";
+import MyLoader from "../../Components/MyLoader";
+import Grid from "../../Components/MyGrid";
+import { Tooltip } from "@mui/material";
+import MyButton from "../../Components/MyButton";
+import { toastGreen, toastRed } from "../../Components/My Toasts";
+import ConfirmModal from "../../Components/ConfirmModal";
+import MyTextarea from "../../Components/MyTextarea";
+import { Col, Row } from "react-bootstrap";
+import FloatingInput from "../../Components/FloatingInput";
+import MyModal from "../../Components/MyModal";
+import MySelect from "../../Components/MySelect";
+
+function AllTeachers() {
+  const [loader, setLoader] = useState(true);
+  const [actionLoader, setactionLoader] = useState(false);
+  const [allTeachersData, setAllTeachersData] = useState<any>(false);
+  const [teacherObj, setTeacherObj] = useState<any>({});
+  const [editedTeacherObj, setEditedTeacherObj] = useState<any>({});
+  const [editIsOpen, setEditIsOpen] = useState<boolean>(false);
+  const [delIsOpen, setDelIsOpen] = useState<boolean>(false);
+  const fetchData = () => {
+    setLoader(true);
+    getData("Teachers")
+      .then((res: any) => {
+        setAllTeachersData(res);
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoader(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleDelete = () => {
+    console.log(teacherObj);
+    setactionLoader(true);
+    deleteData("Teachers", teacherObj.id)
+      .then(() => {
+        handleCloseModal();
+        setTeacherObj({});
+        fetchData();
+        setactionLoader(false);
+        toastGreen("Record successfully deleted!");
+      })
+      .catch((err) => {
+        console.log(err);
+        handleCloseModal();
+        setactionLoader(false);
+        toastRed("Failed to delete the data. Please try again.");
+      });
+  };
+
+  const handleEdit = (e: any) => {
+    e.preventDefault();
+    const finalObj = { ...teacherObj, ...editedTeacherObj };
+    console.log({ ...teacherObj, ...editedTeacherObj });
+    setData("Teachers", finalObj)
+      .then(() => {
+        setTeacherObj({});
+        setEditedTeacherObj({});
+        fetchData();
+        toastGreen("Record successfully updated!");
+      })
+      .catch((err) => {
+        console.log(err);
+        toastRed("Failed to update data. Please try again.");
+      });
+  };
+
+  const handleCloseModal = () => {
+    setEditIsOpen(false);
+    setDelIsOpen(false);
+  };
+
+  const renderActions = (row: any) => (
+    <>
+      <Tooltip title="Edit" placement="top">
+        <span>
+          <MyButton
+            bgColor="var(--green)"
+            hoverBgColor="#00943e"
+            className="p-0 px-1 pt-1 me-2"
+            btnValue={
+              <lord-icon
+                src="https://cdn.lordicon.com/zfzufhzk.json"
+                style={{ width: "37px", height: "37px" }}
+                trigger="hover"
+              />
+            }
+            onClick={() => {
+              setTeacherObj(row);
+              setEditIsOpen(true);
+            }}
+          />
+        </span>
+      </Tooltip>
+
+      <Tooltip title="Delete" placement="top">
+        <span>
+          <MyButton
+            bgColor="var(--red)"
+            hoverBgColor="rgb(139, 0, 0)"
+            className="p-0 px-1 pt-1 me-2"
+            btnValue={
+              <lord-icon
+                src="https://cdn.lordicon.com/xekbkxul.json"
+                style={{ width: "37px", height: "37px" }}
+                trigger="hover"
+                colors="primary:#121331,secondary:#9ce5f4,tertiary:#646e78,quaternary:#ebe6ef"
+              />
+            }
+            onClick={() => {
+              setTeacherObj(row);
+              setDelIsOpen(true);
+            }}
+          />
+        </span>
+      </Tooltip>
+      <Tooltip title="View Details" placement="top">
+        <span>
+          <MyButton
+            bgColor="var(--orange)"
+            hoverBgColor="#b87a00"
+            className="p-0 px-1 pt-1"
+            btnValue={
+              <lord-icon
+                src="https://cdn.lordicon.com/anqzffqz.json"
+                trigger="hover"
+                style={{ width: "37px", height: "37px" }}
+              />
+            }
+          />
+        </span>
+      </Tooltip>
+    </>
+  );
+
+  const getValue = (field: string) => {
+    return editedTeacherObj[field] !== undefined
+      ? editedTeacherObj[field]
+      : teacherObj[field];
+  };
+
+  const content = () => {
+    return (
+      <>
+        <div className="container-fluid bg-white p-3 rounded">
+          <h2 className="fs-4 mb-3">
+            All Students Data - Use Firebase Storage for the image - Make view
+            details page
+          </h2>
+          {/* <Row>
+            <Col sm={12} md={4}>
+              <FloatingInput label="Search by Roll" placeholder="Search by Students Roll" myValue={rollSearch} onChange={(e: any) => { setRollSearch(e.target.value) }} type="text" />
+            </Col>
+            <Col sm={12} md={4}>
+              <FloatingInput label="Search by Name" placeholder="Search by Students Name" myValue={nameSearch} onChange={(e: any) => { setNameSearch(e.target.value) }} type="text" />
+            </Col>
+            <Col sm={12} md={4}>
+              <FloatingInput label="Search by Class" placeholder="Search by Students Class" myValue={classSearch} onChange={(e: any) => { setClassSearch(e.target.value) }} type="text" />
+            </Col>
+          </Row> */}
+          {actionLoader ? <MyLoader /> : null}
+          {loader ? (
+            <MyLoader />
+          ) : (
+            <Grid
+              data={allTeachersData && allTeachersData}
+              columns={[
+                { id: "TeacherId", label: "Roll" },
+                { id: "TeacherFirstName", label: "First Name" },
+                { id: "TeacherLastName", label: "Last Name" },
+                { id: "TeacherGender", label: "Gender" },
+                { id: "TeacherDOB", label: "Date of Birth" },
+                { id: "TeacherEmail", label: "Teacher Email" },
+                { id: "TeacherSubject", label: "Class" },
+                { id: "TeacherPhone", label: "Teacher Phone" },
+                {
+                  id: "actions",
+                  label: "Actions",
+                  isAction: true,
+                  render: renderActions,
+                  minWidth: "195px",
+                },
+              ]}
+            />
+          )}
+        </div>
+      </>
+    );
+  };
+
+  return (
+    <>
+      <Sidebar
+        element={content()}
+        breadcrumbLink="Teachers"
+        pageName="All Teachers"
+        breadcrumbNestedLink="All Teachers"
+      />
+
+      <MyModal
+        title="Edit Students Details"
+        height="65vh"
+        onClose={handleCloseModal}
+        isOpen={editIsOpen}
+        body={
+          <>
+            <form onSubmit={(e:any)=>handleEdit(e)}>
+              <div className="mt-4 mb-0">
+                <h3 className="fs-5 mb-0">Personal Information</h3>{" "}
+                <hr className="mt-2" />
+              </div>
+              <Row className="row-gap-2">
+                <Col md={12} lg={6}>
+                  <div style={{ height: "58px" }}>
+                    <FloatingInput
+                      label="Teachers First Name"
+                      required={true}
+                      onChange={(e: any) =>
+                        setEditedTeacherObj({
+                          ...editedTeacherObj,
+                          TeacherFirstName: e.target.value,
+                        })
+                      }
+                      placeholder="Edit Teachers First Name"
+                      myValue={getValue("TeacherFirstName")}
+                      type="text"
+                    />
+                  </div>
+                </Col>
+                <Col md={12} lg={6} xl={3} className="mb-3">
+                  <div style={{ height: "58px" }}>
+                    <FloatingInput
+                      label="Teachers Last Name*"
+                      required={true}
+                      onChange={(e: any) =>
+                        setEditedTeacherObj({
+                          ...editedTeacherObj,
+                          TeacherLastName: e.target.value,
+                        })
+                      }
+                      placeholder="Edit Teachers Last Name"
+                      myValue={getValue("TeacherLastName")}
+                      type="text"
+                    />
+                  </div>
+                </Col>
+                <Col md={12} lg={6} xl={3} className="mb-3">
+                  <div style={{ height: "58px" }}>
+                    <MySelect
+                      label="Select Gender*"
+                      required={true}
+                      defaultValue="Please Select Gender"
+                      value={getValue("TeacherGender")}
+                      onChange={(e: any) =>
+                        setEditedTeacherObj({
+                          ...editedTeacherObj,
+                          TeacherGender: e.target.value,
+                        })
+                      }
+                      options={["Male", "Female"]}
+                    />
+                  </div>
+                </Col>
+                <Col md={12} lg={6} xl={3} className="mb-3">
+                  <div style={{ height: "58px" }}>
+                    <FloatingInput
+                      label="Date Of Birth*"
+                      required={true}
+                      onChange={(e: any) =>
+                        setEditedTeacherObj({
+                          ...editedTeacherObj,
+                          TeacherDOB: e.target.value,
+                        })
+                      }
+                      myValue={getValue("TeacherDOB")}
+                      placeholder="Edit Teachers Date of birth"
+                      type="date"
+                    />
+                  </div>
+                </Col>
+                <Col md={12} lg={6} xl={3} className="mb-3">
+                  <div style={{ height: "58px" }}>
+                    <MySelect
+                      label="Select Religion*"
+                      required={true}
+                      defaultValue="Please Select Religion"
+                      value={getValue("TeacherReligion")}
+                      onChange={(e: any) =>
+                        setEditedTeacherObj({
+                          ...editedTeacherObj,
+                          TeacherReligion: e.target.value,
+                        })
+                      }
+                      options={["Islam", "Hindu", "Christian", "Others"]}
+                    />
+                  </div>
+                </Col>
+                <Col md={12} lg={6} xl={3} className="mb-3">
+                  <div style={{ height: "58px" }}>
+                    <FloatingInput
+                      label="Enter Teachers CNIC*"
+                      placeholder="Enter Teachers CNIC"
+                      required={true}
+                      myValue={getValue("TeacherCNIC")}
+                      type="text"
+                      onChange={(e: any) =>
+                        setEditedTeacherObj({
+                          ...editedTeacherObj,
+                          TeacherCNIC: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </Col>
+                <Col md={12} lg={6} xl={3} className="mb-3">
+                  <div style={{ height: "58px" }}>
+                    <FloatingInput
+                      label="Teachers Email*"
+                      required={true}
+                      myValue={getValue("TeacherEmail")}
+                      onChange={(e: any) =>
+                        setEditedTeacherObj({
+                          ...editedTeacherObj,
+                          TeacherEmail: e.target.value,
+                        })
+                      }
+                      placeholder="Enter Teachers Email Address"
+                      type="email"
+                    />
+                  </div>
+                </Col>
+                <Col md={12} lg={6} xl={3} className="mb-3">
+                  <div style={{ height: "58px" }}>
+                    <FloatingInput
+                      label="Teachers Phone*"
+                      required={true}
+                      myValue={getValue("TeacherPhone")}
+                      onChange={(e: any) =>
+                        setEditedTeacherObj({
+                          ...editedTeacherObj,
+                          TeacherPhone: e.target.value,
+                        })
+                      }
+                      placeholder="Enter Teachers Phone Number"
+                      type="text"
+                    />
+                  </div>
+                </Col>
+              </Row>
+              <div className="mt-4">
+                <h3 className="fs-5 mb-0">Academic Information</h3>{" "}
+                <hr className="mt-2" />
+              </div>
+              <Row className="row-gap-2">
+                <Col md={12} lg={6} xl={3} className="mb-3">
+                  <div style={{ height: "58px" }}>
+                    <FloatingInput
+                      label="ID (Auto Generated)"
+                      disabled
+                      placeholder=""
+                      required={true}
+                      myValue={loader ? "Loading..." : teacherObj.TeacherId}
+                      type="text"
+                    />
+                  </div>
+                </Col>
+                <Col md={12} lg={6} xl={3} className="mb-3">
+                  <div style={{ height: "58px" }}>
+                    <MySelect
+                      label="Select Subject*"
+                      required={true}
+                      defaultValue="Please Select Subject"
+                      value={getValue("TeacherSubject")}
+                      onChange={(e: any) =>
+                        setEditedTeacherObj({
+                          ...editedTeacherObj,
+                          TeacherSubject: e.target.value,
+                        })
+                      }
+                      options={[
+                        "English",
+                        "Urdu",
+                        "Maths",
+                        "Algebra",
+                        "Geometry",
+                        "Science",
+                        "Chemistry",
+                        "Physics",
+                      ]}
+                    />
+                  </div>
+                </Col>
+              </Row>
+              <div className="mt-4">
+                <h3 className="fs-5 mb-0">Additional Information</h3>{" "}
+                <hr className="mt-2" />
+              </div>
+              <Row className="row-gap-2">
+                <Col lg={12} xl={6} className="mb-3">
+                  <div>
+                    <MyTextarea
+                      required={false}
+                      value={getValue("TeacherShortBio")}
+                      onChange={(e: any) =>
+                        setEditedTeacherObj({
+                          ...editedTeacherObj,
+                          TeacherShortBio: e.target.value,
+                        })
+                      }
+                      label="Teachers Short Bio"
+                    />
+                  </div>
+                </Col>
+                <Col lg={12} xl={6}>
+                  <div>
+                    <label htmlFor='imageInput'>Upload Student Photo (150px X 150px)</label> <br />
+                    <input
+                      type="file"
+                      onChange={(e: any) => setEditedTeacherObj({ ...editedTeacherObj, TeacherImage: e.target.value })}
+                      id='imageInput'
+                      accept='image/*'
+                    />
+                  </div>
+                  {editedTeacherObj.TeacherImage ? (
+                    <div>
+                      <p>Selected file: {editedTeacherObj.TeacherImage}</p>
+                    </div>
+                  ) : (
+                    teacherObj.StudentImage && (
+                      <div>
+                        <p>Current file: {teacherObj.StudentImage}</p>
+                      </div>
+                    )
+                  )}
+                </Col>
+              </Row>
+              <hr className="mt-4 mb-2" />
+              <div className="text-end" >
+                <MyButton bgColor="var(--darkBlue)" hoverBgColor="var(--orange)" className="me-2" btnValue={(<div className="d-flex align-items-center gap-2">Save <lord-icon src="https://cdn.lordicon.com/dangivhk.json" trigger="hover" style={{ width: "37px", height: "37px" }} /></div>)} type="submit" onClick={handleCloseModal} />
+              </div>
+            </form>
+          </>
+        }
+        footer={
+          <div>
+            <MyButton
+              bgColor="var(--darkBlue)"
+              hoverBgColor="var(--orange)"
+              className="me-2"
+              btnValue="Close"
+              onClick={handleCloseModal}
+            />
+          </div>
+        }
+      />
+
+      <ConfirmModal
+        title={`Are you sure you want to delete ${teacherObj.TeacherFirstName} ${teacherObj.TeacherLastName}`}
+        icon={
+          <lord-icon
+            src="https://cdn.lordicon.com/jxzkkoed.json"
+            trigger="hover"
+            style={{ width: "120px", height: "120px" }}
+          />
+        }
+        onClose={handleCloseModal}
+        isOpen={delIsOpen}
+        body={
+          <>
+            <MyButton
+              bgColor="var(--red)"
+              hoverBgColor="rgb(139, 0, 0)"
+              className="me-4"
+              btnValue="Yes, Delete"
+              onClick={handleDelete}
+            />
+            <MyButton
+              bgColor="var(--green)"
+              hoverBgColor="#00943e"
+              btnValue="No, Cancel"
+              onClick={handleCloseModal}
+            />
+          </>
+        }
+      />
+    </>
+  );
+}
+
+export default AllTeachers;

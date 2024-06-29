@@ -7,10 +7,6 @@
   background-color: var(--orange) !important;
 }
 
-.cutsom {
-  background-color: var(rgba(255, 166, 0, 0.445)) !important;
-}
-
 .nested-item {
   padding-left: 36px !important;
 }

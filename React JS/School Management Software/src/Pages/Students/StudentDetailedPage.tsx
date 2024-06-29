@@ -3,7 +3,7 @@ import Sidebar from '../../Layout/Sidebar'
 import { useEffect, useState } from 'react'
 import { getData } from '../../Config/FirebaseMethods'
 
-function DetailedPage() {
+function StudentDetailedPage() {
     const params = useParams()
     const [studentData, setStudentData] = useState<any>(false)
     const fetchData = () => {
@@ -36,4 +36,4 @@ function DetailedPage() {
   )
 }
 
-export default DetailedPage
+export default StudentDetailedPage

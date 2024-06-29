@@ -137,7 +137,7 @@ function AllStudents() {
             </Col>
           </Row>
 
-          {loader ? <MyLoader /> : <Grid data={filteredStudentsData ? filteredStudentsData : null} handleDelete={handleDelete} handleEdit={handleEdit} columns={[
+          {loader ? <MyLoader /> : <Grid data={filteredStudentsData ? filteredStudentsData : null} columns={[
             { id: 'StudentRoll', label: 'Roll' },
             { id: 'StudentFirstName', label: 'First Name' },
             { id: 'StudentLastName', label: 'Last Name' },

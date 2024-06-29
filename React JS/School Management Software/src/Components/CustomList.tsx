@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { FaAngleRight, FaAngleDown } from 'react-icons/fa';
-// import { FaAngleRight, FaAngleDown, FaInfo, FaTools } from 'react-icons/fa';
+import { FaAngleRight, FaAngleDown, FaChalkboardTeacher  } from 'react-icons/fa';
 import { PiStudentBold } from "react-icons/pi";
 import { Link, useLocation } from 'react-router-dom';
 import '../App.css';
@@ -40,25 +39,25 @@ const data: TreeNode[] = [
       },
     ],
   },
-  // {
-  //   id: '2',
-  //   name: 'About',
-  //   icon: <FaInfo />,
-  //   children: [
-  //     {
-  //       id: '3',
-  //       name: 'Team',
-  //       link: '/about/team',
-  //       icon: <FaAngleRight />,
-  //     },
-  //     {
-  //       id: '4',
-  //       name: 'Contact',
-  //       link: '/about/contact',
-  //       icon: <FaAngleRight />,
-  //     },
-  //   ],
-  // },
+  {
+    id: '2',
+    name: 'Teachers',
+    icon: <FaChalkboardTeacher  />,
+    children: [
+      {
+        id: '3',
+        name: 'All Teachers',
+        link: '/teachers/allTeachers',
+        icon: <FaAngleRight />,
+      },
+      {
+        id: '4',
+        name: 'Add Teachers',
+        link: '/teachers/addTeachers',
+        icon: <FaAngleRight />,
+      },
+    ],
+  },
   // {
   //   id: '5',
   //   name: 'Services',

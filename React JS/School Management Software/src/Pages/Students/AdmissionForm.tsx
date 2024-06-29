@@ -7,9 +7,11 @@ import MySelect from '../../Components/MySelect';
 import MyTextarea from '../../Components/MyTextarea';
 import { toastGreen, toastRed } from '../../Components/My Toasts';
 import MyButton from '../../Components/MyButton';
+import MyLoader from '../../Components/MyLoader';
 
 function AdmissionForm() {
     const [loader, setLoader] = useState<boolean>(false)
+    const [pageLoader, setPageLoader] = useState<boolean>(false)
     const [StudentData, setStudentData] = useState<any>({
         StudentFirstName: "",
         StudentLastName: "",
@@ -64,12 +66,15 @@ function AdmissionForm() {
 
     const handleSave = (e: any) => {
         e.preventDefault();
+        setPageLoader(true)
         setData("Students", StudentData).then(() => {
-            toastGreen("Student has been successfully added!")
             handleReset()
             fetchData()
+            setPageLoader(false)
+            toastGreen("Student has been successfully added!")
         }).catch((err) => {
             console.log(err)
+            setPageLoader(false)
             toastRed("Failed to add student. Please try again.")
         })
     }
@@ -78,6 +83,7 @@ function AdmissionForm() {
     const content = () => {
         return (
             <>
+            {pageLoader? <MyLoader />: null}
                 <div className="container-fluid bg-white p-3 rounded">
                     <h2 className='fs-4 mb-3'>Add New Students - Use Firebase Storage for the image - Make Select Class Dynamic</h2>
                     <form onSubmit={handleSave}>

@@ -13,6 +13,8 @@ body {
     --darkBlue : #042954;
     --gray : #b6bdc5;
     --bodyGray : #f0f1f3;
+    --green : #00c853;
+    --red : rgb(212, 0, 0);
 }
 
 .text-orange {

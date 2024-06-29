@@ -5,12 +5,10 @@ import { getData, setData } from '../../Config/FirebaseMethods';
 import { useEffect, useState } from 'react';
 import MySelect from '../../Components/MySelect';
 import MyTextarea from '../../Components/MyTextarea';
-import MyBlueButton from '../../Components/MyBlueButton';
-import MyOrangeButton from '../../Components/MyOrangeButton';
 import { toastGreen, toastRed } from '../../Components/My Toasts';
+import MyButton from '../../Components/MyButton';
 
 function AdmissionForm() {
-    const [allStudentsData, setAllStudentsData] = useState<any>(0)
     const [loader, setLoader] = useState<boolean>(false)
     const [StudentData, setStudentData] = useState<any>({
         StudentFirstName: "",
@@ -48,16 +46,11 @@ function AdmissionForm() {
         })
     }
 
-    useEffect(() => {
-        handleReset()
-    }, [!loader])
-    
-
     const fetchData =() => {
         setLoader(true)
         getData("Students").then((res:any) => {
-            setAllStudentsData(res)
-            setStudentData({ ...StudentData, StudentRoll: res.length ? res.length + 1 : 1 })
+            setStudentData((a:any) => ({ ...a, StudentRoll: res.length > 0 ? res.slice(-1)[0].StudentRoll + 1 : 1}));
+            console.log(res.slice(-1)[0].StudentRoll)
             setLoader(false)
         }).catch((err) => {
             console.log(err)
@@ -73,10 +66,11 @@ function AdmissionForm() {
         e.preventDefault();
         setData("Students", StudentData).then(() => {
             toastGreen("Student has been successfully added!")
+            handleReset()
             fetchData()
         }).catch((err) => {
             console.log(err)
-            toastRed("Student has been successfully added!")
+            toastRed("Failed to add student. Please try again.")
         })
     }
 
@@ -85,7 +79,7 @@ function AdmissionForm() {
         return (
             <>
                 <div className="container-fluid bg-white p-3 rounded">
-                    <h2 className='fs-4 mb-3'>Add New Students - Make Select Class Dynamic - It is not emptying after submitting the data</h2>
+                    <h2 className='fs-4 mb-3'>Add New Students - Use Firebase Storage for the image - Make Select Class Dynamic</h2>
                     <form onSubmit={handleSave}>
                         <div className='mt-4 mb-0'>
                             <h3 className='fs-5 mb-0'>Personal Information</h3> <hr className='mt-2' />
@@ -108,7 +102,7 @@ function AdmissionForm() {
                             </Col>
                             <Col md={12} lg={6} xl={3} className="mb-3">
                                 <div style={{ height: "58px" }}>
-                                    <FloatingInput label="Date Of Birth*" required={true} value={StudentData.StudentDOB} onChange={(e: any) => setStudentData({ ...StudentData, StudentDOB: e.target.value })} myValue={StudentData.StudentDOB} placeholder="Enter Students Date of birth" type="date" />
+                                    <FloatingInput label="Date Of Birth*" required={true} onChange={(e: any) => setStudentData({ ...StudentData, StudentDOB: e.target.value })} myValue={StudentData.StudentDOB} placeholder="Enter Students Date of birth" type="date" />
                                 </div>
                             </Col>
                             <Col md={12} lg={6} xl={3} className="mb-3">
@@ -154,7 +148,7 @@ function AdmissionForm() {
                         <Row className='row-gap-2'>
                             <Col md={12} lg={6} xl={3} className="mb-3">
                                 <div style={{ height: "58px" }}>
-                                    <FloatingInput label="Roll (Auto Generated)" disabled placeholder="" required={true} myValue={loader ? "Loading..." : allStudentsData.length ? allStudentsData.length + 1 : 1} type="text" />
+                                    <FloatingInput label="Roll (Auto Generated)" disabled placeholder="" required={true} myValue={loader ? "Loading..." : StudentData.StudentRoll} type="text" />
                                 </div>
                             </Col>
                             <Col md={12} lg={6} xl={3} className="mb-3">
@@ -174,13 +168,13 @@ function AdmissionForm() {
                             </Col>
                             <Col lg={12} xl={6} className="mb-3">
                                 <div>
-                                    <label htmlFor='imageInput'>Upload Student Photo (150px X 150px)</label> <br />
+                                    <label htmlFor='imageInput'>Upload Student Photo (150px X 150px)*</label> <br />
                                     <input type="file" required={true} value={StudentData.StudentImage} onChange={(e: any) => setStudentData({ ...StudentData, StudentImage: e.target.value })} id='imageInput' accept='image/*' />
                                 </div>
                             </Col>
                             <div className='d-flex gap-4'>
-                                <MyOrangeButton type="submit" btnValue="Save" />
-                                <MyBlueButton btnValue="Reset" onClick={handleReset} />
+                                <MyButton type="submit" bgColor="var(--orange)" hoverBgColor="var(--darkBlue)" className="px-5 py-3" btnValue="Save" />
+                                <MyButton btnValue="Reset" bgColor="var(--darkBlue)" hoverBgColor="var(--orange)" className="px-5 py-3" onClick={handleReset} />
                             </div>
                         </Row>
                     </form>

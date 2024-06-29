@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { FaAngleRight, FaAngleDown, FaInfo, FaTools } from 'react-icons/fa';
+import { FaAngleRight, FaAngleDown } from 'react-icons/fa';
+// import { FaAngleRight, FaAngleDown, FaInfo, FaTools } from 'react-icons/fa';
 import { PiStudentBold } from "react-icons/pi";
 import { Link, useLocation } from 'react-router-dom';
 import '../App.css';
@@ -39,44 +40,44 @@ const data: TreeNode[] = [
       },
     ],
   },
-  {
-    id: '2',
-    name: 'About',
-    icon: <FaInfo />,
-    children: [
-      {
-        id: '3',
-        name: 'Team',
-        link: '/about/team',
-        icon: <FaAngleRight />,
-      },
-      {
-        id: '4',
-        name: 'Contact',
-        link: '/about/contact',
-        icon: <FaAngleRight />,
-      },
-    ],
-  },
-  {
-    id: '5',
-    name: 'Services',
-    icon: <FaTools />,
-    children: [
-      {
-        id: '6',
-        name: 'Consulting',
-        link: '/services/consulting',
-        icon: <FaAngleRight />,
-      },
-      {
-        id: '7',
-        name: 'Development',
-        link: '/services/development',
-        icon: <FaAngleRight />,
-      },
-    ],
-  },
+  // {
+  //   id: '2',
+  //   name: 'About',
+  //   icon: <FaInfo />,
+  //   children: [
+  //     {
+  //       id: '3',
+  //       name: 'Team',
+  //       link: '/about/team',
+  //       icon: <FaAngleRight />,
+  //     },
+  //     {
+  //       id: '4',
+  //       name: 'Contact',
+  //       link: '/about/contact',
+  //       icon: <FaAngleRight />,
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: '5',
+  //   name: 'Services',
+  //   icon: <FaTools />,
+  //   children: [
+  //     {
+  //       id: '6',
+  //       name: 'Consulting',
+  //       link: '/services/consulting',
+  //       icon: <FaAngleRight />,
+  //     },
+  //     {
+  //       id: '7',
+  //       name: 'Development',
+  //       link: '/services/development',
+  //       icon: <FaAngleRight />,
+  //     },
+  //   ],
+  // },
 ];
 
 const TreeNode: React.FC<{ node: TreeNode; nested?: boolean; onTabClick: (id: string) => void; activeTab: string | null }> = ({ node, nested, onTabClick, activeTab }) => {

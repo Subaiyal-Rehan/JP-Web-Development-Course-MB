@@ -15,40 +15,6 @@
   padding-left: 36px !important;
 }
 
-.BlueButton {
-  background-color: var(--darkBlue) !important;
-  border: 2px solid transparent;
-  padding: 12px 30px;
-  font-size: 18px;
-}
-
-.BlueButton:hover {
-  background-color: var(--orange) !important;
-  border: 2px solid var(--orange);
-}
-
-.BlueButton:active {
-  border: 2px solid var(--darkBlue);
-  color: var(--darkBlue) !important;
-}
-
-.OrangeButton {
-  background-color: var(--orange) !important;
-  border: 2px solid transparent;
-  padding: 12px 30px;
-  font-size: 18px;
-}
-
-.OrangeButton:hover {
-  background-color: var(--darkBlue) !important;
-  border: 2px solid var(--darkBlue);
-}
-
-.OrangeButton:active {
-  border: 2px solid var(--orange) !important;
-  color: var(--orange) !important;
-}
-
 #preloader {
   position: fixed;
   top: 0;

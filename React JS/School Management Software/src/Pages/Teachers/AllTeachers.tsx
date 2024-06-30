@@ -17,10 +17,14 @@ function AllTeachers() {
   const [loader, setLoader] = useState(true);
   const [actionLoader, setactionLoader] = useState(false);
   const [allTeachersData, setAllTeachersData] = useState<any>(false);
+  const [filteredTeachersData, setFilteredTeachersData] = useState<any>(false);
   const [teacherObj, setTeacherObj] = useState<any>({});
   const [editedTeacherObj, setEditedTeacherObj] = useState<any>({});
   const [editIsOpen, setEditIsOpen] = useState<boolean>(false);
   const [delIsOpen, setDelIsOpen] = useState<boolean>(false);
+  const [idSearch, setIdSearch] = useState<any>("")
+  const [nameSearch, setNameSearch] = useState<any>("")
+  const [subjectSearch, setSubjectSearch] = useState<any>("")
   const fetchData = () => {
     setLoader(true);
     getData("Teachers")
@@ -39,11 +43,9 @@ function AllTeachers() {
   }, []);
 
   const handleDelete = () => {
-    console.log(teacherObj);
     setactionLoader(true);
     deleteData("Teachers", teacherObj.id)
       .then(() => {
-        handleCloseModal();
         setTeacherObj({});
         fetchData();
         setactionLoader(false);
@@ -51,7 +53,6 @@ function AllTeachers() {
       })
       .catch((err) => {
         console.log(err);
-        handleCloseModal();
         setactionLoader(false);
         toastRed("Failed to delete the data. Please try again.");
       });
@@ -59,17 +60,19 @@ function AllTeachers() {
 
   const handleEdit = (e: any) => {
     e.preventDefault();
+    setactionLoader(true);
     const finalObj = { ...teacherObj, ...editedTeacherObj };
-    console.log({ ...teacherObj, ...editedTeacherObj });
     setData("Teachers", finalObj)
       .then(() => {
         setTeacherObj({});
         setEditedTeacherObj({});
         fetchData();
+        setactionLoader(false);
         toastGreen("Record successfully updated!");
       })
       .catch((err) => {
         console.log(err);
+        setactionLoader(false);
         toastRed("Failed to update data. Please try again.");
       });
   };
@@ -79,6 +82,27 @@ function AllTeachers() {
     setDelIsOpen(false);
   };
 
+  
+  // Search Mechanism
+  useEffect(() => {
+    let filteredData = allTeachersData;
+
+    if (idSearch !== "") {
+      filteredData = filteredData.filter((item: any) => item.TeacherId == idSearch);
+    }
+
+    if (nameSearch !== "") {
+      filteredData = filteredData.filter((item: any) => item.TeacherFirstName.toLowerCase().includes(nameSearch.toLowerCase()) || item.TeacherLastName.toLowerCase().includes(nameSearch.toLowerCase()));
+    }
+
+    if (subjectSearch !== "") {
+      filteredData = filteredData.filter((item: any) => item.TeacherSubject.toLowerCase().includes(subjectSearch.toLowerCase()));
+    }
+
+    setFilteredTeachersData(filteredData);
+  }, [idSearch, nameSearch, subjectSearch, allTeachersData]);
+
+  // Action Buttons
   const renderActions = (row: any) => (
     <>
       <Tooltip title="Edit" placement="top">
@@ -156,31 +180,31 @@ function AllTeachers() {
             All Students Data - Use Firebase Storage for the image - Make view
             details page
           </h2>
-          {/* <Row>
+          <Row>
             <Col sm={12} md={4}>
-              <FloatingInput label="Search by Roll" placeholder="Search by Students Roll" myValue={rollSearch} onChange={(e: any) => { setRollSearch(e.target.value) }} type="text" />
+              <FloatingInput label="Search by ID" placeholder="Search by Teachers ID" myValue={idSearch} onChange={(e: any) => { setIdSearch(e.target.value) }} type="text" />
             </Col>
             <Col sm={12} md={4}>
-              <FloatingInput label="Search by Name" placeholder="Search by Students Name" myValue={nameSearch} onChange={(e: any) => { setNameSearch(e.target.value) }} type="text" />
+              <FloatingInput label="Search by Name" placeholder="Search by Teachers Name" myValue={nameSearch} onChange={(e: any) => { setNameSearch(e.target.value) }} type="text" />
             </Col>
             <Col sm={12} md={4}>
-              <FloatingInput label="Search by Class" placeholder="Search by Students Class" myValue={classSearch} onChange={(e: any) => { setClassSearch(e.target.value) }} type="text" />
+              <FloatingInput label="Search by Subject" placeholder="Search by Teachers Subject" myValue={subjectSearch} onChange={(e: any) => { setSubjectSearch(e.target.value) }} type="text" />
             </Col>
-          </Row> */}
+          </Row>
           {actionLoader ? <MyLoader /> : null}
           {loader ? (
             <MyLoader />
           ) : (
             <Grid
-              data={allTeachersData && allTeachersData}
+              data={filteredTeachersData ? filteredTeachersData : null}
               columns={[
-                { id: "TeacherId", label: "Roll" },
+                { id: "TeacherId", label: "ID" },
                 { id: "TeacherFirstName", label: "First Name" },
                 { id: "TeacherLastName", label: "Last Name" },
                 { id: "TeacherGender", label: "Gender" },
                 { id: "TeacherDOB", label: "Date of Birth" },
                 { id: "TeacherEmail", label: "Teacher Email" },
-                { id: "TeacherSubject", label: "Class" },
+                { id: "TeacherSubject", label: "Subject" },
                 { id: "TeacherPhone", label: "Teacher Phone" },
                 {
                   id: "actions",
@@ -213,7 +237,7 @@ function AllTeachers() {
         isOpen={editIsOpen}
         body={
           <>
-            <form onSubmit={(e:any)=>handleEdit(e)}>
+            <form onSubmit={(e: any) => handleEdit(e)}>
               <div className="mt-4 mb-0">
                 <h3 className="fs-5 mb-0">Personal Information</h3>{" "}
                 <hr className="mt-2" />
@@ -481,7 +505,7 @@ function AllTeachers() {
               hoverBgColor="rgb(139, 0, 0)"
               className="me-4"
               btnValue="Yes, Delete"
-              onClick={handleDelete}
+              onClick={()=>{handleCloseModal(); handleDelete()}}
             />
             <MyButton
               bgColor="var(--green)"

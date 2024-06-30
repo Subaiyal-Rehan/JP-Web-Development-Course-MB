@@ -23,8 +23,8 @@ function ConfirmModal(props: any) {
             centered
         >
             <Modal.Dialog className='m-0'>
-                <Modal.Header>
-                    <Modal.Title className='d-flex flex-column text-center'>
+                <Modal.Header className='border-0'>
+                    <Modal.Title className='d-flex flex-column px-2 text-center'>
                         <div>
                             {icon}
                         </div>
@@ -34,7 +34,7 @@ function ConfirmModal(props: any) {
                     </Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body className='py-3 mb-3 text-center'>
+                <Modal.Body className='pb-3 pt-0 mb-3 text-center'>
                     {body}
                 </Modal.Body>
             </Modal.Dialog>

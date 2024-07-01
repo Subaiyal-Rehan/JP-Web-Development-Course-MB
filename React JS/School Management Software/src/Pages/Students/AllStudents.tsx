@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom"
 
 function AllStudents() {
   const [loader, setLoader] = useState(false)
+  const [actionLoader, setActionLoader] = useState(false);
   const [allStudentsData, setAllStudentsData] = useState<any>(false)
   const [filteredStudentsData, setFilteredStudentsData] = useState<any>(false)
   const [editIsOpen, setEditIsOpen] = useState<boolean>(false)
@@ -42,28 +43,44 @@ function AllStudents() {
     fetchData()
   }, [])
 
+  useEffect(() => {
+    console.log(editedStudentObj)
+  }, [editedStudentObj])
+
+  // useEffect(() => {
+  //   console.log(studentObj)
+  // }, [studentObj])
+
   const handleDelete = () => {
-    console.log(studentObj)
+    setActionLoader(true);
     deleteData("Students", studentObj.id).then(() => {
       handleCloseModal()
       setStudentObj({})
       fetchData()
+      setActionLoader(false);
       toastGreen("Record successfully deleted!")
     }).catch((err) => {
       console.log(err)
+      setActionLoader(false);
       toastRed("Failed to delete the data. Please try again.")
     })
   };
   const handleEdit = (e: any) => {
     e.preventDefault();
-    const finalObj = { ...studentObj, ...editedStudentObj }
-    console.log({ ...studentObj, ...editedStudentObj });
+    const finalObj = { ...studentObj, ...editedStudentObj };
+    console.log(studentObj,"STUDENT OBJ")
+    console.log(editedStudentObj,"EDITED STUDENT OBJ")
+    console.log(finalObj);
+    setActionLoader(true);
     setData("Students", finalObj).then(() => {
       setStudentObj({}); setEditedStudentObj({})
       fetchData()
+      handleCloseModal()
+      setActionLoader(false);
       toastGreen("Record successfully updated!")
     }).catch((err) => {
       console.log(err)
+      setActionLoader(false);
       toastRed("Failed to update data. Please try again.")
     })
   };
@@ -71,6 +88,7 @@ function AllStudents() {
   const handleCloseModal = () => {
     setEditIsOpen(false);
     setDelIsOpen(false);
+    setEditedStudentObj({})
   };
 
   const getValue = (field: string) => {
@@ -124,7 +142,7 @@ function AllStudents() {
     return (
       <>
         <div className="container-fluid bg-white p-3 rounded">
-          <h2 className='fs-4 mb-3'>All Students Data - Use Firebase Storage for the image - Make view details page</h2>
+          <h2 className='fs-4 mb-3'>All Students Data</h2>
           <Row>
             <Col sm={12} md={4}>
               <FloatingInput label="Search by Roll" placeholder="Search by Students Roll" myValue={rollSearch} onChange={(e: any) => { setRollSearch(e.target.value) }} type="text" />
@@ -137,6 +155,7 @@ function AllStudents() {
             </Col>
           </Row>
 
+          {actionLoader ? <MyLoader /> : null}
           {loader ? <MyLoader /> : <Grid data={filteredStudentsData ? filteredStudentsData : null} columns={[
             { id: 'StudentRoll', label: 'Roll' },
             { id: 'StudentFirstName', label: 'First Name' },
@@ -160,7 +179,7 @@ function AllStudents() {
       <MyModal title="Edit Students Details" height="65vh" onClose={handleCloseModal} isOpen={editIsOpen}
         body={(
           <>
-            <form onSubmit={handleEdit}>
+            <form onSubmit={(e)=>handleEdit(e)}>
               <div className='mb-0'>
                 <h3 className='fs-5 mb-0'>Personal Information</h3> <hr className='mt-2' />
               </div>
@@ -206,6 +225,16 @@ function AllStudents() {
                   />
                 </Col>
                 <Col md={12} lg={6}>
+                  <FloatingInput
+                    label="Student Address"
+                    required={true}
+                    onChange={(e: any) => setEditedStudentObj({ ...editedStudentObj, StudentAddress: e.target.value })}
+                    myValue={getValue("StudentAddress")}
+                    placeholder="Edit Students Address"
+                    type="text"
+                  />
+                </Col>
+                <Col md={12} lg={6}>
                   <MySelect
                     label="Select Blood Group*"
                     required={true}
@@ -232,7 +261,7 @@ function AllStudents() {
               <Row>
                 <Col md={12} lg={6}>
                   <FloatingInput
-                    label="Students Fathers Full Name*"
+                    label="Students Fathers Full Name"
                     placeholder="Edit Students Fathers Full Name"
                     required={true}
                     myValue={getValue("StudentFatherName")}
@@ -248,6 +277,16 @@ function AllStudents() {
                     myValue={getValue("StudentFatherCNIC")}
                     type="text"
                     onChange={(e: any) => setEditedStudentObj({ ...editedStudentObj, StudentFatherCNIC: e.target.value })}
+                  />
+                </Col>
+                <Col md={12} lg={6}>
+                  <FloatingInput
+                    label="Students Fathers Occupation"
+                    placeholder="Edit Students Fathers Occupation"
+                    required={true}
+                    myValue={getValue("StudentFatherOccupation")}
+                    type="text"
+                    onChange={(e: any) => setEditedStudentObj({ ...editedStudentObj, StudentFatherOccupation: e.target.value })}
                   />
                 </Col>
                 <Col md={12} lg={6}>
@@ -333,7 +372,7 @@ function AllStudents() {
               </Row>
               <hr className="mt-4 mb-2" />
               <div className="text-end" >
-                <MyButton bgColor="var(--darkBlue)" hoverBgColor="var(--orange)" className="me-2" btnValue={(<div className="d-flex align-items-center gap-2">Save <lord-icon src="https://cdn.lordicon.com/dangivhk.json" trigger="hover" style={{ width: "37px", height: "37px" }} /></div>)} type="submit" onClick={handleCloseModal} />
+                <MyButton bgColor="var(--darkBlue)" hoverBgColor="var(--orange)" className="me-2" btnValue={(<div className="d-flex align-items-center gap-2">Save <lord-icon src="https://cdn.lordicon.com/dangivhk.json" trigger="hover" style={{ width: "37px", height: "37px" }} /></div>)} type="submit" />
               </div>
             </form>
           </>
@@ -350,7 +389,7 @@ function AllStudents() {
         onClose={handleCloseModal} isOpen={delIsOpen}
         body={(
           <>
-            <MyButton bgColor="var(--red)" hoverBgColor="rgb(139, 0, 0)" className="me-4" btnValue="Yes, Delete" onClick={handleDelete} />
+            <MyButton bgColor="var(--red)" hoverBgColor="rgb(139, 0, 0)" className="me-4" btnValue="Yes, Delete" onClick={()=>{handleCloseModal(); handleDelete()}} />
             <MyButton bgColor="var(--green)" hoverBgColor="#00943e" btnValue="No, Cancel" onClick={handleCloseModal} />
           </>
         )} />

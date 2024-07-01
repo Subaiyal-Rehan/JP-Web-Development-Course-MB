@@ -124,7 +124,7 @@ export default function Sidebar(props: any) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" style={{zIndex: 9999}} open={open}> {/* You can increase the zIndex if you want to the loader to not overlap the header */}
         <Toolbar>
           <IconButton
             color="inherit"
@@ -145,7 +145,7 @@ export default function Sidebar(props: any) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer style={{zIndex: 100}} open={open} theme={theme}>
+      <Drawer style={{zIndex: 9999}} open={open} theme={theme}> {/* You can increase the zIndex if you want to the loader to not overlap the sidebar */}
         <DrawerHeader>
           <IconButton className="text-white" onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (

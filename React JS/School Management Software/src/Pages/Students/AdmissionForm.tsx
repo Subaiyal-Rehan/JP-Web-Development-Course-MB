@@ -18,10 +18,12 @@ function AdmissionForm() {
         StudentGender: "",
         StudentDOB: "",
         StudentFatherName: "",
+        StudentAddress: "",
         StudentFatherCNIC: "",
         StudentRoll: "",
         StudentBloodGroup: "",
         StudentReligion: "",
+        StudentFatherOccupation: "",
         StudentGuardianEmail: "",
         StudentClass: "",
         StudentGuardianPhone: "",
@@ -36,10 +38,12 @@ function AdmissionForm() {
             StudentGender: "",
             StudentDOB: "",
             StudentFatherName: "",
+            StudentAddress: "",
             StudentFatherCNIC: "",
             StudentRoll: "",
             StudentBloodGroup: "",
             StudentReligion: "",
+            StudentFatherOccupation: "",
             StudentGuardianEmail: "",
             StudentClass: "",
             StudentGuardianPhone: "",
@@ -48,11 +52,11 @@ function AdmissionForm() {
         })
     }
 
-    const fetchData =() => {
+    const fetchData = () => {
         setLoader(true)
-        getData("Students").then((res:any) => {
-            setStudentData((a:any) => ({ ...a, StudentRoll: res.length > 0 ? res.slice(-1)[0].StudentRoll + 1 : 1}));
-            console.log(res.slice(-1)[0].StudentRoll)
+        getData("Students").then((res: any) => {
+            setStudentData((a: any) => ({ ...a, StudentRoll: res.length > 0 ? res.slice(-1)[0].StudentRoll + 1 : 1 }));
+            console.log(res.slice(-1)[0].StudentRoll + 1)
             setLoader(false)
         }).catch((err) => {
             console.log(err)
@@ -67,7 +71,8 @@ function AdmissionForm() {
     const handleSave = (e: any) => {
         e.preventDefault();
         setPageLoader(true)
-        setData("Students", StudentData).then(() => {
+        const finalObj = { ...StudentData, StudentAdmissionDate: JSON.stringify(new Date()) }
+        setData("Students", finalObj).then(() => {
             handleReset()
             fetchData()
             setPageLoader(false)
@@ -83,7 +88,7 @@ function AdmissionForm() {
     const content = () => {
         return (
             <>
-            {pageLoader? <MyLoader />: null}
+                {pageLoader ? <MyLoader /> : null}
                 <div className="container-fluid bg-white p-3 rounded">
                     <h2 className='fs-4 mb-3'>Add New Students - Use Firebase Storage for the image - Make Select Class Dynamic</h2>
                     <form onSubmit={handleSave}>
@@ -109,6 +114,11 @@ function AdmissionForm() {
                             <Col md={12} lg={6} xl={3} className="mb-3">
                                 <div style={{ height: "58px" }}>
                                     <FloatingInput label="Date Of Birth*" required={true} onChange={(e: any) => setStudentData({ ...StudentData, StudentDOB: e.target.value })} myValue={StudentData.StudentDOB} placeholder="Enter Students Date of birth" type="date" />
+                                </div>
+                            </Col>
+                            <Col md={12} lg={6} xl={3} className="mb-3">
+                                <div style={{ height: "58px" }}>
+                                    <FloatingInput label="Students Address*" required={true} onChange={(e: any) => setStudentData({ ...StudentData, StudentAddress: e.target.value })} myValue={StudentData.StudentAddress} placeholder="Enter Students Address" type="text" />
                                 </div>
                             </Col>
                             <Col md={12} lg={6} xl={3} className="mb-3">
@@ -139,6 +149,11 @@ function AdmissionForm() {
                             </Col>
                             <Col md={12} lg={6} xl={3} className="mb-3">
                                 <div style={{ height: "58px" }}>
+                                    <FloatingInput label="Students Fathers Occupation*" placeholder="Enter Students Fathers Occupation" required={true} myValue={StudentData.StudentFatherOccupation} type="text" onChange={(e: any) => setStudentData({ ...StudentData, StudentFatherOccupation: e.target.value })} />
+                                </div>
+                            </Col>
+                            <Col md={12} lg={6} xl={3} className="mb-3">
+                                <div style={{ height: "58px" }}>
                                     <FloatingInput label="Guardian Email*" required={true} myValue={StudentData.StudentGuardianEmail} onChange={(e: any) => setStudentData({ ...StudentData, StudentGuardianEmail: e.target.value })} placeholder="Enter Guardians Email Address" type="email" />
                                 </div>
                             </Col>
@@ -154,7 +169,7 @@ function AdmissionForm() {
                         <Row className='row-gap-2'>
                             <Col md={12} lg={6} xl={3} className="mb-3">
                                 <div style={{ height: "58px" }}>
-                                    <FloatingInput label="Roll (Auto Generated)" disabled placeholder="" required={true} myValue={loader ? "Loading..." : StudentData.StudentRoll} type="text" />
+                                    <FloatingInput label="Roll (Auto Generated)" disabled placeholder="" required={true} myValue={loader ? "Loading..." : StudentData.StudentRoll ? StudentData.StudentRoll : 1} type="text" />
                                 </div>
                             </Col>
                             <Col md={12} lg={6} xl={3} className="mb-3">
@@ -179,8 +194,8 @@ function AdmissionForm() {
                                 </div>
                             </Col>
                             <div className='d-flex gap-4'>
-                                <MyButton type="submit" bgColor="var(--orange)" hoverBgColor="var(--darkBlue)" className="px-5 py-3" btnValue="Save" />
-                                <MyButton btnValue="Reset" bgColor="var(--darkBlue)" hoverBgColor="var(--orange)" className="px-5 py-3" onClick={handleReset} />
+                                <MyButton type="submit" bgColor="var(--orange)" hoverBgColor="var(--darkBlue)" className="px-4 py-3" btnValue={(<div className="d-flex align-items-center gap-2">Save <lord-icon src="https://cdn.lordicon.com/dangivhk.json" trigger="hover" style={{ width: "30px", height: "30px" }} /></div>)} />
+                                <MyButton btnValue={(<div className="d-flex align-items-center gap-2">Reset <lord-icon src="https://cdn.lordicon.com/abaxrbtq.json" trigger="hover" style={{ width: "30px", height: "30px" }} /></div>)} bgColor="var(--darkBlue)" hoverBgColor="var(--orange)" className="px-4 py-3" onClick={handleReset} />
                             </div>
                         </Row>
                     </form>

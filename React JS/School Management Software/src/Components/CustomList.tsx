@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { FaAngleRight, FaAngleDown, FaChalkboardTeacher  } from 'react-icons/fa';
+import { RxDotFilled } from "react-icons/rx";
 import { PiStudentBold } from "react-icons/pi";
 import { Link, useLocation } from 'react-router-dom';
 import '../App.css';
@@ -23,19 +24,19 @@ const data: TreeNode[] = [
         id: 'addStudent',
         name: 'All Students',
         link: '/students/allStudents',
-        icon: <FaAngleRight />,
+        icon: <RxDotFilled />,
       },
       {
         id: 'admissionForm',
         name: 'Admission Form',
         link: '/students/admissionForm',
-        icon: <FaAngleRight />,
+        icon: <RxDotFilled />,
       },
       {
         id: 'studentPromotion',
         name: 'Student Promotion',
         link: '/students/studentPromotion',
-        icon: <FaAngleRight />,
+        icon: <RxDotFilled />,
       },
     ],
   },
@@ -48,13 +49,13 @@ const data: TreeNode[] = [
         id: '3',
         name: 'All Teachers',
         link: '/teachers/allTeachers',
-        icon: <FaAngleRight />,
+        icon: <RxDotFilled />,
       },
       {
         id: '4',
         name: 'Add Teachers',
         link: '/teachers/addTeachers',
-        icon: <FaAngleRight />,
+        icon: <RxDotFilled />,
       },
     ],
   },
@@ -67,13 +68,13 @@ const data: TreeNode[] = [
   //       id: '6',
   //       name: 'Consulting',
   //       link: '/services/consulting',
-  //       icon: <FaAngleRight />,
+  //       icon: <RxDotFilled />,
   //     },
   //     {
   //       id: '7',
   //       name: 'Development',
   //       link: '/services/development',
-  //       icon: <FaAngleRight />,
+  //       icon: <RxDotFilled />,
   //     },
   //   ],
   // },

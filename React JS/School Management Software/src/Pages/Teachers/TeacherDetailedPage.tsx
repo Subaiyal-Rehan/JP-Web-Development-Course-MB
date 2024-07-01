@@ -1,253 +1,202 @@
-import { useEffect, useState } from "react";
-import { deleteData, getData, setData } from "../../Config/FirebaseMethods";
-import Sidebar from "../../Layout/Sidebar";
-import MyLoader from "../../Components/MyLoader";
-import Grid from "../../Components/MyGrid";
-import { Tooltip } from "@mui/material";
-import MyButton from "../../Components/MyButton";
-import { toastGreen, toastRed } from "../../Components/My Toasts";
-import ConfirmModal from "../../Components/ConfirmModal";
-import MyTextarea from "../../Components/MyTextarea";
-import { Col, Row } from "react-bootstrap";
-import FloatingInput from "../../Components/FloatingInput";
-import MyModal from "../../Components/MyModal";
-import MySelect from "../../Components/MySelect";
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { deleteData, getData, setData } from '../../Config/FirebaseMethods'
+import Sidebar from '../../Layout/Sidebar'
+import MyLoader from '../../Components/MyLoader'
+import { Tooltip } from '@mui/material'
+import MyButton from '../../Components/MyButton'
+import FemaleTeacher from '../../Images/Female Teacher.png'
+import MaleTeacher from '../../Images/Male Teacher.png'
+import { toastGreen, toastRed } from '../../Components/My Toasts'
+import { Col, Row } from 'react-bootstrap'
+import MyModal from '../../Components/MyModal'
+import FloatingInput from '../../Components/FloatingInput'
+import MySelect from '../../Components/MySelect'
+import MyTextarea from '../../Components/MyTextarea'
+import ConfirmModal from '../../Components/ConfirmModal'
 
-function AllTeachers() {
-  const [loader, setLoader] = useState(true);
+function TeacherDetailedPage() {
+  const params = useParams()
+  const [loader, setLoader] = useState<boolean>(false)
   const [actionLoader, setActionLoader] = useState(false);
-  const [allTeachersData, setAllTeachersData] = useState<any>(false);
-  const [filteredTeachersData, setFilteredTeachersData] = useState<any>(false);
-  const [teacherObj, setTeacherObj] = useState<any>({});
-  const [editedTeacherObj, setEditedTeacherObj] = useState<any>({});
-  const [editIsOpen, setEditIsOpen] = useState<boolean>(false);
-  const [delIsOpen, setDelIsOpen] = useState<boolean>(false);
-  const [idSearch, setIdSearch] = useState<any>("")
-  const [nameSearch, setNameSearch] = useState<any>("")
-  const [subjectSearch, setSubjectSearch] = useState<any>("")
+  const [teacherData, setTeacherData] = useState<any>(false)
+  const [editedTeacherObj, setEditedTeacherObj] = useState<any>({})
+  const [editIsOpen, setEditIsOpen] = useState<boolean>(false)
+  const [delIsOpen, setDelIsOpen] = useState<boolean>(false)
   const navigate = useNavigate()
-
   const fetchData = () => {
-    setLoader(true);
-    getData("Teachers")
-      .then((res: any) => {
-        setAllTeachersData(res);
-        setLoader(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoader(false);
-      });
-  };
+    setLoader(true)
+    getData("Teachers", params.id).then((res: any) => {
+      console.log(res)
+      setTeacherData(res)
+      setLoader(false)
+    }).catch((err) => {
+      console.log(err)
+      setLoader(false)
+    })
+  }
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
+
 
   const handleDelete = () => {
     setActionLoader(true);
-    deleteData("Teachers", teacherObj.id)
-      .then(() => {
-        setTeacherObj({});
-        fetchData();
-        setActionLoader(false);
-        toastGreen("Record successfully deleted!");
-      })
-      .catch((err) => {
-        console.log(err);
-        setActionLoader(false);
-        toastRed("Failed to delete the data. Please try again.");
-      });
+    deleteData("Teachers", teacherData.id).then(() => {
+      handleCloseModal()
+      setTeacherData({})
+      fetchData()
+      setActionLoader(false);
+      toastGreen("Record successfully deleted!")
+      navigate("/teachers/allTeachers")
+    }).catch((err) => {
+      console.log(err)
+      toastRed("Failed to delete the data. Please try again.")
+    })
   };
-
   const handleEdit = (e: any) => {
     e.preventDefault();
     setActionLoader(true);
-    const finalObj = { ...teacherObj, ...editedTeacherObj };
-    setData("Teachers", finalObj)
-      .then(() => {
-        setTeacherObj({});
-        setEditedTeacherObj({});
-        fetchData();
-        setActionLoader(false);
-        handleCloseModal()
-        toastGreen("Record successfully updated!");
-      })
-      .catch((err) => {
-        console.log(err);
-        setActionLoader(false);
-        toastRed("Failed to update data. Please try again.");
-      });
+    const finalObj = { ...teacherData, ...editedTeacherObj }
+    console.log({ ...teacherData, ...editedTeacherObj });
+    setData("Teachers", finalObj).then(() => {
+      setTeacherData({}); setEditedTeacherObj({})
+      fetchData()
+      setActionLoader(false);
+      handleCloseModal()
+      toastGreen("Record successfully updated!")
+    }).catch((err) => {
+      console.log(err)
+      setActionLoader(false);
+      toastRed("Failed to update data. Please try again.")
+    })
   };
 
   const handleCloseModal = () => {
     setEditIsOpen(false);
     setDelIsOpen(false);
-    setEditedTeacherObj({});
+    setEditedTeacherObj({})
   };
-
-  
-  // Search Mechanism
-  useEffect(() => {
-    let filteredData = allTeachersData;
-
-    if (idSearch !== "") {
-      filteredData = filteredData.filter((item: any) => item.TeacherId == idSearch);
-    }
-
-    if (nameSearch !== "") {
-      filteredData = filteredData.filter((item: any) => item.TeacherFirstName.toLowerCase().includes(nameSearch.toLowerCase()) || item.TeacherLastName.toLowerCase().includes(nameSearch.toLowerCase()));
-    }
-
-    if (subjectSearch !== "") {
-      filteredData = filteredData.filter((item: any) => item.TeacherSubject.toLowerCase().includes(subjectSearch.toLowerCase()));
-    }
-
-    setFilteredTeachersData(filteredData);
-  }, [idSearch, nameSearch, subjectSearch, allTeachersData]);
-
-  // Action Buttons
-  const renderActions = (row: any) => (
-    <>
-      <Tooltip title="Edit" placement="top">
-        <span>
-          <MyButton
-            bgColor="var(--green)"
-            hoverBgColor="#00943e"
-            className="p-0 px-1 pt-1 me-2"
-            btnValue={
-              <lord-icon
-                src="https://cdn.lordicon.com/zfzufhzk.json"
-                style={{ width: "37px", height: "37px" }}
-                trigger="hover"
-              />
-            }
-            onClick={() => {
-              setTeacherObj(row);
-              setEditIsOpen(true);
-            }}
-          />
-        </span>
-      </Tooltip>
-
-      <Tooltip title="Delete" placement="top">
-        <span>
-          <MyButton
-            bgColor="var(--red)"
-            hoverBgColor="rgb(139, 0, 0)"
-            className="p-0 px-1 pt-1 me-2"
-            btnValue={
-              <lord-icon
-                src="https://cdn.lordicon.com/xekbkxul.json"
-                style={{ width: "37px", height: "37px" }}
-                trigger="hover"
-                colors="primary:#121331,secondary:#9ce5f4,tertiary:#646e78,quaternary:#ebe6ef"
-              />
-            }
-            onClick={() => {
-              setTeacherObj(row);
-              setDelIsOpen(true);
-            }}
-          />
-        </span>
-      </Tooltip>
-      <Tooltip title="View Details" placement="top">
-        <span>
-          <MyButton
-            bgColor="var(--orange)"
-            hoverBgColor="#b87a00"
-            className="p-0 px-1 pt-1"
-            btnValue={
-              <lord-icon
-                src="https://cdn.lordicon.com/anqzffqz.json"
-                trigger="hover"
-                style={{ width: "37px", height: "37px" }}
-              />
-            }
-            onClick={() => { navigate(`/teachers/${row.id}`) }}
-          />
-        </span>
-      </Tooltip>
-    </>
-  );
 
   const getValue = (field: string) => {
-    return editedTeacherObj[field] !== undefined
-      ? editedTeacherObj[field]
-      : teacherObj[field];
-  };
+    return editedTeacherObj[field] !== undefined ? editedTeacherObj[field] : teacherData[field];
+  }
+
+  const TeacherDetails = [
+    {
+      label: "First Name",
+      objName: "TeacherFirstName"
+    },
+    {
+      label: "Last Name",
+      objName: "TeacherLastName"
+    },
+    {
+      label: "Gender",
+      objName: "TeacherGender"
+    },
+    {
+      label: "Father Name",
+      objName: "TeacherFatherName"
+    },
+    {
+      label: "Date Of Birth",
+      objName: "TeacherDOB"
+    },
+    {
+      label: "Religion",
+      objName: "TeacherReligion"
+    },
+    {
+      label: "Teacher Email",
+      objName: "TeacherEmail"
+    },
+    {
+      label: "Joining Date",
+      objName: "TeacherJoiningDate"
+    },
+    {
+      label: "Subject",
+      objName: "TeacherSubject"
+    },
+    {
+      label: "ID",
+      objName: "TeacherId"
+    },
+    {
+      label: "Address",
+      objName: "TeacherAddress"
+    },
+    {
+      label: "Teacher Phone",
+      objName: "TeacherPhone"
+    },
+  ]
+
 
   const content = () => {
     return (
       <>
-        <div className="container-fluid bg-white p-3 rounded">
-          <h2 className="fs-4 mb-3">
-            All Teachers Data - Make view details page
-          </h2>
-          <Row>
-            <Col sm={12} md={4}>
-              <FloatingInput label="Search by ID" placeholder="Search by Teachers ID" myValue={idSearch} onChange={(e: any) => { setIdSearch(e.target.value) }} type="text" />
-            </Col>
-            <Col sm={12} md={4}>
-              <FloatingInput label="Search by Name" placeholder="Search by Teachers Name" myValue={nameSearch} onChange={(e: any) => { setNameSearch(e.target.value) }} type="text" />
-            </Col>
-            <Col sm={12} md={4}>
-              <FloatingInput label="Search by Subject" placeholder="Search by Teachers Subject" myValue={subjectSearch} onChange={(e: any) => { setSubjectSearch(e.target.value) }} type="text" />
-            </Col>
-          </Row>
-          {actionLoader ? <MyLoader /> : null}
-          {loader ? (
-            <MyLoader />
-          ) : (
-            <Grid
-              data={filteredTeachersData ? filteredTeachersData : null}
-              columns={[
-                { id: "TeacherId", label: "ID" },
-                { id: "TeacherFirstName", label: "First Name" },
-                { id: "TeacherLastName", label: "Last Name" },
-                { id: "TeacherGender", label: "Gender" },
-                { id: "TeacherDOB", label: "Date of Birth" },
-                { id: "TeacherEmail", label: "Teacher Email" },
-                { id: "TeacherSubject", label: "Subject" },
-                { id: "TeacherPhone", label: "Teacher Phone" },
-                {
-                  id: "actions",
-                  label: "Actions",
-                  isAction: true,
-                  render: renderActions,
-                  minWidth: "195px",
-                },
-              ]}
-            />
-          )}
-        </div>
+        {actionLoader ? <MyLoader /> : null}
+        {loader ? <MyLoader /> : teacherData &&
+          (<div className='d-flex justify-content-between'>
+            <div className="TeacherInfo d-flex gap-5">
+              <div className="TeacherImage centerImg bg-orange rounded" style={{ height: "350px", width: "300px" }}>
+                <img src={teacherData.TeacherGender == "Male" ? MaleTeacher : FemaleTeacher} />
+              </div>
+              <div className="TeacherDetails">
+                <h2 className='fs-3'>{`${teacherData.TeacherFirstName}  ${teacherData.TeacherLastName}`}</h2>
+                <p className='w-75'>{teacherData.TeacherShortBio ? teacherData.TeacherShortBio : "No Bio"}</p>
+                <table>
+                  <tbody>
+                    {TeacherDetails.map((item, index) => {
+                      const value = teacherData[item.objName];
+                      const displayValue = item.objName === 'TeacherJoiningDate' ? new Date(JSON.parse(value)).toISOString().slice(0, 10) : value;
+                      return (
+                        <tr key={index}>
+                          <td className='py-2'> {item.label}:</td>
+                          <td className='fw-bold py-2 text-black'>{displayValue} {(item.label === "Joining Date" || item.label === "Date Of Birth") && <span className="text-secondary fw-light">(yyyy-mm-dd)</span>}</td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="Actions d-flex">
+              <div>
+                <Tooltip title="Edit" placement="top">
+                  <span>
+                    <MyButton bgColor="var(--green)" hoverBgColor="#00943e" className="p-0 px-1 pt-1 me-2" btnValue={<lord-icon src="https://cdn.lordicon.com/zfzufhzk.json" style={{ width: "37px", height: "37px" }} trigger="hover" />} onClick={() => { setEditIsOpen(true) }} />
+                  </span>
+                </Tooltip>
+              </div>
+              <div>
+                <Tooltip title="Delete" placement="top">
+                  <span>
+                    <MyButton bgColor="var(--red)" hoverBgColor="rgb(139, 0, 0)" className="p-0 px-1 pt-1 me-2" btnValue={<lord-icon src="https://cdn.lordicon.com/xekbkxul.json" style={{ width: "37px", height: "37px" }} trigger="hover" colors="primary:#121331,secondary:#9ce5f4,tertiary:#646e78,quaternary:#ebe6ef" />} onClick={() => { setDelIsOpen(true) }} />
+                  </span>
+                </Tooltip>
+              </div>
+            </div>
+          </div>)}
       </>
-    );
-  };
+    )
+  }
 
   return (
     <>
-      <Sidebar
-        element={content()}
-        breadcrumbLink="Teachers"
-        pageName="All Teachers"
-        breadcrumbNestedLink="All Teachers"
-      />
+      <Sidebar element={content()} breadcrumbLink="Teachers" pageName="Teachers Detailed Page" breadcrumbNestedLink="Teachers Detailed Page" />
 
-      <MyModal
-        title="Edit Students Details"
-        height="65vh"
-        onClose={handleCloseModal}
-        isOpen={editIsOpen}
-        body={
+      <MyModal title="Edit Students Details" height="65vh" onClose={handleCloseModal} isOpen={editIsOpen}
+        body={(
           <>
-            <form onSubmit={(e: any) => handleEdit(e)}>
-              <div className="mt-4 mb-0">
-                <h3 className="fs-5 mb-0">Personal Information</h3>{" "}
-                <hr className="mt-2" />
+            <form onSubmit={handleEdit}>
+              <div className='mb-0'>
+                <h3 className='fs-5 mb-0'>Personal Information</h3> <hr className='mt-2' />
               </div>
-              <Row className="row-gap-2">
+              <Row>
                 <Col md={12} lg={6}>
                   <div style={{ height: "58px" }}>
                     <FloatingInput
@@ -319,7 +268,7 @@ function AllTeachers() {
                 <Col md={12} lg={6} className="mb-3">
                   <div style={{ height: "58px" }}>
                     <FloatingInput
-                      label="Teachers Fathers Name*"
+                      label="Teachers Fathers Full Name*"
                       required={true}
                       onChange={(e: any) =>
                         setEditedTeacherObj({
@@ -327,7 +276,7 @@ function AllTeachers() {
                           TeacherFatherName: e.target.value,
                         })
                       }
-                      placeholder="Edit Teachers Fathers Name"
+                      placeholder="Edit Teachers Fathers Full Name"
                       myValue={getValue("TeacherFatherName")}
                       type="text"
                     />
@@ -431,7 +380,7 @@ function AllTeachers() {
                       disabled
                       placeholder=""
                       required={true}
-                      myValue={loader ? "Loading..." : teacherObj.TeacherId}
+                      myValue={loader ? "Loading..." : teacherData.TeacherId}
                       type="text"
                     />
                   </div>
@@ -488,7 +437,7 @@ function AllTeachers() {
                     <label htmlFor='imageInput'>Upload Student Photo (150px X 150px)</label> <br />
                     <input
                       type="file"
-                      onChange={(e: any) => setEditedTeacherObj({ ...editedTeacherObj, TeacherImage: e.target.value })}
+                      onChange={(e: any) => setEditedTeacherObj({ ...editedTeacherObj, StudentImage: e.target.value })}
                       id='imageInput'
                       accept='image/*'
                     />
@@ -498,9 +447,9 @@ function AllTeachers() {
                       <p>Selected file: {editedTeacherObj.TeacherImage}</p>
                     </div>
                   ) : (
-                    teacherObj.TeacherImage && (
+                    teacherData.TeacherImage && (
                       <div>
-                        <p>Current file: {teacherObj.TeacherImage}</p>
+                        <p>Current file: {teacherData.TeacherImage}</p>
                       </div>
                     )
                   )}
@@ -512,51 +461,25 @@ function AllTeachers() {
               </div>
             </form>
           </>
-        }
-        footer={
+        )}
+        footer={(
           <div>
-            <MyButton
-              bgColor="var(--darkBlue)"
-              hoverBgColor="var(--orange)"
-              className="me-2"
-              btnValue="Close"
-              onClick={handleCloseModal}
-            />
+            <MyButton bgColor="var(--darkBlue)" hoverBgColor="var(--orange)" className="me-2" btnValue="Close" onClick={handleCloseModal} />
           </div>
-        }
-      />
+        )} />
 
-      <ConfirmModal
-        title={`Are you sure you want to delete ${teacherObj.TeacherFirstName} ${teacherObj.TeacherLastName}`}
-        icon={
-          <lord-icon
-            src="https://cdn.lordicon.com/jxzkkoed.json"
-            trigger="hover"
-            style={{ width: "120px", height: "120px" }}
-          />
-        }
-        onClose={handleCloseModal}
-        isOpen={delIsOpen}
-        body={
+
+      <ConfirmModal title={`Are you sure you want to delete ${teacherData.TeacherFirstName} ${teacherData.TeacherLastName}`}
+        icon={(<lord-icon src="https://cdn.lordicon.com/jxzkkoed.json" trigger="hover" style={{ width: "120px", height: "120px" }} />)}
+        onClose={handleCloseModal} isOpen={delIsOpen}
+        body={(
           <>
-            <MyButton
-              bgColor="var(--red)"
-              hoverBgColor="rgb(139, 0, 0)"
-              className="me-4"
-              btnValue="Yes, Delete"
-              onClick={()=>{handleCloseModal(); handleDelete()}}
-            />
-            <MyButton
-              bgColor="var(--green)"
-              hoverBgColor="#00943e"
-              btnValue="No, Cancel"
-              onClick={handleCloseModal}
-            />
+            <MyButton bgColor="var(--red)" hoverBgColor="rgb(139, 0, 0)" className="me-4" btnValue="Yes, Delete" onClick={() => { handleCloseModal(); handleDelete() }} />
+            <MyButton bgColor="var(--green)" hoverBgColor="#00943e" btnValue="No, Cancel" onClick={handleCloseModal} />
           </>
-        }
-      />
+        )} />
     </>
-  );
+  )
 }
 
-export default AllTeachers;
+export default TeacherDetailedPage

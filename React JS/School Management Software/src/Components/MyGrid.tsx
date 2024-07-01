@@ -6,8 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import { Tooltip } from '@mui/material';
+import TableRow from '@mui/material/TableRow'
 
 const Grid = (props: any) => {
   const { data, columns } = props
@@ -25,7 +24,7 @@ const Grid = (props: any) => {
   };
 
   return (
-    data == null ? <h1>No Students Added Yet!</h1> : (
+    data == null ? <h1>No Records Added Yet!</h1> : (
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: "70vh" }}>
           <Table stickyHeader aria-label="sticky table">
@@ -53,7 +52,7 @@ const Grid = (props: any) => {
                               {column.render(row)}
                               </>
                             ) : (
-                              value.length > 20 ? <Tooltip title={value} placement="top" arrow><span>{value.slice(0, 19)}...</span></Tooltip> : value
+                              value
                             )}
                           </TableCell>
                         );

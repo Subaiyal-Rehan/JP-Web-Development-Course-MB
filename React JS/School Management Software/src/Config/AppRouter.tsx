@@ -5,6 +5,8 @@ import AdmissionForm from '../Pages/Students/AdmissionForm';
 import StudentDetailedPage from '../Pages/Students/StudentDetailedPage';
 import AllTeachers from '../Pages/Teachers/AllTeachers';
 import AddTeachers from '../Pages/Teachers/AddTeachers';
+import TeacherDetailedPage from '../Pages/Teachers/TeacherDetailedPage';
+import StudentPromotion from '../Pages/Students/StudentPromotion';
 
 function AppRouter() {
   return (
@@ -15,9 +17,11 @@ function AppRouter() {
                 <Route path='/students/allStudents' element={<AllStudents />} />
                 <Route path='/students/admissionForm' element={<AdmissionForm />} />
                 <Route path='/students/:id' element={<StudentDetailedPage />} />
+                <Route path='/students/studentPromotion' element={<StudentPromotion />} />
                 <Route path='/teachers/allTeachers' element={<AllTeachers />} />
                 <Route path='/teachers/addTeachers' element={<AddTeachers />} />
-            </Routes>
+                <Route path='/teachers/:id' element={<TeacherDetailedPage />} />
+                </Routes>
         </BrowserRouter>
     </>
   )

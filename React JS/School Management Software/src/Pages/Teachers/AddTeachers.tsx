@@ -17,7 +17,9 @@ function AddTeachers() {
         TeacherLastName: "",
         TeacherGender: "",
         TeacherDOB: "",
+        TeacherFatherName: "",
         TeacherReligion: "",
+        TeacherAddress: "",
         TeacherCNIC: "",
         TeacherEmail: "",
         TeacherPhone: "",
@@ -33,7 +35,9 @@ function AddTeachers() {
             TeacherLastName: "",
             TeacherGender: "",
             TeacherDOB: "",
+            TeacherFatherName: "",
             TeacherReligion: "",
+            TeacherAddress: "",
             TeacherCNIC: "",
             TeacherEmail: "",
             TeacherPhone: "",
@@ -44,13 +48,13 @@ function AddTeachers() {
         })
     }
 
-    const fetchData =() => {
+    const fetchData = () => {
         setLoader(true)
-        getData("Teachers").then((res:any) => {
-            setTeacherData((a:any) => ({ ...a, TeacherId: res.length > 0 ? res.slice(-1)[0].TeacherId + 1 : 1}));
+        getData("Teachers").then((res: any) => {
+            setTeacherData((a: any) => ({ ...a, TeacherId: res.length > 0 ? res.slice(-1)[0].TeacherId + 1 : 1 }));
             setLoader(false)
         }).catch((err) => {
-            setTeacherData((a:any) => ({ ...a, TeacherId: 1}));
+            setTeacherData((a: any) => ({ ...a, TeacherId: 1 }));
             console.log(err)
             setLoader(false)
         })
@@ -64,7 +68,8 @@ function AddTeachers() {
         e.preventDefault();
         console.log(teacherData);
         setPageLoader(true)
-        setData("Teachers", teacherData).then(() => {
+        const finalObj = {...teacherData, TeacherJoiningDate: JSON.stringify(new Date())}
+        setData("Teachers", finalObj).then(() => {
             handleReset()
             fetchData()
             setPageLoader(false)
@@ -80,7 +85,7 @@ function AddTeachers() {
     const content = () => {
         return (
             <>
-            {pageLoader? <MyLoader />: null}
+                {pageLoader ? <MyLoader /> : null}
                 <div className="container-fluid bg-white p-3 rounded">
                     <h2 className='fs-4 mb-3'>Add New Teachers</h2>
                     <form onSubmit={handleSave}>
@@ -110,7 +115,17 @@ function AddTeachers() {
                             </Col>
                             <Col md={12} lg={6} xl={3} className="mb-3">
                                 <div style={{ height: "58px" }}>
+                                    <FloatingInput label="Teachers Fathers Full Name*" required={true} onChange={(e: any) => setTeacherData({ ...teacherData, TeacherFatherName: e.target.value })} placeholder="Enter Teachers Fathers Full Name" myValue={teacherData.TeacherFatherName} type="text" />
+                                </div>
+                            </Col>
+                            <Col md={12} lg={6} xl={3} className="mb-3">
+                                <div style={{ height: "58px" }}>
                                     <MySelect label="Select Religion*" required={true} defaultValue="Please Select Religion" value={teacherData.TeacherReligion} onChange={(e: any) => setTeacherData({ ...teacherData, TeacherReligion: e.target.value })} options={["Islam", "Hindu", "Christian", "Others"]} />
+                                </div>
+                            </Col>
+                            <Col md={12} lg={6} xl={3} className="mb-3">
+                                <div style={{ height: "58px" }}>
+                                    <FloatingInput label="Teachers Address*" required={true} onChange={(e: any) => setTeacherData({ ...teacherData, TeacherAddress: e.target.value })} placeholder="Enter Teachers Address" myValue={teacherData.TeacherAddress} type="text" />
                                 </div>
                             </Col>
                             <Col md={12} lg={6} xl={3} className="mb-3">
@@ -170,14 +185,14 @@ function AddTeachers() {
         )
     }
 
-  return (
-    <Sidebar
-      element={content()}
-      breadcrumbLink="Teachers"
-      pageName="Add Teachers"
-      breadcrumbNestedLink="Add Teachers"
-    />
-  );
+    return (
+        <Sidebar
+            element={content()}
+            breadcrumbLink="Teachers"
+            pageName="Add Teachers"
+            breadcrumbNestedLink="Add Teachers"
+        />
+    );
 }
 
 export default AddTeachers;

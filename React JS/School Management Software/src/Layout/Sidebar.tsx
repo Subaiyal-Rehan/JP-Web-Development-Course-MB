@@ -145,7 +145,7 @@ export default function Sidebar(props: any) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer style={{zIndex: 9999}} open={open} theme={theme}> {/* You can increase the zIndex if you want to the loader to not overlap the sidebar */}
+      <Drawer style={{zIndex: 9998}} open={open} theme={theme}> {/* You can increase the zIndex if you want to the loader to not overlap the sidebar */}
         <DrawerHeader>
           <IconButton className="text-white" onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (

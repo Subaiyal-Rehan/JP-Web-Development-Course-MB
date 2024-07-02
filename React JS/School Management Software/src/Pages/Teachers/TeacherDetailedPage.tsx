@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { deleteData, getData, setData } from '../../Config/FirebaseMethods'
 import Sidebar from '../../Layout/Sidebar'
 import MyLoader from '../../Components/MyLoader'
@@ -132,6 +132,10 @@ function TeacherDetailedPage() {
       label: "Teacher Phone",
       objName: "TeacherPhone"
     },
+    {
+      label: "Class Teacher",
+      objName: "TeacherClass"
+    },
   ]
 
 
@@ -156,7 +160,7 @@ function TeacherDetailedPage() {
                       return (
                         <tr key={index}>
                           <td className='py-2'> {item.label}:</td>
-                          <td className='fw-bold py-2 text-black'>{displayValue} {(item.label === "Joining Date" || item.label === "Date Of Birth") && <span className="text-secondary fw-light">(yyyy-mm-dd)</span>}</td>
+                          <td className='fw-bold py-2 text-black'>{displayValue} {(item.label === "Joining Date" || item.label === "Date Of Birth") && <span className="text-secondary fw-light">(yyyy-mm-dd)</span>} {item.objName == "TeacherClass" ? (teacherData[item.objName] ? null : <span className="text-secondary fw-light">Not Assigned Yet. <Link to="/teachers/teacherAllocation">Assign Here</Link></span>) : null}</td>
                         </tr>
                       )
                     })}

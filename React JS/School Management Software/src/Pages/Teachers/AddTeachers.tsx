@@ -12,6 +12,7 @@ import MyLoader from '../../Components/MyLoader';
 function AddTeachers() {
     const [loader, setLoader] = useState<boolean>(false)
     const [pageLoader, setPageLoader] = useState<boolean>(false)
+    const [allSubjects, setAllSubjects] = useState<any>([])
     const [teacherData, setTeacherData] = useState<any>({
         TeacherFirstName: "",
         TeacherLastName: "",
@@ -59,8 +60,20 @@ function AddTeachers() {
             setLoader(false)
         })
     }
+
+    const fetchSubjectsData = () => {
+        getData("Subjects").then((res: any) => {
+            setAllSubjects([res.map((item: any) => item.SubjectName)]);
+            setLoader(false)
+        }).catch((err) => {
+            setTeacherData((a: any) => ({ ...a, TeacherId: 1 }));
+            console.log(err)
+            setLoader(false)
+        })
+    }
     useEffect(() => {
         fetchData()
+        fetchSubjectsData()
     }, [])
 
 
@@ -155,7 +168,7 @@ function AddTeachers() {
                             </Col>
                             <Col md={12} lg={6} xl={3} className="mb-3">
                                 <div style={{ height: "58px" }}>
-                                    <MySelect label="Select Subject*" required={true} defaultValue="Please Select Subject" value={teacherData.TeacherSubject} onChange={(e: any) => setTeacherData({ ...teacherData, TeacherSubject: e.target.value })} options={["English", "Urdu", "Maths", "Algebra", "Geometry", "Science", "Chemistry", "Physics"]} />
+                                    <MySelect label="Select Subject*" required={true} defaultValue="Please Select Subject" value={teacherData.TeacherSubject} onChange={(e: any) => setTeacherData({ ...teacherData, TeacherSubject: e.target.value })} options={allSubjects} />
                                 </div>
                             </Col>
                         </Row>

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { FaAngleRight, FaAngleDown, FaChalkboardTeacher  } from 'react-icons/fa';
 import { RxDotFilled } from "react-icons/rx";
-import { PiStudentBold } from "react-icons/pi";
+import { PiStudentBold, PiBooks } from "react-icons/pi";
+// import { SiGoogleclassroom } from "react-icons/si";
 import { Link, useLocation } from 'react-router-dom';
 import '../App.css';
 
@@ -57,23 +58,48 @@ const data: TreeNode[] = [
         link: '/teachers/addTeachers',
         icon: <RxDotFilled />,
       },
+      {
+        id: '5',
+        name: 'Teacher Allocation',
+        link: '/teachers/teacherAllocation',
+        icon: <RxDotFilled />,
+      },
+    ],
+  },
+  {
+    id: '6',
+    name: 'Subjects',
+    icon: <PiBooks />,
+    children: [
+      {
+        id: '7',
+        name: 'All Subjects',
+        link: '/subjects/allSubjects',
+        icon: <RxDotFilled />,
+      },
+      {
+        id: '8',
+        name: 'Add Subjects',
+        link: '/subjects/addSubjects',
+        icon: <RxDotFilled />,
+      },
     ],
   },
   // {
-  //   id: '5',
-  //   name: 'Services',
-  //   icon: <FaTools />,
+  //   id: '9',
+  //   name: 'Classes',
+  //   icon: <SiGoogleclassroom />,
   //   children: [
   //     {
-  //       id: '6',
-  //       name: 'Consulting',
-  //       link: '/services/consulting',
+  //       id: '7',
+  //       name: 'All Classes',
+  //       link: '/classes/allClasses',
   //       icon: <RxDotFilled />,
   //     },
   //     {
-  //       id: '7',
-  //       name: 'Development',
-  //       link: '/services/development',
+  //       id: '8',
+  //       name: 'Add Class',
+  //       link: '/classes/addClass',
   //       icon: <RxDotFilled />,
   //     },
   //   ],

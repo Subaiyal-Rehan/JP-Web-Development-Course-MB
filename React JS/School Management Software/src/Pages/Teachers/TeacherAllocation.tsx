@@ -9,9 +9,9 @@ import { toastGreen, toastRed } from '../../Components/My Toasts'
 import MyButton from '../../Components/MyButton'
 
 function StudentPromotion() {
-    const [allStudentsData, setAllStudentData] = useState<any>(false)
-    const [studentsName, setStudentsName] = useState<any>([])
-    const [specificStudent, setSpecificStudent] = useState<any>([])
+    const [allTeachersData, setAllTeachersData] = useState<any>(false)
+    const [teachersName, setTeachersName] = useState<any>([])
+    const [specificTeacher, setSpecificTeacher] = useState<any>([])
     const [selectedName, setSelectedName] = useState<any>([])
     const [newClass, setNewClass] = useState("")
     const [loader, setLoader] = useState<any>(false)
@@ -19,8 +19,8 @@ function StudentPromotion() {
 
     const fetchData = () => {
         setLoader(true)
-        getData("Students").then((res) => {
-            setAllStudentData(res)
+        getData("Teachers").then((res) => {
+            setAllTeachersData(res)
             setLoader(false)
         }).catch((err) => {
             setLoader(false)
@@ -34,25 +34,25 @@ function StudentPromotion() {
     }, [])
 
     useEffect(() => {
-        if (allStudentsData) {
-            setSpecificStudent(allStudentsData.filter((item: any) => selectedName == item.StudentFirstName))
+        if (allTeachersData) {
+            setSpecificTeacher(allTeachersData.filter((item: any) => selectedName == item.TeacherFirstName))
         }
     }, [selectedName])
 
     useEffect(() => {
-        if (allStudentsData) {
-            if (studentsName.length !== allStudentsData.length) {
-                setStudentsName([...allStudentsData.map((item: any) => item.StudentFirstName)]);
+        if (allTeachersData) {
+            if (teachersName.length !== allTeachersData.length) {
+                setTeachersName([...allTeachersData.map((item: any) => item.TeacherFirstName)]);
             }
         }
-    }, [allStudentsData])
+    }, [allTeachersData])
 
-    const handleEdit = (e: any) => {
+    const handleSave = (e: any) => {
         e.preventDefault();
         setActionLoader(true);
-        const finalObj = { ...specificStudent[0], StudentClass: newClass }
+        const finalObj = { ...specificTeacher[0], TeacherClass: newClass }
         console.log(finalObj);
-        setData("Students", finalObj).then(() => {
+        setData("Teachers", finalObj).then(() => {
             handleReset()
             fetchData()
             setActionLoader(false);
@@ -65,7 +65,7 @@ function StudentPromotion() {
     };
 
     const handleReset = () => {
-        setSpecificStudent([""]);
+        setSpecificTeacher([""]);
         setSelectedName([])
         setNewClass("")
     }
@@ -76,38 +76,40 @@ function StudentPromotion() {
         return (
             <>
                 <div className="container-fluid bg-white p-3 rounded">
-                    <h2 className='fs-4 mb-4'>Promote Students</h2>
-                    <h3 className='fs-5'>Select Student</h3>
-                    <form onSubmit={handleEdit}>
+                    <h2 className='fs-4 mb-4'>Teacher Assignment</h2>
+                    <h3 className='fs-5'>Select Teacher</h3>
+                    <form onSubmit={handleSave}>
                         {actionLoader ? <MyLoader /> : null}
-                        {loader ? <MyLoader /> : allStudentsData && (
+                        {loader ? <MyLoader /> : allTeachersData && (
                             <>
                                 <MySelect
-                                    label="Students First Name"
+                                    label="Teachers First Name"
                                     required={true}
-                                    defaultValue="Students First Name"
+                                    defaultValue="Teachers First Name"
                                     value={selectedName}
                                     onChange={(e: any) => setSelectedName(e.target.value)}
-                                    options={studentsName} />
+                                    options={teachersName} />
                                 <Row className='mt-3'>
                                     <Col md={12} lg={4}>
-                                        <FloatingInput label="Student Roll" disabled placeholder="" myValue={specificStudent[0] && specificStudent[0].StudentRoll} type="text" />
+                                        <FloatingInput label="Teacher Roll" disabled placeholder="" myValue={specificTeacher[0] && specificTeacher[0].TeacherId} type="text" />
                                     </Col>
                                     <Col md={12} lg={4}>
-                                        <FloatingInput label="Student Gender" disabled placeholder="" myValue={specificStudent[0] && specificStudent[0].StudentGender} type="text" />
+                                        <FloatingInput label="Teacher Gender" disabled placeholder="" myValue={specificTeacher[0] && specificTeacher[0].TeacherGender} type="text" />
                                     </Col>
                                     <Col md={12} lg={4}>
-                                        <FloatingInput label="Students Father Name" disabled placeholder="" myValue={specificStudent[0] && specificStudent[0].StudentFatherName} type="text" />
+                                        <FloatingInput label="Teachers Father Name" disabled placeholder="" myValue={specificTeacher[0] && specificTeacher[0].TeacherFatherName} type="text" />
                                     </Col>
                                 </Row>
                                 <hr />
                                 <Row>
-                                    <Col md={12} lg={6}>
-                                        <h3 className='fs-5'>Promotion From Class</h3>
-                                        <FloatingInput label="Student Class" disabled placeholder="" myValue={specificStudent[0] && specificStudent[0].StudentClass} type="text" />
-                                    </Col>
-                                    <Col md={12} lg={6}>
-                                        <h3 className='fs-5'>Promotion To Class</h3>
+                                    {specificTeacher ? (specificTeacher[0] && specificTeacher[0].TeacherClass ?
+                                        <Col md={12} lg={6}>
+                                            <h3 className='fs-5'>Previous Class</h3>
+                                            <FloatingInput label="Teacher Class" disabled placeholder="" myValue={specificTeacher[0] && specificTeacher[0].TeacherClass} type="text" />
+                                        </Col> : null) : null
+                                    }
+                                    <Col md={12} lg:any={!specificTeacher ? null : specificTeacher[0] && specificTeacher[0].TeacherClass ? 6 : 12}>
+                                        <h3 className='fs-5'>New Class</h3>
                                         <MySelect
                                             label="Select Class*"
                                             required={true}
@@ -117,7 +119,7 @@ function StudentPromotion() {
                                             options={["Beginner", "KGI", "KGII", "One", "Two", "Three", "Four"]} />
                                     </Col>
                                 </Row>
-                                <div className='d-flex gap-4'>
+                                <div className='d-flex gap-4 mt-4'>
                                     <MyButton type="submit" bgColor="var(--orange)" hoverBgColor="var(--darkBlue)" className="px-4 py-3" btnValue={(<div className="d-flex align-items-center gap-2">Save <lord-icon src="https://cdn.lordicon.com/dangivhk.json" trigger="hover" style={{ width: "30px", height: "30px" }} /></div>)} />
                                     <MyButton btnValue={(<div className="d-flex align-items-center gap-2">Reset <lord-icon src="https://cdn.lordicon.com/abaxrbtq.json" trigger="hover" style={{ width: "30px", height: "30px" }} /></div>)} bgColor="var(--darkBlue)" hoverBgColor="var(--orange)" className="px-4 py-3" onClick={handleReset} />
                                 </div>
@@ -130,7 +132,7 @@ function StudentPromotion() {
     }
     return (
         <>
-            <Sidebar element={content()} breadcrumbLink="Students" pageName="Student Promotion" breadcrumbNestedLink="Student Promotion" />
+            <Sidebar element={content()} breadcrumbLink="Teachers" pageName="Teacher Allocation" breadcrumbNestedLink="Teacher Allocation" />
         </>
     )
 }

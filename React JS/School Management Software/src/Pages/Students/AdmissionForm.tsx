@@ -26,6 +26,7 @@ function AdmissionForm() {
         StudentFatherOccupation: "",
         StudentGuardianEmail: "",
         StudentClass: "",
+        StudentFees: "",
         StudentGuardianPhone: "",
         StudentShortBio: "",
         StudentImage: "",
@@ -46,6 +47,7 @@ function AdmissionForm() {
             StudentFatherOccupation: "",
             StudentGuardianEmail: "",
             StudentClass: "",
+            StudentFees: "",
             StudentGuardianPhone: "",
             StudentShortBio: "",
             StudentImage: "",
@@ -175,6 +177,11 @@ function AdmissionForm() {
                             <Col md={12} lg={6} xl={3} className="mb-3">
                                 <div style={{ height: "58px" }}>
                                     <MySelect label="Select Class*" required={true} defaultValue="Please Select Class" value={StudentData.StudentClass} onChange={(e: any) => setStudentData({ ...StudentData, StudentClass: e.target.value })} options={["Beginner", "KGI", "KGII", "One", "Two", "Three", "Four"]} />
+                                </div>
+                            </Col>
+                            <Col md={12} lg={6} xl={3} className="mb-3">
+                                <div style={{ height: "58px" }}>
+                                    <FloatingInput label="Fees*" required={true} myValue={StudentData.StudentFees} onChange={(e: any) => setStudentData({ ...StudentData, StudentFees: e.target.value })} placeholder="Enter Student Fees" type="number" />
                                 </div>
                             </Col>
                         </Row>

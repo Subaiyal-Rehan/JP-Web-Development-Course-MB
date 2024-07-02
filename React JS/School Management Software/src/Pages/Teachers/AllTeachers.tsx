@@ -18,6 +18,7 @@ function AllTeachers() {
   const [loader, setLoader] = useState(true);
   const [actionLoader, setActionLoader] = useState(false);
   const [allTeachersData, setAllTeachersData] = useState<any>(false);
+  const [allSubjectsData, setAllSubjectsData] = useState<any>(false);
   const [filteredTeachersData, setFilteredTeachersData] = useState<any>(false);
   const [teacherObj, setTeacherObj] = useState<any>({});
   const [editedTeacherObj, setEditedTeacherObj] = useState<any>({});
@@ -41,8 +42,22 @@ function AllTeachers() {
       });
   };
 
+  const fetchSubjectsData = () => {
+    setLoader(true);
+    getData("Subjects")
+      .then((res: any) => {
+        setAllSubjectsData([res.map((item: any) => item.SubjectName)]);
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoader(false);
+      });
+  };
+
   useEffect(() => {
     fetchData();
+    fetchSubjectsData();
   }, []);
 
   const handleDelete = () => {
@@ -236,7 +251,7 @@ function AllTeachers() {
       />
 
       <MyModal
-        title="Edit Students Details"
+        title="Edit Teachers Details"
         height="65vh"
         onClose={handleCloseModal}
         isOpen={editIsOpen}
@@ -449,16 +464,7 @@ function AllTeachers() {
                           TeacherSubject: e.target.value,
                         })
                       }
-                      options={[
-                        "English",
-                        "Urdu",
-                        "Maths",
-                        "Algebra",
-                        "Geometry",
-                        "Science",
-                        "Chemistry",
-                        "Physics",
-                      ]}
+                      options={allSubjectsData}
                     />
                   </div>
                 </Col>

@@ -3,7 +3,7 @@ import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } 
 import { FaAngleRight, FaAngleDown, FaChalkboardTeacher  } from 'react-icons/fa';
 import { RxDotFilled } from "react-icons/rx";
 import { PiStudentBold, PiBooks } from "react-icons/pi";
-// import { SiGoogleclassroom } from "react-icons/si";
+import { SiGoogleclassroom } from "react-icons/si";
 import { Link, useLocation } from 'react-router-dom';
 import '../App.css';
 
@@ -85,25 +85,25 @@ const data: TreeNode[] = [
       },
     ],
   },
-  // {
-  //   id: '9',
-  //   name: 'Classes',
-  //   icon: <SiGoogleclassroom />,
-  //   children: [
-  //     {
-  //       id: '7',
-  //       name: 'All Classes',
-  //       link: '/classes/allClasses',
-  //       icon: <RxDotFilled />,
-  //     },
-  //     {
-  //       id: '8',
-  //       name: 'Add Class',
-  //       link: '/classes/addClass',
-  //       icon: <RxDotFilled />,
-  //     },
-  //   ],
-  // },
+  {
+    id: '9',
+    name: 'Classes',
+    icon: <SiGoogleclassroom />,
+    children: [
+      {
+        id: '10',
+        name: 'All Classes',
+        link: '/classes/allClasses',
+        icon: <RxDotFilled />,
+      },
+      {
+        id: '11',
+        name: 'Add Class',
+        link: '/classes/addClass',
+        icon: <RxDotFilled />,
+      },
+    ],
+  },
 ];
 
 const TreeNode: React.FC<{ node: TreeNode; nested?: boolean; onTabClick: (id: string) => void; activeTab: string | null }> = ({ node, nested, onTabClick, activeTab }) => {

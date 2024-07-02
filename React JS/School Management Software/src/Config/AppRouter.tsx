@@ -11,6 +11,7 @@ import StudentPromotion from '../Pages/Students/StudentPromotion';
 import AllSubjects from '../Pages/Subjects/AllSubjects';
 import AddSubject from '../Pages/Subjects/AddSubject';
 import AddClass from '../Pages/Classes/AddClass';
+import AllClasses from '../Pages/Classes/AllClasses';
 
 function AppRouter() {
   return (
@@ -29,6 +30,7 @@ function AppRouter() {
                 <Route path='/subjects/allSubjects' element={<AllSubjects />} />
                 <Route path='/subjects/addSubjects' element={<AddSubject />} />
                 <Route path='/classes/addClass' element={<AddClass />} />
+                <Route path='/classes/allClasses' element={<AllClasses />} />
                 </Routes>
         </BrowserRouter>
     </>

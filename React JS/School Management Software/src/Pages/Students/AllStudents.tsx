@@ -334,6 +334,9 @@ function AllStudents() {
                     options={["Beginner", "KGI", "KGII", "One", "Two", "Three", "Four"]}
                   />
                 </Col>
+                <Col md={12} lg={6}>
+                <FloatingInput label="Fees*" required={true} myValue={getValue("StudentFees")} onChange={(e: any) => setEditedStudentObj({ ...editedStudentObj, StudentFees: e.target.value })} placeholder="Enter Student Fees" type="number" />
+                </Col>
               </Row>
               <div className='mt-4'>
                 <h3 className='fs-5 mb-0'>Additional Information</h3> <hr className='mt-2' />

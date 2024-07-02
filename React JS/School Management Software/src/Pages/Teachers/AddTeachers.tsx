@@ -79,7 +79,6 @@ function AddTeachers() {
 
     const handleSave = (e: any) => {
         e.preventDefault();
-        console.log(teacherData);
         setPageLoader(true)
         const finalObj = {...teacherData, TeacherJoiningDate: JSON.stringify(new Date())}
         setData("Teachers", finalObj).then(() => {

@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow'
+import { Tooltip } from '@mui/material';
 
 const Grid = (props: any) => {
   const { data, columns } = props
@@ -31,7 +32,7 @@ const Grid = (props: any) => {
             <TableHead>
               <TableRow>
                 {columns.map((column: any) => (
-                  <TableCell style={{minWidth: column.minWidth}} className='bg-darkBlue text-white fw-bold fs-6' key={column.id}>
+                  <TableCell style={{ minWidth: column.minWidth }} className='bg-darkBlue text-white fw-bold fs-6' key={column.id}>
                     {column.label}
                   </TableCell>
                 ))}
@@ -49,10 +50,14 @@ const Grid = (props: any) => {
                           <TableCell className='fs-6' key={column.id}>
                             {column.isAction && column.id === 'actions' ? (
                               <>
-                              {column.render(row)}
+                                {column.render(row)}
                               </>
                             ) : (
-                              value
+                              Array.isArray(value) ? 
+                              (value.join(", ").length > 19 ? 
+                                (<Tooltip title={value.join(", ")} placement="top" arrow><span>{value.join(", ").slice(0, 19)}...</span></Tooltip>) 
+                                : value.join(", ")) 
+                              : value.length > 19 ? <Tooltip title={value} placement="top" arrow><span>{value.slice(0, 19)}...</span></Tooltip> : value
                             )}
                           </TableCell>
                         );

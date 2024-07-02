@@ -93,6 +93,17 @@ function AllSubjects() {
         setActionLoader(false);
         toastRed("Failed to delete the data. Please try again.");
       });
+
+      const finalObja = { ...specificTeacher[0], TeacherSubject: editedSubjectObj.SubjectName ? editedSubjectObj.SubjectName : "" }
+    setData("Teachers", finalObja).then(() => {
+      setSubjectObj({});
+      seteditedSubjectObj({});
+      fetchData()
+      setActionLoader(false);
+    }).catch((err) => {
+      console.log(err)
+      setActionLoader(false);
+    })
   };
 
   const handleEdit = (e: any) => {
@@ -251,7 +262,7 @@ function AllSubjects() {
       <Sidebar element={content()} breadcrumbLink="Subjects" pageName="All Subjects" breadcrumbNestedLink="All Subjects" />
 
       <MyModal
-        title="Edit Students Details"
+        title="Edit Subjects Details"
         height="50vh"
         onClose={handleCloseModal}
         isOpen={editIsOpen}

@@ -15,6 +15,11 @@ import AllClasses from '../Pages/Classes/AllClasses';
 import FeeSubmission from '../Pages/Fees/GenerateFee';
 import FeeVoucher from '../Pages/Fees/FeeVoucher';
 import FeePaymentStatus from '../Pages/Fees/FeePaymentStatus';
+import Registration from '../Pages/School/Registration';
+import AllSyllabuses from '../Pages/Syllabus/AllSyllabuses';
+import AddSyllabus from '../Pages/Syllabus/AddSyllabus';
+import AddExam from '../Pages/Exams/AddExam';
+import AllExamsShedule from '../Pages/Exams/AllExamsShedule';
 
 function AppRouter() {
   return (
@@ -37,6 +42,11 @@ function AppRouter() {
                 <Route path='/fees/generateFee' element={<FeeSubmission />} />
                 <Route path='/fees/feesVoucher' element={<FeeVoucher />} />
                 <Route path='/fees/feePaymentStatus' element={<FeePaymentStatus />} />
+                <Route path='/school/registration' element={<Registration />} />
+                <Route path='/syllabus/allSyllabuses' element={<AllSyllabuses />} />
+                <Route path='/syllabus/addSyllabus' element={<AddSyllabus />} />
+                <Route path='/exams/addExam' element={<AddExam />} />
+                <Route path='/exams/allExamSchedule' element={<AllExamsShedule />} />
                 </Routes>
         </BrowserRouter>
     </>

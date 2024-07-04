@@ -85,19 +85,6 @@
   }
 }
 
-.fee-voucher {
-  /* width: 600px; */
-  padding: 20px;
-  margin: 0 auto;
-  border: 1px solid #000;
-  font-family: Arial, sans-serif;
-}
-
-.fee-voucher h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.fee-voucher p {
-  margin: 10px 0;
+.schoolRegisteredDetails:hover {
+  background-color: var(--bodyGray);
 }

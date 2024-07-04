@@ -62,8 +62,8 @@ function FeeVoucher() {
                                 <Row key={index}>
                                     {["Parent Copy", "School Copy"].map((a) => (
                                         <Col lg={6}>
-                                            <div className="fs-5 position-relative mb-4 fee-voucher">
-                                                <h1 className="fs-2 text-decoration-underline">Fee Voucher</h1>
+                                            <div className="fs-5 position-relative mb-4 p-4 border-black border">
+                                                <h1 className="fs-2 text-center mb-4 text-decoration-underline">Fee Voucher</h1>
                                                 <span className="position-absolute end-0 top-0 px-2 py-1 bg-bodyGray border">{a}</span>
                                                 <div className="border row">
                                                     <span className="col-3">Roll</span>

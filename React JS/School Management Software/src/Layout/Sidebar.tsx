@@ -13,6 +13,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CustomList from "../Components/CustomList";
 import { Link } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import schoolLogo from '../Images/school-logo.png'
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -124,7 +125,7 @@ export default function Sidebar(props: any) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" className="bg-darkBlue" style={{zIndex: 9999}} open={open}> {/* You can increase the zIndex if you want to the loader to not overlap the header */}
+      <AppBar position="fixed" className="bg-darkBlue" style={{ zIndex: 9999 }} open={open}> {/* You can increase the zIndex if you want to the loader to not overlap the header */}
         <Toolbar>
           <IconButton
             color="inherit"
@@ -145,7 +146,7 @@ export default function Sidebar(props: any) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer style={{zIndex: 9998}} open={open} theme={theme}> {/* You can increase the zIndex if you want to the loader to not overlap the sidebar */}
+      <Drawer style={{ zIndex: 9998 }} open={open} theme={theme}> {/* You can increase the zIndex if you want to the loader to not overlap the sidebar */}
         <DrawerHeader>
           <IconButton className="text-white" onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
@@ -155,8 +156,11 @@ export default function Sidebar(props: any) {
             )}
           </IconButton>
         </DrawerHeader>
-        <List>
-          <CustomList  onTabClick={handleTabClick} activeTab={activeTab} />
+        <List className="pb-5">
+          <div className="mx-auto mb-2" style={{maxWidth: "170px"}}>
+            <img src={schoolLogo} className='img-fluid' alt="" />
+          </div>
+          <CustomList onTabClick={handleTabClick} activeTab={activeTab} />
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3, minHeight: "100vh" }}>

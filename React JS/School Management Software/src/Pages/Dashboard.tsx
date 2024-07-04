@@ -12,7 +12,7 @@ function Dashboard() {
 
   return (
     <>
-      <Sidebar element={content()} breadcrumbLink="Admin" pageName="Admin Dashboard" />
+      <Sidebar element={content()} breadcrumbLink="Admin" breadcrumbNestedLink="Dashboard" pageName="Admin Dashboard" />
     </>
   )
 }

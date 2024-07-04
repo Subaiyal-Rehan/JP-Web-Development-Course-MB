@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { FaAngleRight, FaAngleDown, FaChalkboardTeacher  } from 'react-icons/fa';
+import { FaAngleRight, FaAngleDown, FaChalkboardTeacher, FaRegRegistered   } from 'react-icons/fa';
 import { RxDotFilled } from "react-icons/rx";
 import { PiStudentBold, PiBooks } from "react-icons/pi";
-import { SiGoogleclassroom } from "react-icons/si";
+import { SiGoogleclassroom, SiBookstack } from "react-icons/si";
 import { GiMoneyStack } from "react-icons/gi";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { Link, useLocation } from 'react-router-dom';
@@ -136,6 +136,50 @@ const data: TreeNode[] = [
         icon: <RxDotFilled />,
       },
     ],
+  },
+  {
+    id: '16',
+    name: 'Syllabus',
+    icon: <SiBookstack />,
+    children: [
+      {
+        id: '17',
+        name: 'All Syllabuses',
+        link: '/syllabus/allSyllabuses',
+        icon: <RxDotFilled />,
+      },
+      {
+        id: '18',
+        name: 'Add Syllabus',
+        link: '/syllabus/addSyllabus',
+        icon: <RxDotFilled />,
+      },
+    ],
+  },
+  {
+    id: '19',
+    name: 'Exams',
+    icon: <SiBookstack />,
+    children: [
+      {
+        id: '20',
+        name: 'All Exams Schedule',
+        link: '/exams/allExamSchedule',
+        icon: <RxDotFilled />,
+      },
+      {
+        id: '21',
+        name: 'Add Exam',
+        link: '/exams/addExam',
+        icon: <RxDotFilled />,
+      },
+    ],
+  },
+  {
+    id: '22',
+    name: 'Register',
+    icon: <FaRegRegistered  />,
+    link: '/school/registration',
   },
 ];
 

@@ -4,6 +4,8 @@ import { FaAngleRight, FaAngleDown, FaChalkboardTeacher  } from 'react-icons/fa'
 import { RxDotFilled } from "react-icons/rx";
 import { PiStudentBold, PiBooks } from "react-icons/pi";
 import { SiGoogleclassroom } from "react-icons/si";
+import { GiMoneyStack } from "react-icons/gi";
+import { AiOutlineDashboard } from "react-icons/ai";
 import { Link, useLocation } from 'react-router-dom';
 import '../App.css';
 
@@ -16,6 +18,12 @@ interface TreeNode {
 }
 
 const data: TreeNode[] = [
+  {
+    id: '0',
+    name: 'Dashboard',
+    icon: <AiOutlineDashboard />,
+    link: '/',
+  },
   {
     id: '1',
     name: 'Students',
@@ -104,6 +112,31 @@ const data: TreeNode[] = [
       },
     ],
   },
+  {
+    id: '12',
+    name: 'Fees',
+    icon: <GiMoneyStack />,
+    children: [
+      {
+        id: '13',
+        name: 'Generate Fees',
+        link: '/fees/generateFee',
+        icon: <RxDotFilled />,
+      },
+      {
+        id: '14',
+        name: 'Fee Payment Status',
+        link: '/fees/feePaymentStatus',
+        icon: <RxDotFilled />,
+      },
+      {
+        id: '15',
+        name: 'Fee Voucher',
+        link: '/fees/feesVoucher',
+        icon: <RxDotFilled />,
+      },
+    ],
+  },
 ];
 
 const TreeNode: React.FC<{ node: TreeNode; nested?: boolean; onTabClick: (id: string) => void; activeTab: string | null }> = ({ node, nested, onTabClick, activeTab }) => {
@@ -142,11 +175,11 @@ const TreeNode: React.FC<{ node: TreeNode; nested?: boolean; onTabClick: (id: st
           onClick={() => handleClick(node.id)}
         >
           <ListItemButton
-           className={nested ? `py-2 ${activeTab === node.id ? "ps-5 active-nested" : "nested-item"}` : 'ps-4 py-3 main-item'}
+           className={nested ? `py-2 ${activeTab === node.id ? "ps-5 active-nested" : "nested-item bg-blackBlue"}` : 'ps-4 py-3 main-item'}
             sx={{ backgroundColor: activeTab === node.id ? 'var(--orange)' : 'transparent' }} 
           >
             {node.icon && (
-              <ListItemIcon className={nested ? "text-secondary" : "text-orange fs-4"} style={nested ? { minWidth: '20px' } : {}}>
+              <ListItemIcon className={nested ? "text-secondary" : activeTab === node.id ? "text-black fs-4" : "text-orange fs-4"} style={nested ? { minWidth: '20px' } : {}}>
                 {node.icon}
               </ListItemIcon>
             )}
@@ -176,7 +209,7 @@ const TreeNode: React.FC<{ node: TreeNode; nested?: boolean; onTabClick: (id: st
 const CustomList: React.FC<{ onTabClick: (id: string) => void; activeTab: string | null }> = ({ onTabClick, activeTab }) => {
   return (
     <List className='m-0 p-0'>
-      {data.map((node) => (
+      {data.map((node:any) => (
         <TreeNode key={node.id} node={node} nested={false} onTabClick={onTabClick} activeTab={activeTab} />
       ))}
     </List>

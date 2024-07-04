@@ -15,6 +15,7 @@ body {
     --bodyGray : #f0f1f3;
     --green : #00c853;
     --red : rgb(212, 0, 0);
+    --blackBlue : #051f3e;
 }
 
 .text-orange {
@@ -36,6 +37,10 @@ body {
     background-color: var(--darkBlue) !important;
 }
 
+.bg-blackBlue {
+    background-color: var(--blackBlue) !important;
+}
+
 .text-gray {
     color: var(--gray) !important;
 }
@@ -46,6 +51,14 @@ body {
 
 .bg-bodyGray {
     background-color: var(--bodyGray) !important;
+}
+
+.bg-red {
+    background-color: var(--red) !important;
+}
+
+.bg-green {
+    background-color: var(--green) !important;
 }
 
 .centerImg img {

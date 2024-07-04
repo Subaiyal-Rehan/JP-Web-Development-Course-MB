@@ -187,7 +187,7 @@ function AddTeachers() {
                                 </div>
                             </Col>
                             <div className='d-flex gap-4'>
-                                <MyButton type="submit" bgColor="var(--orange)" hoverBgColor="var(--darkBlue)" className="px-5 py-3" btnValue="Save" />
+                                <MyButton type="submit" textColor="black" bgColor="var(--orange)" hoverBgColor="var(--darkBlue)" className="px-5 py-3" btnValue="Save" />
                                 <MyButton btnValue="Reset" bgColor="var(--darkBlue)" hoverBgColor="var(--orange)" className="px-5 py-3" onClick={handleReset} />
                             </div>
                         </Row>

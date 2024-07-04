@@ -45,7 +45,7 @@ const Grid = (props: any) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                       {columns.map((column: any) => {
-                        const value = row[column.id];
+                        const value = column.render ? column.render(row) : row[column.id];
                         return (
                           <TableCell className='fs-6' key={column.id}>
                             {column.isAction && column.id === 'actions' ? (
@@ -57,7 +57,7 @@ const Grid = (props: any) => {
                               (value.join(", ").length > 19 ? 
                                 (<Tooltip title={value.join(", ")} placement="top" arrow><span>{value.join(", ").slice(0, 19)}...</span></Tooltip>) 
                                 : value.join(", ")) 
-                              : value.length > 19 ? <Tooltip title={value} placement="top" arrow><span>{value.slice(0, 19)}...</span></Tooltip> : value
+                              : value.length > 19 ? <Tooltip title={value} placement="top" arrow><span>{value.slice(0, 19)}...</span></Tooltip> : <span>{value}</span>
                             )}
                           </TableCell>
                         );

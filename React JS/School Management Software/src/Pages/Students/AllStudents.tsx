@@ -18,7 +18,9 @@ function AllStudents() {
   const [loader, setLoader] = useState(false)
   const [actionLoader, setActionLoader] = useState(false);
   const [allStudentsData, setAllStudentsData] = useState<any>(false)
+  const [allClassesData, setAllClassesData] = useState<any>(false)
   const [filteredStudentsData, setFilteredStudentsData] = useState<any>(false)
+  const [classesName, setClassesName] = useState<any>([])
   const [editIsOpen, setEditIsOpen] = useState<boolean>(false)
   const [delIsOpen, setDelIsOpen] = useState<boolean>(false)
   const [studentObj, setStudentObj] = useState<any>({})
@@ -39,17 +41,33 @@ function AllStudents() {
     })
   }
 
+  const fetchClassesData = () => {
+    setLoader(true)
+    getData("Classes").then((res: any) => {
+      setAllClassesData(res)
+      setLoader(false)
+    }).catch((err) => {
+      console.log(err)
+      setLoader(false)
+    })
+  }
+
   useEffect(() => {
-    fetchData()
+    if (allClassesData) {
+        if (classesName.length !== allClassesData.length) {
+            setClassesName([...allClassesData.map((item: any) => item.ClassName)]);
+        }
+    }
+}, [allClassesData])
+
+  useEffect(() => {
+    fetchData();
+    fetchClassesData();
   }, [])
 
   useEffect(() => {
-    console.log(editedStudentObj)
-  }, [editedStudentObj])
-
-  // useEffect(() => {
-  //   console.log(studentObj)
-  // }, [studentObj])
+    console.log(allClassesData)
+  }, [allClassesData])
 
   const handleDelete = () => {
     setActionLoader(true);
@@ -331,7 +349,7 @@ function AllStudents() {
                     defaultValue="Please Select Class"
                     value={getValue("StudentClass")}
                     onChange={(e: any) => setEditedStudentObj({ ...editedStudentObj, StudentClass: e.target.value })}
-                    options={["Beginner", "KGI", "KGII", "One", "Two", "Three", "Four"]}
+                    options={classesName}
                   />
                 </Col>
                 <Col md={12} lg={6}>

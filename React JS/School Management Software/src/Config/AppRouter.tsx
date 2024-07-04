@@ -12,6 +12,9 @@ import AllSubjects from '../Pages/Subjects/AllSubjects';
 import AddSubject from '../Pages/Subjects/AddSubject';
 import AddClass from '../Pages/Classes/AddClass';
 import AllClasses from '../Pages/Classes/AllClasses';
+import FeeSubmission from '../Pages/Fees/GenerateFee';
+import FeeVoucher from '../Pages/Fees/FeeVoucher';
+import FeePaymentStatus from '../Pages/Fees/FeePaymentStatus';
 
 function AppRouter() {
   return (
@@ -31,6 +34,9 @@ function AppRouter() {
                 <Route path='/subjects/addSubjects' element={<AddSubject />} />
                 <Route path='/classes/addClass' element={<AddClass />} />
                 <Route path='/classes/allClasses' element={<AllClasses />} />
+                <Route path='/fees/generateFee' element={<FeeSubmission />} />
+                <Route path='/fees/feesVoucher' element={<FeeVoucher />} />
+                <Route path='/fees/feePaymentStatus' element={<FeePaymentStatus />} />
                 </Routes>
         </BrowserRouter>
     </>

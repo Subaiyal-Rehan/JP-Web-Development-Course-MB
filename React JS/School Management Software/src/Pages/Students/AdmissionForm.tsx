@@ -12,6 +12,9 @@ import MyLoader from '../../Components/MyLoader';
 function AdmissionForm() {
     const [loader, setLoader] = useState<boolean>(false)
     const [pageLoader, setPageLoader] = useState<boolean>(false)
+    const [allClassesData, setAllClassesData] = useState<any>(false)
+    const [classesName, setClassesName] = useState<any>([])
+    const [classArr, setClassArr] = useState<any>([])
     const [StudentData, setStudentData] = useState<any>({
         StudentFirstName: "",
         StudentLastName: "",
@@ -58,17 +61,48 @@ function AdmissionForm() {
         setLoader(true)
         getData("Students").then((res: any) => {
             setStudentData((a: any) => ({ ...a, StudentRoll: res.length > 0 ? res.slice(-1)[0].StudentRoll + 1 : 1 }));
-            console.log(res.slice(-1)[0].StudentRoll + 1)
             setLoader(false)
         }).catch((err) => {
             console.log(err)
             setLoader(false)
         })
     }
+
+    const fetchClassesData = () => {
+        setLoader(true)
+        getData("Classes").then((res: any) => {
+            setAllClassesData(res);
+            setLoader(false)
+        }).catch((err) => {
+            console.log(err)
+            setLoader(false)
+        })
+    }
+
     useEffect(() => {
         fetchData()
+        fetchClassesData();
     }, [])
 
+    useEffect(() => {
+        if (allClassesData) {
+            if (classesName.length !== allClassesData.length) {
+                setClassesName([...allClassesData.map((item: any) => item.ClassName)]);
+            }
+        }
+    }, [allClassesData])
+
+    useEffect(() => {
+    let classArr: any = []
+        if (allClassesData) {
+            allClassesData.map((item: any, index: any) => {
+                if (StudentData.StudentClass == allClassesData[index].ClassName) {
+                    classArr.push(item.ClassName)
+                }
+            })
+        }
+        setClassArr(classArr)
+    }, [StudentData.StudentClass])
 
     const handleSave = (e: any) => {
         e.preventDefault();
@@ -83,6 +117,22 @@ function AdmissionForm() {
             console.log(err)
             setPageLoader(false)
             toastRed("Failed to add student. Please try again.")
+        })
+
+        allClassesData.map((classData: any) => {
+                classArr.map((item: any) => {
+                if (item == classData.ClassName) {
+                    const finalObja = { ...classData, ClassStudents: classData.ClassStudents + 1 }
+                    setData("Classes", finalObja).then(() => {
+                        handleReset()
+                        fetchData()
+                        setPageLoader(false)
+                    }).catch((err) => {
+                        console.log(err)
+                        setPageLoader(false)
+                    })
+                }
+            })
         })
     }
 
@@ -176,7 +226,7 @@ function AdmissionForm() {
                             </Col>
                             <Col md={12} lg={6} xl={3} className="mb-3">
                                 <div style={{ height: "58px" }}>
-                                    <MySelect label="Select Class*" required={true} defaultValue="Please Select Class" value={StudentData.StudentClass} onChange={(e: any) => setStudentData({ ...StudentData, StudentClass: e.target.value })} options={["Beginner", "KGI", "KGII", "One", "Two", "Three", "Four"]} />
+                                    <MySelect label="Select Class*" required={true} defaultValue="Please Select Class" value={StudentData.StudentClass} onChange={(e: any) => setStudentData({ ...StudentData, StudentClass: e.target.value })} options={classesName} />
                                 </div>
                             </Col>
                             <Col md={12} lg={6} xl={3} className="mb-3">
@@ -201,7 +251,7 @@ function AdmissionForm() {
                                 </div>
                             </Col>
                             <div className='d-flex gap-4'>
-                                <MyButton type="submit" bgColor="var(--orange)" hoverBgColor="var(--darkBlue)" className="px-4 py-3" btnValue={(<div className="d-flex align-items-center gap-2">Save <lord-icon src="https://cdn.lordicon.com/dangivhk.json" trigger="hover" style={{ width: "30px", height: "30px" }} /></div>)} />
+                                <MyButton type="submit" bgColor="var(--orange)" textColor="black" hoverBgColor="var(--darkBlue)" className="px-4 py-3" btnValue={(<div className="d-flex align-items-center gap-2">Save <lord-icon src="https://cdn.lordicon.com/dangivhk.json" trigger="hover" style={{ width: "30px", height: "30px" }} /></div>)} />
                                 <MyButton btnValue={(<div className="d-flex align-items-center gap-2">Reset <lord-icon src="https://cdn.lordicon.com/abaxrbtq.json" trigger="hover" style={{ width: "30px", height: "30px" }} /></div>)} bgColor="var(--darkBlue)" hoverBgColor="var(--orange)" className="px-4 py-3" onClick={handleReset} />
                             </div>
                         </Row>

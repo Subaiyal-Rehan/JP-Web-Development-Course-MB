@@ -14,6 +14,7 @@ import CustomList from "../Components/CustomList";
 import { Link } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import schoolLogo from '../Images/school-logo.png'
+import Footer from "./Footer";
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -157,7 +158,7 @@ export default function Sidebar(props: any) {
           </IconButton>
         </DrawerHeader>
         <List className="pb-5">
-          <div className="mx-auto mb-2" style={{maxWidth: "170px"}}>
+          <div className="mx-auto mb-2" style={{maxWidth: "180px"}}>
             <img src={schoolLogo} className='img-fluid' alt="" />
           </div>
           <CustomList onTabClick={handleTabClick} activeTab={activeTab} />
@@ -181,6 +182,7 @@ export default function Sidebar(props: any) {
           )}
         </ul>
         {element}
+        <Footer />
       </Box>
     </Box>
   );

@@ -60,7 +60,7 @@ function AddExam() {
 
     const handleSave = (e: any) => {
         e.preventDefault();
-        // setLoader(true);
+        setLoader(true);
         console.log(examData)
         setData("Exams", examData).then(() => {
             handleReset()

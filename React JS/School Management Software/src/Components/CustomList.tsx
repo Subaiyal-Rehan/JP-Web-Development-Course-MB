@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { FaAngleRight, FaAngleDown, FaChalkboardTeacher, FaRegRegistered   } from 'react-icons/fa';
 import { RxDotFilled } from "react-icons/rx";
-import { PiStudentBold, PiBooks } from "react-icons/pi";
+import { PiStudentBold, PiBooks, PiExam } from "react-icons/pi";
 import { SiGoogleclassroom, SiBookstack } from "react-icons/si";
 import { GiMoneyStack } from "react-icons/gi";
 import { AiOutlineDashboard } from "react-icons/ai";
@@ -118,15 +118,15 @@ const data: TreeNode[] = [
     icon: <GiMoneyStack />,
     children: [
       {
-        id: '13',
-        name: 'Generate Fees',
-        link: '/fees/generateFee',
-        icon: <RxDotFilled />,
-      },
-      {
         id: '14',
         name: 'Fee Payment Status',
         link: '/fees/feePaymentStatus',
+        icon: <RxDotFilled />,
+      },
+      {
+        id: '13',
+        name: 'Generate Fees',
+        link: '/fees/generateFee',
         icon: <RxDotFilled />,
       },
       {
@@ -159,12 +159,12 @@ const data: TreeNode[] = [
   {
     id: '19',
     name: 'Exams',
-    icon: <SiBookstack />,
+    icon: <PiExam />,
     children: [
       {
         id: '20',
         name: 'All Exams Schedule',
-        link: '/exams/allExamSchedule',
+        link: '/exams/allExamsSchedule',
         icon: <RxDotFilled />,
       },
       {

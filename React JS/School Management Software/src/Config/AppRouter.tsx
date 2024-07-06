@@ -46,7 +46,7 @@ function AppRouter() {
                 <Route path='/syllabus/allSyllabuses' element={<AllSyllabuses />} />
                 <Route path='/syllabus/addSyllabus' element={<AddSyllabus />} />
                 <Route path='/exams/addExam' element={<AddExam />} />
-                <Route path='/exams/allExamSchedule' element={<AllExamsShedule />} />
+                <Route path='/exams/allExamsSchedule' element={<AllExamsShedule />} />
                 </Routes>
         </BrowserRouter>
     </>

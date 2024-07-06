@@ -18,6 +18,7 @@ function AllClasses() {
     const [allClassesData, setAllClassesData] = useState<any>(false);
     const [allTeachersData, setAllTeachersData] = useState<any>(false);
     const [allSubjectsData, setAllSubjectsData] = useState<any>(false);
+    const [allStudentsData, setAllStudentsData] = useState<any>(false);
     const [teachersName, setTeachersName] = useState<any>(false);
     const [filteredClassesData, setFilteredClassesData] = useState<any>(false);
     const [classObj, setClassObj] = useState<any>({});
@@ -55,6 +56,38 @@ function AllClasses() {
             });
     };
 
+    const fetchStudentsData = () => {
+        setLoader(true);
+        getData("Students")
+            .then((res: any) => {
+                setAllStudentsData(res);
+                setLoader(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoader(false);
+            });
+    };
+
+    useEffect(() => {
+        if (allStudentsData && allClassesData) {
+            // setFilteredClassesData(allClassesData.filter((item:any)=>{
+            //     if(item.ClassName == allStudentsData){
+            //         return 
+            //     }
+            // }))
+            // allClassesData.map((className: any) => {
+            //     allStudentsData.map((item: any) => {
+            //         if (className.ClassName == item.StudentClass) {
+            //             let arr = []
+            //             arr.push(1)
+            //             setFilteredClassesData({...filteredClassesData, ClassStudents: arr})
+            //         }
+            //     })
+            // })
+        }
+    }, [allStudentsData, allClassesData])
+
     const fetchSubjectsData = () => {
         setLoader(true);
         getData("Subjects")
@@ -72,6 +105,7 @@ function AllClasses() {
         fetchData();
         fetchTeachersData();
         fetchSubjectsData();
+        fetchStudentsData();
     }, []);
 
     useEffect(() => {
@@ -192,8 +226,16 @@ function AllClasses() {
             filteredData = filteredData.filter((item: any) => item.ClassTeacher.toLowerCase().includes(teacherSearch.toLowerCase()));
         }
 
-        setFilteredClassesData(filteredData);
-    }, [codeSearch, nameSearch, teacherSearch, allClassesData]);
+        if (allStudentsData && filteredData.length > 0) {
+            filteredData = filteredData.map((classItem: any) => {
+                const studentCount = allStudentsData.filter((student: any) => student.StudentClass === classItem.ClassName).length;
+                return { ...classItem, ClassStudents: studentCount };
+            });
+        }
+
+        setFilteredClassesData( filteredData );
+    }, [codeSearch, nameSearch, teacherSearch, allClassesData, allStudentsData]);
+
 
     // Action Buttons
     const renderActions = (row: any) => (
@@ -270,12 +312,26 @@ function AllClasses() {
                                 { id: "ClassTeacher", label: "Class Teacher" },
                                 { id: "ClassSubjects", label: "Subjects" },
                                 { id: "ClassStudents", label: "Students" },
+                                // { id: 'ClassStudents', label: 'Students', render: () => {
+                                //     allClassesData && allClassesData.map((item:any)=>{
+                                //         console.log(item, "CLASS DATA")
+                                //         allStudentsData && allStudentsData.map((stdntItem:any)=>{
+                                //         console.log(stdntItem.StudentClass, "STUDENT DATA")
+                                //             if (item.ClassName == stdntItem.StudentClass) {
+                                //                 let arr:any = []
+                                //                 arr.push(stdntItem.StudentFirstName)
+                                //                 console.log(arr)
+                                //                 return arr.length;
+                                //             }
+                                //         })
+                                //     })
+                                // } },
                                 {
                                     id: "actions",
                                     label: "Actions",
                                     isAction: true,
                                     render: renderActions,
-                                    minWidth: "195px",
+                                    minWidth: "140px",
                                 },
                             ]}
                         />

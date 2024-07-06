@@ -14,7 +14,6 @@ function AdmissionForm() {
     const [pageLoader, setPageLoader] = useState<boolean>(false)
     const [allClassesData, setAllClassesData] = useState<any>(false)
     const [classesName, setClassesName] = useState<any>([])
-    const [classArr, setClassArr] = useState<any>([])
     const [StudentData, setStudentData] = useState<any>({
         StudentFirstName: "",
         StudentLastName: "",
@@ -92,18 +91,6 @@ function AdmissionForm() {
         }
     }, [allClassesData])
 
-    useEffect(() => {
-    let classArr: any = []
-        if (allClassesData) {
-            allClassesData.map((item: any, index: any) => {
-                if (StudentData.StudentClass == allClassesData[index].ClassName) {
-                    classArr.push(item.ClassName)
-                }
-            })
-        }
-        setClassArr(classArr)
-    }, [StudentData.StudentClass])
-
     const handleSave = (e: any) => {
         e.preventDefault();
         setPageLoader(true)
@@ -118,22 +105,6 @@ function AdmissionForm() {
             setPageLoader(false)
             toastRed("Failed to add student. Please try again.")
         })
-
-        allClassesData.map((classData: any) => {
-                classArr.map((item: any) => {
-                if (item == classData.ClassName) {
-                    const finalObja = { ...classData, ClassStudents: classData.ClassStudents + 1 }
-                    setData("Classes", finalObja).then(() => {
-                        handleReset()
-                        fetchData()
-                        setPageLoader(false)
-                    }).catch((err) => {
-                        console.log(err)
-                        setPageLoader(false)
-                    })
-                }
-            })
-        })
     }
 
 
@@ -142,7 +113,7 @@ function AdmissionForm() {
             <>
                 {pageLoader ? <MyLoader /> : null}
                 <div className="container-fluid bg-white p-3 rounded">
-                    <h2 className='fs-4 mb-3'>Add New Students - Use Firebase Storage for the image - Make Select Class Dynamic</h2>
+                    <h2 className='fs-4 mb-3'>Add New Students</h2>
                     <form onSubmit={handleSave}>
                         <div className='mt-4 mb-0'>
                             <h3 className='fs-5 mb-0'>Personal Information</h3> <hr className='mt-2' />

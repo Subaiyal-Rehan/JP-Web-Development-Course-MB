@@ -121,7 +121,7 @@ function FeePaymentStatus() {
         return (
             <>
                 <div className="container-fluid bg-white p-3 rou1nded">
-                    <h2 className='fs-4 mb-3'>All Fees Collection - CHECK PAY FUNCTION</h2>
+                    <h2 className='fs-4 mb-3'>All Fees Collection</h2>
                     <Row>
                         <Col sm={12} md={3}>
                             <FloatingInput label="Search by Roll" placeholder="Search by Students Roll" myValue={rollSearch} onChange={(e: any) => { setRollSearch(e.target.value) }} type="text" />

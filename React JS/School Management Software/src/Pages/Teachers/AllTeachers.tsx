@@ -197,9 +197,7 @@ function AllTeachers() {
     return (
       <>
         <div className="container-fluid bg-white p-3 rounded">
-          <h2 className="fs-4 mb-3">
-            All Teachers Data - Make view details page
-          </h2>
+          <h2 className="fs-4 mb-3">All Teachers Data</h2>
           <Row>
             <Col sm={12} md={4}>
               <FloatingInput label="Search by ID" placeholder="Search by Teachers ID" myValue={idSearch} onChange={(e: any) => { setIdSearch(e.target.value) }} type="text" />

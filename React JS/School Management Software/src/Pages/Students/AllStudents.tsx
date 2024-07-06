@@ -142,7 +142,6 @@ function AllStudents() {
           <MyButton bgColor="var(--green)" hoverBgColor="#00943e" className="p-0 px-1 pt-1 me-2" btnValue={<lord-icon src="https://cdn.lordicon.com/zfzufhzk.json" style={{ width: "37px", height: "37px" }} trigger="hover" />} onClick={() => { setStudentObj(row); setEditIsOpen(true) }} />
         </span>
       </Tooltip>
-
       <Tooltip title="Delete" placement="top">
         <span>
           <MyButton bgColor="var(--red)" hoverBgColor="rgb(139, 0, 0)" className="p-0 px-1 pt-1 me-2" btnValue={<lord-icon src="https://cdn.lordicon.com/xekbkxul.json" style={{ width: "37px", height: "37px" }} trigger="hover" colors="primary:#121331,secondary:#9ce5f4,tertiary:#646e78,quaternary:#ebe6ef" />} onClick={() => { setStudentObj(row); setDelIsOpen(true) }} />

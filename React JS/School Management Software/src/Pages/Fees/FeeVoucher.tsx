@@ -92,7 +92,7 @@ function FeeVoucher() {
                                                     <span className="col-8 border-start">{item.StudentFees}</span>
                                                 </div>
                                                 <div className="px-3 mt-2 text-center">
-                                                    <span className="fw-semibold fs-6">*This is computer generated fee voucher, No manual corrections will be acceptable</span>
+                                                    <span className="fw-semibold fs-6">*This is computer generated fee voucher, No manual corrections will be accepted</span>
                                                 </div>
                                                 <hr className="my-1" />
                                                 <div className="d-flex justify-content-between mt-5">

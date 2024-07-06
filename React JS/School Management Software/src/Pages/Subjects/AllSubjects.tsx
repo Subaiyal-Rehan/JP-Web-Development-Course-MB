@@ -248,7 +248,7 @@ function AllSubjects() {
                   label: "Actions",
                   isAction: true,
                   render: renderActions,
-                  minWidth: "195px",
+                  minWidth: "140px",
                 },
               ]}
             />

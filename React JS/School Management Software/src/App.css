@@ -88,3 +88,13 @@
 .schoolRegisteredDetails:hover {
   background-color: var(--bodyGray);
 }
+
+.DashboardBoxa span {
+  transition: all 0.3s ease-in-out;
+}
+
+.DashboardBoxa:hover span {
+  font-size: 4.5rem !important;
+  top: 14% !important;
+  right: 7% !important;
+}

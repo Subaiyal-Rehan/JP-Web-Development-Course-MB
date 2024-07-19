@@ -20,35 +20,42 @@ import AllSyllabuses from '../Pages/Syllabus/AllSyllabuses';
 import AddSyllabus from '../Pages/Syllabus/AddSyllabus';
 import AddExam from '../Pages/Exams/AddExam';
 import AllExamsShedule from '../Pages/Exams/AllExamsShedule';
+import Signin from '../Pages/Signin';
+import Protected from './Protected';
+import AllAccounts from '../Pages/Accounts/AllAccounts';
+import AddAccount from '../Pages/Accounts/AddAccount';
 
 function AppRouter() {
   return (
     <>
-        <BrowserRouter>
-            <Routes>
-                <Route path='/' element={<Dashboard />} />
-                <Route path='/students/allStudents' element={<AllStudents />} />
-                <Route path='/students/admissionForm' element={<AdmissionForm />} />
-                <Route path='/students/:id' element={<StudentDetailedPage />} />
-                <Route path='/students/studentPromotion' element={<StudentPromotion />} />
-                <Route path='/teachers/allTeachers' element={<AllTeachers />} />
-                <Route path='/teachers/addTeachers' element={<AddTeachers />} />
-                <Route path='/teachers/:id' element={<TeacherDetailedPage />} />
-                <Route path='/teachers/teacherAllocation' element={<TeacherAllocation />} />
-                <Route path='/subjects/allSubjects' element={<AllSubjects />} />
-                <Route path='/subjects/addSubjects' element={<AddSubject />} />
-                <Route path='/classes/addClass' element={<AddClass />} />
-                <Route path='/classes/allClasses' element={<AllClasses />} />
-                <Route path='/fees/generateFee' element={<FeeSubmission />} />
-                <Route path='/fees/feesVoucher' element={<FeeVoucher />} />
-                <Route path='/fees/feePaymentStatus' element={<FeePaymentStatus />} />
-                <Route path='/school/registration' element={<Registration />} />
-                <Route path='/syllabus/allSyllabuses' element={<AllSyllabuses />} />
-                <Route path='/syllabus/addSyllabus' element={<AddSyllabus />} />
-                <Route path='/exams/addExam' element={<AddExam />} />
-                <Route path='/exams/allExamsSchedule' element={<AllExamsShedule />} />
-                </Routes>
-        </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Signin />} />
+          <Route path='/dashboard' element={<Protected Component={Dashboard} />} />
+          <Route path='/dashboard/students/allStudents' element={<Protected Component={AllStudents} />} />
+          <Route path='/dashboard/students/admissionForm' element={<Protected Component={AdmissionForm} />} />
+          <Route path='/dashboard/students/:id' element={<Protected Component={StudentDetailedPage} />} />
+          <Route path='/dashboard/students/studentPromotion' element={<Protected Component={StudentPromotion} />} />
+          <Route path='/dashboard/teachers/allTeachers' element={<Protected Component={AllTeachers} />} />
+          <Route path='/dashboard/teachers/addTeachers' element={<Protected Component={AddTeachers} />} />
+          <Route path='/dashboard/teachers/:id' element={<Protected Component={TeacherDetailedPage} />} />
+          <Route path='/dashboard/teachers/teacherAllocation' element={<Protected Component={TeacherAllocation} />} />
+          <Route path='/dashboard/subjects/allSubjects' element={<Protected Component={AllSubjects} />} />
+          <Route path='/dashboard/subjects/addSubjects' element={<Protected Component={AddSubject} />} />
+          <Route path='/dashboard/classes/addClass' element={<Protected Component={AddClass} />} />
+          <Route path='/dashboard/classes/allClasses' element={<Protected Component={AllClasses} />} />
+          <Route path='/dashboard/fees/generateFee' element={<Protected Component={FeeSubmission} />} />
+          <Route path='/dashboard/fees/feesVoucher' element={<Protected Component={FeeVoucher} />} />
+          <Route path='/dashboard/fees/feePaymentStatus' element={<Protected Component={FeePaymentStatus} />} />
+          <Route path='/dashboard/school/registration' element={<Protected Component={Registration} />} />
+          <Route path='/dashboard/syllabus/allSyllabuses' element={<Protected Component={AllSyllabuses} />} />
+          <Route path='/dashboard/syllabus/addSyllabus' element={<Protected Component={AddSyllabus} />} />
+          <Route path='/dashboard/exams/addExam' element={<Protected Component={AddExam} />} />
+          <Route path='/dashboard/exams/allExamsSchedule' element={<Protected Component={AllExamsShedule} />} />
+          <Route path='/dashboard/allAccounts' element={<Protected Component={AllAccounts} />} />
+          <Route path='/dashboard/addAccount' element={<Protected Component={AddAccount} />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }

@@ -146,7 +146,6 @@ function StudentDetailedPage() {
   const content = () => {
     return (
       <>
-        <h1>Make all fields available in the edit (in all students page also)</h1>
         <div className="container-fluid bg-white p-3 rounded">
           {actionLoader ? <MyLoader /> : null}
           {loader ? <MyLoader /> : studentData &&

@@ -81,7 +81,7 @@ const chartSetting = {
         },
     ],
     series: [{ dataKey: 'totalFees', label: 'Total Fees', valueFormatter }],
-    height: 400,
+    height: 500,
     sx: {
         [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
             transform: 'translateX(-14px)',

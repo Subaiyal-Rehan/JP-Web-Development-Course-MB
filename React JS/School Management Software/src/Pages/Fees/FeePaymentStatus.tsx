@@ -149,7 +149,7 @@ function FeePaymentStatus() {
                         {
                             id: 'FeeDetails',
                             label: 'Fee Status',
-                            render: (row: any) => {
+                            render: (row: any) => {localStorage.getItem("USERID")
                                 const classes = "px-3 py-2 rounded-pill";
                                 const year = new Date().getFullYear();
                                 const month = new Date().toLocaleString('default', { month: 'long' });
@@ -157,7 +157,7 @@ function FeePaymentStatus() {
                                 return feeStatus ? <span className={feeStatus == "Unpaid" ? `bg-red text-white ${classes}` : `bg-green text-white ${classes}`}>{feeStatus}</span> : <span className={`bg-orange ${classes} text-black`}>Not Generated</span>;
                             }
                         },
-                        { id: 'actions', label: 'Actions', isAction: true, render: renderActions, minWidth: "135px" },
+                        { id: 'actions', label: 'Actions', isAction: true, render: renderActions, minWidth: "140px" },
                     ]} />}
                 </div>
             </>

@@ -22,10 +22,6 @@ body {
     color: var(--orange) !important;
 }
 
-abc{
-    color:rgb(69, 201, 244) ;
-}
-
 .text-hover-orange {
     transition: all 0.2s ease-in-out;
 }
@@ -63,6 +59,10 @@ abc{
 
 .bg-green {
     background-color: var(--green) !important;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
 }
 
 .centerImg img {

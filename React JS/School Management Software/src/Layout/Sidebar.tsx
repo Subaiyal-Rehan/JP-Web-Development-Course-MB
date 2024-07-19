@@ -10,11 +10,17 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { TbLogout2 } from "react-icons/tb";
+import { HiUserAdd } from "react-icons/hi";
 import CustomList from "../Components/CustomList";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import schoolLogo from '../Images/school-logo.png'
 import Footer from "./Footer";
+import { getData, signoutUser } from "../Config/FirebaseMethods";
+import { toastGreen, toastRed } from "../Components/My Toasts";
+import { Tooltip } from "@mui/material";
+import MyLoader from "../Components/MyLoader";
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -109,6 +115,9 @@ export default function Sidebar(props: any) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [activeTab, setActiveTab] = React.useState<string | null>(null);
+  const [userData, setUserData] = React.useState<any>({})
+  const [loader, setLoader] = React.useState<boolean>(false)
+  const navigate = useNavigate()
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -123,67 +132,107 @@ export default function Sidebar(props: any) {
     setOpen(true);
   };
 
+  const handleLogout = () => {
+    signoutUser().then(() => {
+      toastGreen("Successfully Logged out.")
+    }).catch(() => {
+      toastRed("Something went wrong.")
+    })
+  }
+
+  React.useEffect(() => {
+    let uid: any = localStorage.getItem("USERID")
+    setLoader(true)
+    getData("Users", uid).then((res) => {
+      setUserData(res)
+      setLoader(false)
+    }).catch(() => {
+      setLoader(false)
+    })
+  }, [])
+
+
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" className="bg-darkBlue" style={{ zIndex: 9999 }} open={open}> {/* You can increase the zIndex if you want to the loader to not overlap the header */}
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography className="w-100" variant="h6" noWrap component="div">
-            <h1 className="m-0 fs-2">
-              {pageName}
-            </h1>
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer style={{ zIndex: 9998 }} open={open} theme={theme}> {/* You can increase the zIndex if you want to the loader to not overlap the sidebar */}
-        <DrawerHeader>
-          <IconButton className="text-white" onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
+    <>
+      {loader && <MyLoader />}
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar position="fixed" className="bg-darkBlue" style={{ zIndex: 9999 }} open={open}> {/* You can increase the zIndex if you want to the loader to not overlap the header */}
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: "none" }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography className="w-100 d-flex justify-content-between align-items-center" variant="h6" noWrap component="div">
+              <h1 className="m-0 fs-2">
+                {pageName}
+              </h1>
+              <div className="d-flex justify-content-center align-items-center gap-3">
+                <h2 className="m-0 fs-2">
+                  {userData.Username}
+                </h2>
+                {userData.UserType == "Admin" &&
+                  <Tooltip title="Add Accountant" placement="bottom">
+                    <h2 className="m-0 fs-2 p-2 rounded-circle bg-orange text-black cursor-pointer d-flex justify-content-center align-items-center" onClick={() => navigate("/dashboard/addAccount")}>
+                      <HiUserAdd />
+                    </h2>
+                  </Tooltip>
+                }
+                <Tooltip title="Signout" placement="bottom">
+                  <h2 className="m-0 fs-2 p-2 rounded-circle bg-orange text-black cursor-pointer d-flex justify-content-center align-items-center" onClick={handleLogout}>
+                    <TbLogout2 />
+                  </h2>
+                </Tooltip>
+              </div>
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer style={{ zIndex: 9998 }} open={open} theme={theme}> {/* You can increase the zIndex if you want to the loader to not overlap the sidebar */}
+          <DrawerHeader>
+            <IconButton className="text-white" onClick={handleDrawerClose}>
+              {theme.direction === "rtl" ? (
+                <ChevronRightIcon />
+              ) : (
+                <ChevronLeftIcon />
+              )}
+            </IconButton>
+          </DrawerHeader>
+          <List className="pb-5">
+            <div className="mx-auto mb-2" style={{ maxWidth: "180px" }}>
+              <img src={schoolLogo} className='img-fluid' alt="" />
+            </div>
+            <CustomList onTabClick={handleTabClick} activeTab={activeTab} />
+          </List>
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, p: 3, minHeight: "100vh" }}>
+          <DrawerHeader />
+          <ul className="text-orange d-flex align-items-center list-unstyled gap-1">
+            <li>
+              <Link className="text-black text-hover-orange" to="/dashboard">
+                Home
+              </Link>
+            </li>
+            <NavigateNextIcon />
+            <li>{breadcrumbLink}</li>
+            {breadcrumbNestedLink && (
+              <>
+                <NavigateNextIcon />
+                <li>{breadcrumbNestedLink}</li>
+              </>
             )}
-          </IconButton>
-        </DrawerHeader>
-        <List className="pb-5">
-          <div className="mx-auto mb-2" style={{maxWidth: "180px"}}>
-            <img src={schoolLogo} className='img-fluid' alt="" />
-          </div>
-          <CustomList onTabClick={handleTabClick} activeTab={activeTab} />
-        </List>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, minHeight: "100vh" }}>
-        <DrawerHeader />
-        <ul className="text-orange d-flex align-items-center list-unstyled gap-1">
-          <li>
-            <Link className="text-black text-hover-orange" to="/">
-              Home
-            </Link>
-          </li>
-          <NavigateNextIcon />
-          <li>{breadcrumbLink}</li>
-          {breadcrumbNestedLink && (
-            <>
-              <NavigateNextIcon />
-              <li>{breadcrumbNestedLink}</li>
-            </>
-          )}
-        </ul>
-        {element}
-        <Footer />
-      </Box>
-    </Box>
+          </ul>
+          {element}
+          <Footer />
+        </Box>
+      </Box >
+    </>
   );
 }

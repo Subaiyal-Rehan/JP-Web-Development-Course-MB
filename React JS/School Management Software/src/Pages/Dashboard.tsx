@@ -4,10 +4,12 @@ import Sidebar from "../Layout/Sidebar"
 import { getData } from "../Config/FirebaseMethods"
 import MyLoader from "../Components/MyLoader"
 import { Col, Row } from "react-bootstrap"
-import { PiStudentBold, PiBooks } from "react-icons/pi";
-import { FaChalkboardTeacher, FaMoneyCheck, FaRegMoneyBillAlt, FaQuestion } from 'react-icons/fa';
+import { PiStudentBold, PiBooks, PiExam } from "react-icons/pi";
+import { FaChalkboardTeacher, 
+  // FaMoneyCheck,
+   FaRegMoneyBillAlt, FaQuestion } from 'react-icons/fa';
 import { GiMoneyStack } from "react-icons/gi";
-import { SiGoogleclassroom } from "react-icons/si";
+import { SiGoogleclassroom } from "react-icons/si"; ``
 import BarChartComp from "../Components/BarChartComp"
 import PieChartComp from "../Components/PirChartComp"
 
@@ -17,8 +19,9 @@ function Dashboard() {
   const [allTeachersData, setAllTeachersData] = useState<any>(false)
   const [allClassesData, setAllClassesData] = useState<any>(false)
   const [allSubjectsData, setAllSubjectsData] = useState<any>(false)
+  const [allExamsData, setAllExamsData] = useState<any>(false)
   const [profitCalcMonth, setProfitCalcMonth] = useState<number>(0)
-  const [profitCalcYear, setProfitCalcYear] = useState<number>(0)
+  // const [profitCalcYear, setProfitCalcYear] = useState<number>(0)
   const [feesPaid, setFeesPaid] = useState<any>(false)
   const [feesUnpaid, setFeesUnpaid] = useState<any>(false)
   const fetchData = () => {
@@ -65,11 +68,23 @@ function Dashboard() {
     })
   }
 
+  const fetchExamsData = () => {
+    setLoader(true)
+    getData("Exams").then((res:any) => {
+      setAllExamsData([...res.filter((item:any)=>item.examStatus === "Scheduled")])
+      setLoader(false)
+    }).catch((err) => {
+      console.log(err)
+      setLoader(false)
+    })
+  }
+
   useEffect(() => {
     fetchData();
     fetchTeachersData();
     fetchClassesData();
     fetchSubjectsData();
+    fetchExamsData();
   }, [])
 
   const year: any = new Date().getFullYear()
@@ -101,26 +116,21 @@ function Dashboard() {
       setFeesUnpaid(feesUnpaidThisMonth)
 
       // Calculate yearly profit
-      const paidStudentsYear = allStudentsData.filter((item: any) => {
-        let feeExists = item.FeeDetails && item.FeeDetails[year];
-        if (feeExists) {
-          const monthsPaid = Object.keys(item.FeeDetails[year]).filter((m: string) => item.FeeDetails[year][m] === "Paid");
-          return monthsPaid.length > 0;
-        }
-        return false;
-      });
+      // const paidStudentsYear = allStudentsData.filter((item: any) => {
+      //   let feeExists = item.FeeDetails && item.FeeDetails[year];
+      //   if (feeExists) {
+      //     const monthsPaid = Object.keys(item.FeeDetails[year]).filter((m: string) => item.FeeDetails[year][m] === "Paid");
+      //     return monthsPaid.length > 0;
+      //   }
+      //   return false;
+      // });
 
-      const totalFeesYear = paidStudentsYear.reduce((sum: number, item: any) => {
-        return sum + (parseFloat(item.StudentFees) || 0);
-      }, 0);
-      setProfitCalcYear(totalFeesYear);
+      // const totalFeesYear = paidStudentsYear.reduce((sum: number, item: any) => {
+      //   return sum + (parseFloat(item.StudentFees) || 0);
+      // }, 0);
+      // setProfitCalcYear(totalFeesYear);
     }
   }, [allStudentsData]);
-
-  useEffect(() => {
-    console.log(allClassesData, "CLASSES")
-  }, [allClassesData])
-
 
   const Boxes: any = [
     {
@@ -152,28 +162,36 @@ function Dashboard() {
       icon: <PiBooks />
     },
     {
-      title: "Total Profit This Month",
+      title: "Total Income This Month",
       count: `${profitCalcMonth}/-`,
       bgColor: "#01a55b",
       color: "white",
-      icon: <FaMoneyCheck />
-    },
-    {
-      title: "Total Profit This Year",
-      count: `${profitCalcYear}/-`,
-      bgColor: "#0272af",
-      color: "white",
+      // icon: <FaMoneyCheck />
       icon: <GiMoneyStack />
     },
+    // {
+    //   title: "Total Profit This Year",
+    //   count: `${profitCalcYear}/-`,
+    //   bgColor: "#0272af",
+    //   color: "white",
+    //   icon: <GiMoneyStack />
+    // },
     {
-      title: "Fees Paid This Month",
+      title: "Upcoming Exams",
+      count: allExamsData.length,
+      bgColor: "#0272af",
+      color: "white",
+      icon: <PiExam />
+    },
+    {
+      title: "Students Paid (This Month)",
       count: feesPaid,
       bgColor: "#01a55b",
       color: "white",
       icon: <FaRegMoneyBillAlt />
     },
     {
-      title: "Fees Unpaid This Month",
+      title: "Students Unpaid (This Month)",
       count: feesUnpaid,
       bgColor: "#01beea",
       color: "white",
@@ -186,14 +204,13 @@ function Dashboard() {
       <>
         <div className="container-fluid p-3">
             <h2 className="fs-4 p-2 mb-3 bg-white rounded">Admin Dashboard</h2>
-          {/* </div> */}
           {loader ? <MyLoader /> : allStudentsData && allTeachersData && allClassesData && allSubjectsData && (
             <>
               <Row className="row-gap-4 rounded bg-white py-3">
                 {Boxes.map((item: any, index: any) => {
                   return (
-                    <Col md={12} lg={6} xl={3} key={index}>
-                      <DashboardBox titleName={item.title} count={item.count} className="" icon={item.icon} bgColor={item.bgColor} color={item.color} />
+                    <Col md={12} lg={6} xl={3} key={index} className="d-flex flex-column justify-content-center">
+                      <DashboardBox titleName={item.title} count={item.count} icon={item.icon} bgColor={item.bgColor} color={item.color} className="flex-fill" />
                     </Col>
                   )
                 })}
@@ -205,7 +222,8 @@ function Dashboard() {
                   </div>
                 </Col>
                 <Col md={12} lg={4} className="pe-0">
-                  <div className="bg-white d-flex align-items-center h-100 justify-content-start rounded">
+                  <div className="bg-white d-flex align-items-start flex-column h-100 justify-center-start rounded">
+                  <h2 className="pt-2 ps-2">All Students</h2>
                     <PieChartComp allStudentsData={allStudentsData} />
                   </div>
                 </Col>

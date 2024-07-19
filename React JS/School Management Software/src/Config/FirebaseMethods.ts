@@ -1,6 +1,20 @@
-import { getDatabase, onValue, push, ref, remove, set } from "firebase/database";
+import {
+  getDatabase,
+  onValue,
+  push,
+  ref,
+  remove,
+  set,
+} from "firebase/database";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import app from "./FirebaseConfig";
 
+//~*~ -   REALTIME DATABASE   - ~*~\\
 const db = getDatabase(app);
 
 export const setData = (nodeName: string, data: any) => {
@@ -48,6 +62,59 @@ export const deleteData = (nodeName: string, id: any) => {
       })
       .catch((err) => {
         reject(err);
+      });
+  });
+};
+
+//~*~ -   AUTHENTICATION   - ~*~\\
+const auth = getAuth(app);
+
+export const signupUser = (email: any, password: any, userName: any, userType:any) => {
+  return new Promise((resolve, reject) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((res) => {
+        setData("Users", {
+          Username: userName,
+          Email: email,
+          UserType: userType,
+          Password: password,
+          id: res.user.uid,
+        })
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((err) => {
+            console.log(err, "FAILURE");
+            reject(err);
+          });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
+export const signinUser = (email: any, password: any) => {
+  return new Promise((resolve, reject) => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
+export const signoutUser = () => {
+  return new Promise((resolve, reject) => {
+    signOut(auth)
+      .then((res) => {
+        resolve(res);
+        localStorage.clear();
+      })
+      .catch((error) => {
+        reject(error);
       });
   });
 };

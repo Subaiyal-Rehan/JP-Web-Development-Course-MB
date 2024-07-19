@@ -149,7 +149,7 @@ function AllStudents() {
       </Tooltip>
       <Tooltip title="View Details" placement="top">
         <span>
-          <MyButton bgColor="var(--orange)" hoverBgColor="#b87a00" className="p-0 px-1 pt-1" btnValue={<lord-icon src="https://cdn.lordicon.com/anqzffqz.json" trigger="hover" style={{ width: "37px", height: "37px" }} />} onClick={() => { navigate(`/students/${row.id}`) }} />
+          <MyButton bgColor="var(--orange)" hoverBgColor="#b87a00" className="p-0 px-1 pt-1" btnValue={<lord-icon src="https://cdn.lordicon.com/anqzffqz.json" trigger="hover" style={{ width: "37px", height: "37px" }} />} onClick={() => { navigate(`/dashboard/students/${row.id}`) }} />
         </span>
       </Tooltip>
     </>

@@ -180,7 +180,7 @@ function AllTeachers() {
                 style={{ width: "37px", height: "37px" }}
               />
             }
-            onClick={() => { navigate(`/teachers/${row.id}`) }}
+            onClick={() => { navigate(`/dashboard/teachers/${row.id}`) }}
           />
         </span>
       </Tooltip>

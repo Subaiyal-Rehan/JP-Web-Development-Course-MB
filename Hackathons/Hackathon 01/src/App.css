@@ -1,0 +1,155 @@
+/* SR BUTTON */
+.SRButton {
+    background-color: var(--white) !important;
+    color: var(--black) !important;
+    padding: 10px 5px !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+}
+
+.SRButton:hover {
+    background-color: var(--grey) !important;
+}
+
+/* Loader */
+.loaderOverlay {
+    position: fixed;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.loader {
+    width: 120px;
+    aspect-ratio: 1;
+    display: grid;
+    /* position: relative; */
+}
+
+.loader::before,
+.loader::after {
+    content: "";
+    grid-area: 1/1;
+    --c: no-repeat radial-gradient(farthest-side, var(--grey) 92%, #0000);
+    background:
+        var(--c) 50% 0,
+        var(--c) 50% 100%,
+        var(--c) 100% 50%,
+        var(--c) 0 50%;
+    background-size: 25px 25px;
+    animation: l12 1s infinite;
+}
+
+.loader::before {
+    margin: 4px;
+    filter: hue-rotate(45deg);
+    background-size: 19px 19px;
+    animation-timing-function: linear
+}
+
+@keyframes l12 {
+    100% {
+        transform: rotate(.5turn)
+    }
+}
+
+/* Login/Signup Page  */
+.background {
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+}
+
+.background .shape {
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.shape:first-child {
+    background: linear-gradient(#1845ad, #23a2f6);
+    left: -80px;
+    top: -80px;
+}
+
+.shape:last-child {
+    background: linear-gradient(to right, #ff512f, #f09819);
+    right: -30px;
+    bottom: -80px;
+}
+
+.Form {
+    /* height: 520px; */
+    width: 400px;
+    background-color: rgba(255, 255, 255, 0.13);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 40px 35px;
+}
+
+.textInputs {
+    font-size: 1.1em;
+    color: #fff;
+    width: 100%;
+    display: block;
+    border: none;
+    padding: 0.8em;
+    border: solid 1px rgba(0, 0, 0, 0.37);
+    transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, var(--white) 4%);
+    background-position: -1500px 0;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.textInputs:focus,
+.textInputs:valid {
+    box-shadow: none;
+    outline: none;
+    background-position: 0 0;
+}
+
+::placeholder {
+    color: #e5e5e5;
+}
+
+.social {
+    margin-top: 30px;
+    display: flex;
+}
+
+.social .accountBtn {
+    width: 150px;
+    border-radius: 3px;
+    padding: 5px 10px 10px 5px;
+    background-color: rgba(255, 255, 255, 0.27);
+    color: #eaf0fb;
+    text-align: center;
+}
+
+.social .accountBtn:hover {
+    background-color: rgba(255, 255, 255, 0.47);
+}
+
+@media screen and (max-width:576px) {
+    .Form {
+        width: 100%;
+        padding: 30px 15px;
+    }
+}

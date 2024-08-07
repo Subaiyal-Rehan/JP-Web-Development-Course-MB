@@ -132,8 +132,6 @@
 .confirmPassword {
   background: linear-gradient(rgba(255, 255, 255, 0) 98%, var(--red) 0%);
   background-repeat: no-repeat;
-  /* border-right: 2px solid var(--red);
-  border-left: 2px solid var(--red); */
 }
 
 .textInputs:focus, .textInputs:valid {

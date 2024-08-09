@@ -23,6 +23,10 @@ import SRButton from '../Components/SRButton';
 import { signoutUser } from '../Config/FirebaseMethods';
 import { toastGreen, toastRed } from '../Components/My Toasts';
 import { delUser } from '../Config/Redux/Slices/UserSlice';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import Sample from '../Pages/Sample';
+import Admin from '../Pages/Admin';
+import Footer from './Footer';
 
 const drawerWidth = 240;
 
@@ -86,6 +90,7 @@ export default function Dashboard() {
         setOpen(false);
     };
 
+    const navigate = useNavigate()
     const userData = useSelector((state: any) => state.user)
     const dispatch = useDispatch()
     const handleLogout = () => {
@@ -95,6 +100,18 @@ export default function Dashboard() {
         }).catch(() => { toastRed("Failed to logout.") })
     }
 
+    const listArr: any = [
+        {
+            value: "Admin",
+            icon: <MailIcon />,
+            link: "admin",
+        },
+        {
+            value: "Classes",
+            icon: <InboxIcon />,
+            link: "classes",
+        },
+    ]
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -126,11 +143,13 @@ export default function Dashboard() {
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         boxSizing: 'border-box',
+                        backgroundColor: "var(--darkBlue)",
                     },
                 }}
                 variant="persistent"
                 anchor="left"
                 open={open}
+            // classes={{ paper: 'bg-darkBlue' }} 
             >
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>
@@ -139,26 +158,13 @@ export default function Dashboard() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
+                    {listArr.map((text: any, index: any) => (
+                        <ListItem key={index} disablePadding onClick={() => navigate(text.link)}>
                             <ListItemButton>
                                 <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                    {text.icon}
                                 </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
+                                <ListItemText primary={text.value} />
                             </ListItemButton>
                         </ListItem>
                     ))}
@@ -166,34 +172,13 @@ export default function Dashboard() {
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
-                <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-                    enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-                    imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-                    Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-                    Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                    adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-                    nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-                    leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-                    feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-                    consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-                    sapien faucibus et molestie ac.
-                </Typography>
-                <Typography paragraph>
-                    Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-                    eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-                    neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-                    tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-                    sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-                    tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-                    gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-                    et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-                    tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-                    eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-                    posuere sollicitudin aliquam ultrices sagittis orci a.
-                </Typography>
+            <Routes>
+                <Route path="admin" element={<Admin />} />
+                <Route path="classes" element={<Sample />} />
+            </Routes>
+                <Footer />
             </Main>
+
         </Box>
     );
 }

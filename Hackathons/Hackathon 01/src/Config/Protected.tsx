@@ -20,7 +20,6 @@ function Protected({ Component }: any) {
             if (user) {
                 const uid = user.uid;
                 getData("Users", uid).then((res: any) => {
-                    console.log(res)
                     dispatch(setUser({
                         username: res.Username,
                         uid: res.id,

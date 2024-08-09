@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from '../Pages/Login'
 import Signup from '../Pages/Signup'
 import Protected from './Protected'
-import Dashboard from '../Pages/Dashboard'
+import Dashboard from '../Layouts/Dashboard'
 
 function AppRouter() {
   return (

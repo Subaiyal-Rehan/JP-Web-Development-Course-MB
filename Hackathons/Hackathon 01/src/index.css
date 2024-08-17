@@ -10,12 +10,18 @@
 :root {
   --white: #fff;
   --black: #000;
-  --primaryBlack: #080710;
+  --bodyBlack: #00000091;
+  --primaryBlack: #0c0a17;
   --grey: #bdbdbd;
   --darkBlue: #1845ad;
   --lightBlue: #23a2f6;
   --darkOrange: #ff512f;
   --lightOrange: #f09819;
+}
+
+::selection {
+  background-color: var(--white);
+  color: var(--black);  
 }
 
 body{
@@ -28,6 +34,19 @@ body{
 
 .bg-gradientOrange {
   background: linear-gradient(to right, var(--darkOrange), var(--lightOrange)) !important;
+}
+
+.custom-black {
+  background-color: var(--bodyBlack);
+  padding: 20px;
+  border-radius: 6px;
+  backdrop-filter: blur(10px);
+  min-height: 80vh;
+}
+
+.fs-heading {
+  font-size: 22px;
+  margin: 0;
 }
 
 .swal-footer {

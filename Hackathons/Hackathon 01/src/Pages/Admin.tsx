@@ -1,7 +1,9 @@
 function Admin() {
   return (
     <>
-        ADMIN PAGe
+        <div className="custom-black">
+          <h2 className="fs-heading">ADMIN DASHBOARD</h2>
+        </div>
     </>
   )
 }

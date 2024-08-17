@@ -1,14 +1,30 @@
 import { Link, useNavigate } from "react-router-dom"
 import SRButton from "../Components/SRButton"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { signinUser } from "../Config/FirebaseMethods"
 import { toastGreen, toastRed } from "../Components/My Toasts"
 import SRLoader from "../Components/SRLoader"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import app from "../Config/FirebaseConfig"
 
 function Login() {
   const [loginData, setLoginData] = useState<any>({})
   const [loader, setLoader] = useState<any>(false)
   const navigate = useNavigate()
+  const auth = getAuth(app);
+  const [isInitialCheck, setIsInitialCheck] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user && isInitialCheck) {
+        toastRed("User is already logged in.");
+        navigate("/dashboard");
+      }
+      setIsInitialCheck(false);
+    });
+
+    return () => unsubscribe();
+  }, [auth, navigate, isInitialCheck]);
 
   const handleSubmit = (e: any) => {
     setLoader(true)

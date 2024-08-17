@@ -12,21 +12,22 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useDispatch, useSelector } from 'react-redux';
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
+import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import SRButton from '../Components/SRButton';
 import { signoutUser } from '../Config/FirebaseMethods';
 import { toastGreen, toastRed } from '../Components/My Toasts';
 import { delUser } from '../Config/Redux/Slices/UserSlice';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import Sample from '../Pages/Sample';
 import Admin from '../Pages/Admin';
 import Footer from './Footer';
+import CreateRoom from '../Pages/Rooms/CreateRoom';
+import AllRooms from '../Pages/Rooms/AllRooms';
+import Booking from '../Pages/Bookings/Booking';
+import AllBookings from '../Pages/Bookings/AllBookings';
 
 const drawerWidth = 240;
 
@@ -104,12 +105,35 @@ export default function Dashboard() {
         {
             value: "Admin",
             icon: <MailIcon />,
-            link: "admin",
+            link: "",
         },
         {
-            value: "Classes",
+            value: "Rooms",
             icon: <InboxIcon />,
-            link: "classes",
+            children: [
+                {
+                    value: "All Rooms",
+                    link: "rooms/allrooms"
+                },
+                {
+                    value: "Create a Room",
+                    link: "rooms/createroom"
+                },
+            ],
+        },
+        {
+            value: "Bookings",
+            icon: <InboxIcon />,
+            children: [
+                {
+                    value: "Book a Room",
+                    link: "bookings/booking"
+                },
+                {
+                    value: "All Bookings",
+                    link: "bookings/allbooking"
+                },
+            ],
         },
     ]
 
@@ -128,7 +152,7 @@ export default function Dashboard() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div" className='h-100 w-100 d-flex justify-content-between align-items-center'>
-                        <h1 className='fs-4'>Title name</h1>
+                        <h1 className='fs-4'>HotelVista</h1>
                         <div className='d-flex align-items-center gap-2'>
                             <h2 className='fs-4'>{userData.Username}</h2>
                             <SRButton btnValue="Logout" onClick={handleLogout} className="fs-6 rounded-pill px-2" />
@@ -159,23 +183,40 @@ export default function Dashboard() {
                 <Divider />
                 <List>
                     {listArr.map((text: any, index: any) => (
-                        <ListItem key={index} disablePadding onClick={() => navigate(text.link)}>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {text.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={text.value} />
-                            </ListItemButton>
-                        </ListItem>
+                        <>
+                            <SimpleTreeView key={index}>
+                                {text.children ? (
+                                    <TreeItem itemId={index} label={text.value}>
+                                        {text.children.map((item: any, indexIn: any) => {
+                                            return (
+                                                <>
+                                                    <TreeItem key={`${index}-${indexIn}`} itemId={`${index}-${indexIn}`} label={item.value} onClick={() => navigate(item.link)} />
+                                                </>
+                                            )
+                                        })}
+                                    </TreeItem>
+                                ) : (
+                                    <TreeItem itemId={index} label={text.value} onClick={() => navigate(text.link)}>
+                                    </TreeItem>
+                                )}
+                            </SimpleTreeView>
+                        </>
                     ))}
                 </List>
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
-            <Routes>
-                <Route path="admin" element={<Admin />} />
-                <Route path="classes" element={<Sample />} />
-            </Routes>
+                <Routes>
+                    <Route path="/" element={<Admin />} />
+                    <Route path="rooms/createroom" element={<CreateRoom />} />
+                    <Route path="rooms/allrooms" element={<AllRooms />} />
+                    <Route path="bookings/booking" element={<Booking />} />
+                    <Route path="bookings/allbooking" element={<AllBookings />} />
+                </Routes>
+                <div className="background dashboard-background z-n1">
+                    <div className="ashape dashboard-shape"></div>
+                    <div className="shape dashboard-shape"></div>
+                </div>
                 <Footer />
             </Main>
 

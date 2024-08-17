@@ -191,5 +191,3 @@ function FeePaymentStatus() {
 }
 
 export default FeePaymentStatus
-
-// `Are you sure you want to proceed with the payment of ${studentObj.StudentFees}/- for ${studentObj.StudentFirstName} ${studentObj.StudentLastName}'s fee?`

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 
-function MyModal(props: any) {
+function SRModal(props: any) {
   const { title, body, footer, isOpen, onClose, height } = props
   const [modalOpen, setModalOpen] = useState(isOpen)
 
@@ -41,8 +41,8 @@ function MyModal(props: any) {
 }
 
 // USAGE
-// <MyModal title="Title name" height="615vh" onClose={handleCloseModal} isOpen={isOpen}
+// <MyModal title="Title name" height="50vh" onClose={handleCloseModal} isOpen={isOpen}
 // body={(<></>)}
 // footer={(<></>)} />
 
-export default MyModal;
+export default SRModal;

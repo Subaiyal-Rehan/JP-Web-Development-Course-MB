@@ -36,6 +36,11 @@ body{
   background: linear-gradient(to right, var(--darkOrange), var(--lightOrange)) !important;
 }
 
+.modal-content  {
+  background-color: var(--black) !important;
+  border: 2px solid var(--grey);
+}
+
 .custom-black {
   background-color: var(--bodyBlack);
   padding: 20px;

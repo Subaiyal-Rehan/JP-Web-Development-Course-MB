@@ -21,13 +21,15 @@ import SRButton from '../Components/SRButton';
 import { signoutUser } from '../Config/FirebaseMethods';
 import { toastGreen, toastRed } from '../Components/My Toasts';
 import { delUser } from '../Config/Redux/Slices/UserSlice';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import Admin from '../Pages/Admin';
 import Footer from './Footer';
 import CreateRoom from '../Pages/Rooms/CreateRoom';
 import AllRooms from '../Pages/Rooms/AllRooms';
 import Booking from '../Pages/Bookings/Booking';
 import AllBookings from '../Pages/Bookings/AllBookings';
+import AllStaff from '../Pages/Staff/AllStaff';
+import AddStaff from '../Pages/Staff/AddStaff';
 
 const drawerWidth = 240;
 
@@ -91,7 +93,6 @@ export default function Dashboard() {
         setOpen(false);
     };
 
-    const navigate = useNavigate()
     const userData = useSelector((state: any) => state.user)
     const dispatch = useDispatch()
     const handleLogout = () => {
@@ -103,11 +104,13 @@ export default function Dashboard() {
 
     const listArr: any = [
         {
+            id: "1",
             value: "Admin",
             icon: <MailIcon />,
             link: "",
         },
         {
+            id: "2",
             value: "Rooms",
             icon: <InboxIcon />,
             children: [
@@ -122,6 +125,7 @@ export default function Dashboard() {
             ],
         },
         {
+            id: "3",
             value: "Bookings",
             icon: <InboxIcon />,
             children: [
@@ -132,6 +136,21 @@ export default function Dashboard() {
                 {
                     value: "All Bookings",
                     link: "bookings/allbooking"
+                },
+            ],
+        },
+        {
+            id: "4",
+            value: "Staff",
+            icon: <InboxIcon />,
+            children: [
+                {
+                    value: "Add Staff",
+                    link: "staff/addstaff"
+                },
+                {
+                    value: "All Staff",
+                    link: "staff/allstaff"
                 },
             ],
         },
@@ -182,25 +201,23 @@ export default function Dashboard() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {listArr.map((text: any, index: any) => (
-                        <>
-                            <SimpleTreeView key={index}>
-                                {text.children ? (
-                                    <TreeItem itemId={index} label={text.value}>
-                                        {text.children.map((item: any, indexIn: any) => {
-                                            return (
-                                                <>
-                                                    <TreeItem key={`${index}-${indexIn}`} itemId={`${index}-${indexIn}`} label={item.value} onClick={() => navigate(item.link)} />
-                                                </>
-                                            )
-                                        })}
+                    {listArr.map((text: any) => (
+                        <SimpleTreeView key={text.id}>
+                            {text.children ? (
+                                <TreeItem itemId={text.id} label={text.value}>
+                                    {text.children.map((item: any, indexIn: any) => (
+                                        <Link className='text-decoration-none' key={`${text.id}-${indexIn}`} to={item.link}>
+                                            <TreeItem itemId={`${text.id}-${indexIn}`} label={item.value} />
+                                        </Link>
+                                    ))}
+                                </TreeItem>
+                            ) : (
+                                <Link className='text-decoration-none' key={text.id} to={text.link}>
+                                    <TreeItem itemId={`${text.id}`} label={text.value}>
                                     </TreeItem>
-                                ) : (
-                                    <TreeItem itemId={index} label={text.value} onClick={() => navigate(text.link)}>
-                                    </TreeItem>
-                                )}
-                            </SimpleTreeView>
-                        </>
+                                </Link>
+                            )}
+                        </SimpleTreeView>
                     ))}
                 </List>
             </Drawer>
@@ -212,6 +229,8 @@ export default function Dashboard() {
                     <Route path="rooms/allrooms" element={<AllRooms />} />
                     <Route path="bookings/booking" element={<Booking />} />
                     <Route path="bookings/allbooking" element={<AllBookings />} />
+                    <Route path="staff/allstaff" element={<AllStaff />} />
+                    <Route path="staff/addstaff" element={<AddStaff />} />
                 </Routes>
                 <div className="background dashboard-background z-n1">
                     <div className="ashape dashboard-shape"></div>

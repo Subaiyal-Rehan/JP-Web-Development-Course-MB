@@ -74,7 +74,7 @@ function CreateRoom() {
             <SRSelect label="Enter Room Status" options={["Select Room Status", "Available", "Occupied"]} value={roomData.RoomStatus} onChange={(e: any) => setRoomData({ ...roomData, RoomStatus: e.target.value })} />
           </Col>
           <Col lg={4} md={6} sm={12}>
-            <SRInput placeholder="Room Price" label="Enter Room Price (in numeric)" value={roomData.RoomPrice} onChange={(e: any) => setRoomData({ ...roomData, RoomPrice: e.target.value })} />
+            <SRInput type="number" placeholder="Room Price" label="Enter Room Price" value={roomData.RoomPrice} onChange={(e: any) => setRoomData({ ...roomData, RoomPrice: e.target.value })} />
           </Col>
           <Col lg={6} md={12}>
             <SRTextarea label="Enter Room Description" placeholder="Room Description" value={roomData.RoomDescription} onChange={(e: any) => setRoomData({ ...roomData, RoomDescription: e.target.value })} />

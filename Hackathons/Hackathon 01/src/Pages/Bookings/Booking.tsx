@@ -100,11 +100,6 @@ function Booking() {
         }
     }, [RoomId])
 
-    useEffect(() => {
-      console.log(bookingData)
-    }, [bookingData])
-    
-
     return (
         <>
             {loader && <SRLoader />}
@@ -120,7 +115,7 @@ function Booking() {
                             <SRInput disabled={true} value={bookingData && bookingData.BookingId} label="Customer ID (Auto Generated)" />
                         </Col>
                         <Col lg={4} md={6} sm={12}>
-                            <SRInput value={bookingData.CustomerName} onChange={(e: any) => setBookingData({ ...bookingData, CustomerName: e.target.value })} label="Customer Name" />
+                            <SRInput value={bookingData.CustomerName} onChange={(e: any) => setBookingData({ ...bookingData, CustomerName: e.target.value })} label="Enter Customer Full Name" placeholder="Customer full name" />
                         </Col>
                         <Col lg={4} md={6} sm={12}>
                             <SRInput type="date" value={bookingData.CheckInDate} onChange={(e: any) => setBookingData({ ...bookingData, CheckInDate: e.target.value })} label="Check in Date" />

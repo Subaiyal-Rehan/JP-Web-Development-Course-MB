@@ -25,7 +25,7 @@ function SRModal(props: any) {
     >
       <Modal.Dialog className='m-0'>
         <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
+          <Modal.Title className='text-white'>{title}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body style={{height: height, overflowY: "auto"}} className='py-3'>

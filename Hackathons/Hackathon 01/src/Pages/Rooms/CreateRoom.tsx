@@ -16,6 +16,7 @@ function CreateRoom() {
     RoomStatus: "",
     RoomPrice: "",
     RoomDescription: "",
+    RoomImg: "",
   }
   const [roomData, setRoomData] = useState<any>(initialData)
   const [loader, setLoader] = useState<boolean>(false)
@@ -34,8 +35,14 @@ function CreateRoom() {
     console.log(roomData)
   }, [])
 
-  const handleReset = () => {
-    setRoomData(initialData)
+  const handleReset = (checkSubmit:boolean) => {
+    let currentID;
+    if (checkSubmit) {
+        currentID = roomData.RoomId + 1
+    } else {
+        currentID = roomData.RoomId
+    }
+    setRoomData({...initialData, RoomId: currentID})
   }
 
   const handleSubmit = (e: any) => {
@@ -43,8 +50,7 @@ function CreateRoom() {
     setLoader(true)
     setData("Rooms", roomData).then(() => {
       setLoader(false)
-      handleReset()
-      fetchData()
+      handleReset(true)
       toastGreen("Successfully created a room.")
     }).catch(() => {
       setLoader(false)
@@ -68,13 +74,16 @@ function CreateRoom() {
             <SRInput placeholder="Room Number" label="Enter Room Number" value={roomData.RoomNumber} onChange={(e: any) => setRoomData({ ...roomData, RoomNumber: e.target.value })} />
           </Col>
           <Col lg={4} md={6} sm={12}>
-            <SRSelect label="Enter Room Type" options={["Select Room Type", "Single Room", "Double Room", "Suite", "Family Room"]} value={roomData.RoomType} onChange={(e: any) => setRoomData({ ...roomData, RoomType: e.target.value })} />
+            <SRSelect label="Enter Room Type" options={["Single Room", "Double Room", "Suite", "Family Room"]} value={roomData.RoomType} onChange={(e: any) => setRoomData({ ...roomData, RoomType: e.target.value })} />
           </Col>
           <Col lg={4} md={6} sm={12}>
-            <SRSelect label="Enter Room Status" options={["Select Room Status", "Available", "Occupied"]} value={roomData.RoomStatus} onChange={(e: any) => setRoomData({ ...roomData, RoomStatus: e.target.value })} />
+            <SRSelect label="Enter Room Status" options={["Available", "Occupied"]} value={roomData.RoomStatus} onChange={(e: any) => setRoomData({ ...roomData, RoomStatus: e.target.value })} />
           </Col>
           <Col lg={4} md={6} sm={12}>
-            <SRInput type="number" placeholder="Room Price" label="Enter Room Price" value={roomData.RoomPrice} onChange={(e: any) => setRoomData({ ...roomData, RoomPrice: e.target.value })} />
+            <SRInput type="number" placeholder="Room Price (per day)" label="Enter Room Price (per day)" value={roomData.RoomPrice} onChange={(e: any) => setRoomData({ ...roomData, RoomPrice: e.target.value })} />
+          </Col>
+          <Col lg={4} md={6} sm={12}>
+            <SRInput placeholder="Room Image" label="Enter Room Image Link" value={roomData.RoomImg} onChange={(e: any) => setRoomData({ ...roomData, RoomImg: e.target.value })} />
           </Col>
           <Col lg={6} md={12}>
             <SRTextarea label="Enter Room Description" placeholder="Room Description" value={roomData.RoomDescription} onChange={(e: any) => setRoomData({ ...roomData, RoomDescription: e.target.value })} />
@@ -82,7 +91,7 @@ function CreateRoom() {
         </Row>
         <div className="mt-4">
           <SRButton btnValue="Create" className="px-4" type="submit" />
-          <SRButton btnValue="Reset" onClick={handleReset} className="px-4 ms-3" />
+          <SRButton btnValue="Reset" onClick={()=>handleReset(false)} className="px-4 ms-3" />
         </div>
       </form>
     </div>

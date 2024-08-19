@@ -95,6 +95,10 @@ function AllRooms() {
               id: "RoomId"
             },
             {
+              render: (row:any) => (<img width={60} src={row.RoomImg} />),
+              value: "Snapshot",
+            },
+            {
               value: "Room Number",
               id: "RoomNumber"
             },

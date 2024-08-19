@@ -21,7 +21,7 @@ import SRButton from '../Components/SRButton';
 import { signoutUser } from '../Config/FirebaseMethods';
 import { toastGreen, toastRed } from '../Components/My Toasts';
 import { delUser } from '../Config/Redux/Slices/UserSlice';
-import { Link, Route, Routes } from 'react-router-dom';
+import { NavLink, Route, Routes } from 'react-router-dom';
 import Admin from '../Pages/Admin';
 import Footer from './Footer';
 import CreateRoom from '../Pages/Rooms/CreateRoom';
@@ -105,7 +105,7 @@ export default function Dashboard() {
     const listArr: any = [
         {
             id: "1",
-            value: "Admin",
+            value: "Admin Dashboard",
             icon: <MailIcon />,
             link: "",
         },
@@ -204,18 +204,33 @@ export default function Dashboard() {
                     {listArr.map((text: any) => (
                         <SimpleTreeView key={text.id}>
                             {text.children ? (
-                                <TreeItem itemId={text.id} label={text.value}>
+                                <TreeItem className="text-white" itemId={text.id} label={text.value}>
                                     {text.children.map((item: any, indexIn: any) => (
-                                        <Link className='text-decoration-none' key={`${text.id}-${indexIn}`} to={item.link}>
-                                            <TreeItem itemId={`${text.id}-${indexIn}`} label={item.value} />
-                                        </Link>
+                                        <NavLink
+                                            key={`${text.id}-${indexIn}`}
+                                            to={item.link}
+                                            className={({ isActive }) =>
+                                                isActive ? "text-decoration-none text-white customActive" : "text-decoration-none text-white"
+                                            }
+                                        >
+                                            <TreeItem
+                                                itemId={`${text.id}-${indexIn}`}
+                                                className="py-1 bg-gradientBlue"
+                                                label={item.value}
+                                            />
+                                        </NavLink>
                                     ))}
                                 </TreeItem>
                             ) : (
-                                <Link className='text-decoration-none' key={text.id} to={text.link}>
-                                    <TreeItem itemId={`${text.id}`} label={text.value}>
-                                    </TreeItem>
-                                </Link>
+                                <NavLink
+                                    key={text.id}
+                                    to={text.link}
+                                    className={({ isActive }) =>
+                                        isActive ? "text-decoration-none text-white customActive" : "text-decoration-none text-white"
+                                    }
+                                >
+                                    <TreeItem itemId={`${text.id}`} className="py-1 bg-gradientBlue" label={text.value} />
+                                </NavLink>
                             )}
                         </SimpleTreeView>
                     ))}

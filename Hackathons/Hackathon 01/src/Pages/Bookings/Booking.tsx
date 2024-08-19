@@ -107,7 +107,7 @@ function Booking() {
                 <h2 className="fs-heading">Create a Booking</h2>
                 <form onSubmit={handleSubmit}>
                     <Row>
-                        <h3 className="m-0 fs-5 mt-4">Customer Details</h3>
+                        <h3 className="m-0 fs-5 mt-4 text-white">Customer Details</h3>
                         <Col lg={4} md={6} sm={12}>
                             <SRInput disabled={true} value={bookingData && bookingData.BookingId} label="Booking ID (Auto Generated)" />
                         </Col>
@@ -126,7 +126,7 @@ function Booking() {
                     </Row>
                     <hr />
                     <Row>
-                        <h3 className="m-0 fs-5">Room Details</h3>
+                        <h3 className="m-0 fs-5 text-white">Room Details</h3>
                         <Col lg={4} md={6} sm={12}>
                             <SRSelect label="Select Room by ID" options={roomNumberOption} required value={roomData.RoomId} onChange={(e: any) => { setRoomId(e.target.value) }} />
                         </Col>

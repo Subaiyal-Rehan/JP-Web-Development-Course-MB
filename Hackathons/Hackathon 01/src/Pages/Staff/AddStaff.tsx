@@ -68,7 +68,6 @@ function AddStaff() {
             setLoader(false)
             toastGreen("Staff successfully added.")
             handleReset(true);
-            // fetchData()
         }).catch(() => {
             setLoader(false)
             toastRed("Failed to add the staff. Please try again.")
@@ -82,7 +81,7 @@ function AddStaff() {
                 <h2 className="fs-heading">Add Staff</h2>
                 <form onSubmit={handleSubmit}>
                     <Row>
-                        <h3 className="m-0 fs-5 mt-4">Personal Details</h3>
+                        <h3 className="m-0 fs-5 mt-4 text-white">Personal Details</h3>
                         <Col lg={4} md={6} sm={12}>
                             <SRInput disabled={true} value={staffData && staffData.StaffId} label="Staff ID (Auto Generated)" />
                         </Col>
@@ -104,7 +103,7 @@ function AddStaff() {
                     </Row>
                     <hr />
                     <Row>
-                        <h3 className="m-0 fs-5">Job Details</h3>
+                        <h3 className="m-0 fs-5 text-white">Job Details</h3>
                         <Col lg={4} md={6} sm={12}>
                             <SRSelect value={staffData.StaffDepartment} options={["Food and Beverage", "Housekeeper", "Front Desk Agent", "Security", "Guest Services", "Financial Controller", "Maintenance Technician"]} onChange={(e: any) => handleChange('StaffDepartment', e)} label="Select Staff Department" />
                         </Col>

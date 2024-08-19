@@ -16,7 +16,7 @@
 /* Loader */
 .loaderOverlay {
     position: fixed;
-    z-index: 999;
+    z-index: 10001;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -165,6 +165,10 @@
 
 .social .accountBtn:hover {
     background-color: rgba(255, 255, 255, 0.47);
+}
+
+.customActive {
+    background-color: var(--black) !important;
 }
 
 @media screen and (max-width:576px) {

@@ -97,10 +97,11 @@
 }
 
 .dashboard-shape {
+    position: fixed !important;
     height: 300px !important;
     width: 300px !important;
     right: 0px !important;
-    bottom: -100px !important;
+    bottom: -90px !important;
     opacity: 0.8;
 }
 
@@ -165,6 +166,26 @@
 
 .social .accountBtn:hover {
     background-color: rgba(255, 255, 255, 0.47);
+}
+
+.imgContainer {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 600px;
+}
+
+.textContainerPosition {
+    width: 90%;
+    bottom: -9%;
+    color: var(--black);
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.descDiv {
+    margin-top: 90px;
 }
 
 @media screen and (max-width:576px) {

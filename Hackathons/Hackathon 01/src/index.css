@@ -36,6 +36,10 @@ body{
   background: linear-gradient(to right, var(--darkOrange), var(--lightOrange)) !important;
 }
 
+.bg-grey {
+  background-color: var(--grey) !important;
+}
+
 .modal-content  {
   background-color: var(--black) !important;
   border: 1px solid var(--grey);
@@ -51,12 +55,17 @@ body{
   transition: all 0.2s ease-in-out;
 }
 
+.MuiButtonBase-root.MuiIconButton-root {
+  color: var(--white) !important;
+} 
+
 .custom-black {
   background-color: var(--bodyBlack);
+  color: var(--white);
   padding: 20px;
   border-radius: 6px;
   backdrop-filter: blur(10px);
-  min-height: 80vh;
+  min-height: 70vh;
 }
 
 .fs-heading {

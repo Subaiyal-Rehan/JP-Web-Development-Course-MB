@@ -8,9 +8,7 @@ function SRTable(props: any) {
             <thead>
                 <tr>
                     {cols.map((item: any, index: any) => (
-                        <>
                             <th className='fw-semibold' key={index}>{item.value}</th>
-                        </>
                     ))}
                 </tr>
             </thead>
@@ -25,10 +23,10 @@ function SRTable(props: any) {
                                         {col.render ? col.render(dataItem) : (
                                             value.length > 19 ? (
                                                 <Tooltip title={value} placement="top" arrow>
-                                                    <span>{value.slice(0, 19)}...</span>
+                                                    <span className='d-flex align-items-center h-100'>{value.slice(0, 19)}...</span>
                                                 </Tooltip>
                                             ) : (
-                                                <span>{value}</span>
+                                                <span className='d-flex align-items-center h-100'>{value}</span>
                                             )
                                         )}
                                     </td>

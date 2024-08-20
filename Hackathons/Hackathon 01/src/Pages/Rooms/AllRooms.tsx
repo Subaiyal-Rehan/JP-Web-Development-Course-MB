@@ -14,6 +14,8 @@ import { Tooltip } from "@mui/material"
 import { FiEdit } from "react-icons/fi";
 import SRModal from "../../Components/SRModal"
 import SRTextarea from "../../Components/SRTextarea"
+import { toastGreen, toastRed } from "../../Components/My Toasts"
+import { useNavigate } from "react-router-dom"
 
 function AllRooms() {
   const [allData, setAllData] = useState<any>({})
@@ -27,6 +29,7 @@ function AllRooms() {
   const [selectedRow, setSelectedRow] = useState<any>({})
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [editedObj, setEditedObj] = useState<any>({})
+  const navigate = useNavigate()
 
   const fetchData = () => {
     getData("Rooms").then((res) => {
@@ -93,17 +96,35 @@ function AllRooms() {
     setFilteredData(filteredData);
   }, [searchData, allData])
 
-  const getValue = (field:string) => {
+  const getValue = (field: string) => {
     return editedObj[field] !== undefined ? editedObj[field] : selectedRow[field]
   }
-  
+
   const handleChange = (node: string, value: any) => {
     setEditedObj({ ...editedObj, [node]: value.target.value })
-}
+  }
 
-const handleEdit = () => {
-  
-}
+  const handleEdit = (e: any) => {
+    e.preventDefault();
+    if (Object.keys(editedObj).length == 0) {
+      toastRed("No changes were made.")
+      handleCloseModal()
+      return;
+    }
+    setLoader(true)
+    const finalObj = { ...selectedRow, ...editedObj }
+    setData("Rooms", finalObj).then(() => {
+      handleCloseModal()
+      setEditedObj({})
+      setSelectedRow({})
+      fetchData()
+      setLoader(false)
+      toastGreen(`Room ${selectedRow.RoomId} has been successfully edited`);
+    }).catch(() => {
+      setLoader(false)
+      toastRed(`Failed to edit Room ${selectedRow.RoomId}. Please try again later.`)
+    })
+  }
 
 
   return (
@@ -169,7 +190,7 @@ const handleEdit = () => {
                     </Tooltip>
                     <Tooltip title="View Details" placement="top">
                       <span>
-                        <SRButton btnValue={<FaMagnifyingGlass />} className="ms-2 py-1 fs-4" onClick={() => handleClick(row)} />
+                        <SRButton btnValue={<FaMagnifyingGlass />} className="ms-2 py-1 fs-4" onClick={() => navigate(`/dashboard/rooms/${row.id}`)} />
                       </span>
                     </Tooltip>
                   </>
@@ -182,33 +203,33 @@ const handleEdit = () => {
         <SRModal title="Edit Room" onClose={handleCloseModal} isOpen={isOpen}
           body={(
             <form onSubmit={handleEdit}>
-            <Row>
-              <Col lg={6} md={12}>
-                <SRInput labelClass="mt-0" id="ID" placeholder="Loading..." disabled={true} value={selectedRow.RoomId} label="Room ID (Auto Generated)" />
-              </Col>
-              <Col lg={6} md={12}>
-                <SRInput labelClass="mt-0" placeholder="Room Number" label="Enter Room Number" value={getValue("RoomNumber")} onChange={(e: any) => handleChange("RoomNumber", e )} />
-              </Col>
-              <Col lg={6} md={12}>
-                <SRSelect labelClass="mt-0" label="Enter Room Type" options={["Single Room", "Double Room", "Suite", "Family Room"]} value={selectedRow.RoomType} onChange={(e: any) => handleChange("RoomType", e )} />
-              </Col>
-              <Col lg={6} md={12}>
-                <SRSelect label="Enter Room Status" options={["Available", "Occupied"]} value={selectedRow.RoomStatus} onChange={(e: any) => handleChange("RoomStatus", e )} />
-              </Col>
-              <Col lg={6} md={12}>
-                <SRInput type="number" placeholder="Room Price (per day)" label="Enter Room Price (per day)" value={getValue("RoomPrice")} onChange={(e: any) => handleChange("RoomPrice", e )} />
-              </Col>
-              <Col lg={6} md={12}>
-                <SRInput placeholder="Room Image" label="Enter Room Image Link" value={getValue("RoomImg")} onChange={(e: any) => handleChange("RoomImg", e )} />
-              </Col>
-              <Col lg={6} md={12}>
-                <SRTextarea label="Enter Room Description" placeholder="Room Description" value={getValue("RoomDescription")} onChange={(e: any) => handleChange("RoomDescription", e )} />
-              </Col>
-            </Row>
-            <div className="mt-4 mb-1">
-              <SRButton btnValue="Edit" className="px-4" type="submit" />
-            </div>
-          </form>
+              <Row>
+                <Col lg={6} md={12}>
+                  <SRInput labelClass="mt-0" id="ID" placeholder="Loading..." disabled={true} value={selectedRow.RoomId} label="Room ID (Auto Generated)" />
+                </Col>
+                <Col lg={6} md={12}>
+                  <SRInput labelClass="mt-0" placeholder="Room Number" label="Enter Room Number" value={getValue("RoomNumber")} onChange={(e: any) => handleChange("RoomNumber", e)} />
+                </Col>
+                <Col lg={6} md={12}>
+                  <SRSelect labelClass="mt-0" label="Enter Room Type" options={["Single Room", "Double Room", "Suite", "Family Room"]} value={editedObj.RoomType || selectedRow.RoomType} onChange={(e: any) => handleChange("RoomType", e)} />
+                </Col>
+                <Col lg={6} md={12}>
+                  <SRSelect label="Enter Room Status" options={["Available", "Occupied"]} value={editedObj.RoomStatus || selectedRow.RoomStatus} onChange={(e: any) => handleChange("RoomStatus", e)} />
+                </Col>
+                <Col lg={6} md={12}>
+                  <SRInput type="number" placeholder="Room Price (per day)" label="Enter Room Price (per day)" value={getValue("RoomPrice")} onChange={(e: any) => handleChange("RoomPrice", e)} />
+                </Col>
+                <Col lg={6} md={12}>
+                  <SRInput placeholder="Room Image" label="Enter Room Image Link" value={getValue("RoomImg")} onChange={(e: any) => handleChange("RoomImg", e)} />
+                </Col>
+                <Col lg={6} md={12}>
+                  <SRTextarea label="Enter Room Description" placeholder="Room Description" value={getValue("RoomDescription")} onChange={(e: any) => handleChange("RoomDescription", e)} />
+                </Col>
+              </Row>
+              <div className="mt-4 mb-1">
+                <SRButton btnValue="Edit" className="px-4" type="submit" />
+              </div>
+            </form>
           )}
           footer={(<SRButton btnValue="Close" onClick={handleCloseModal} className="px-4" />)} />
       </div>

@@ -30,6 +30,7 @@ import Booking from '../Pages/Bookings/Booking';
 import AllBookings from '../Pages/Bookings/AllBookings';
 import AllStaff from '../Pages/Staff/AllStaff';
 import AddStaff from '../Pages/Staff/AddStaff';
+import RoomDetails from '../Pages/Rooms/RoomDetails';
 
 const drawerWidth = 240;
 
@@ -242,6 +243,7 @@ export default function Dashboard() {
                     <Route path="/" element={<Admin />} />
                     <Route path="rooms/addroom" element={<CreateRoom />} />
                     <Route path="rooms/allrooms" element={<AllRooms />} />
+                    <Route path="rooms/:id" element={<RoomDetails />} />
                     <Route path="bookings/booking" element={<Booking />} />
                     <Route path="bookings/allbooking" element={<AllBookings />} />
                     <Route path="staff/allstaff" element={<AllStaff />} />

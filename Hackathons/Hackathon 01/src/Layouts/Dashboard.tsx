@@ -119,8 +119,8 @@ export default function Dashboard() {
                     link: "rooms/allrooms"
                 },
                 {
-                    value: "Create a Room",
-                    link: "rooms/createroom"
+                    value: "Add a Room",
+                    link: "rooms/addroom"
                 },
             ],
         },
@@ -130,12 +130,12 @@ export default function Dashboard() {
             icon: <InboxIcon />,
             children: [
                 {
-                    value: "Book a Room",
-                    link: "bookings/booking"
-                },
-                {
                     value: "All Bookings",
                     link: "bookings/allbooking"
+                },
+                {
+                    value: "Book a Room",
+                    link: "bookings/booking"
                 },
             ],
         },
@@ -145,12 +145,12 @@ export default function Dashboard() {
             icon: <InboxIcon />,
             children: [
                 {
-                    value: "Add Staff",
-                    link: "staff/addstaff"
-                },
-                {
                     value: "All Staff",
                     link: "staff/allstaff"
+                },
+                {
+                    value: "Add Staff",
+                    link: "staff/addstaff"
                 },
             ],
         },
@@ -240,7 +240,7 @@ export default function Dashboard() {
                 <DrawerHeader />
                 <Routes>
                     <Route path="/" element={<Admin />} />
-                    <Route path="rooms/createroom" element={<CreateRoom />} />
+                    <Route path="rooms/addroom" element={<CreateRoom />} />
                     <Route path="rooms/allrooms" element={<AllRooms />} />
                     <Route path="bookings/booking" element={<Booking />} />
                     <Route path="bookings/allbooking" element={<AllBookings />} />

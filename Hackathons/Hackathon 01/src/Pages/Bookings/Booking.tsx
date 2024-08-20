@@ -109,10 +109,10 @@ function Booking() {
                     <Row>
                         <h3 className="m-0 fs-5 mt-4 text-white">Customer Details</h3>
                         <Col lg={4} md={6} sm={12}>
-                            <SRInput disabled={true} value={bookingData && bookingData.BookingId} label="Booking ID (Auto Generated)" />
+                            <SRInput placeholder="Loading..." disabled={true} value={bookingData && bookingData.BookingId} label="Booking ID (Auto Generated)" />
                         </Col>
                         <Col lg={4} md={6} sm={12}>
-                            <SRInput disabled={true} value={bookingData && bookingData.BookingId} label="Customer ID (Auto Generated)" />
+                            <SRInput placeholder="Loading..." disabled={true} value={bookingData && bookingData.BookingId} label="Customer ID (Auto Generated)" />
                         </Col>
                         <Col lg={4} md={6} sm={12}>
                             <SRInput value={bookingData.CustomerName} onChange={(e: any) => setBookingData({ ...bookingData, CustomerName: e.target.value })} label="Enter Customer Full Name" placeholder="Customer full name" />

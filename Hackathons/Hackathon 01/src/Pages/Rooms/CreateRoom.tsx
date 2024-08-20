@@ -68,7 +68,7 @@ function CreateRoom() {
       <form onSubmit={handleSubmit}>
         <Row>
           <Col lg={4} md={6} sm={12}>
-            <SRInput id="ID" placeholder="Room ID" disabled={true} value={roomData.RoomId} label="Room ID (Auto Generated)" />
+            <SRInput id="ID" placeholder="Loading..." disabled={true} value={roomData.RoomId} label="Room ID (Auto Generated)" />
           </Col>
           <Col lg={4} md={6} sm={12}>
             <SRInput placeholder="Room Number" label="Enter Room Number" value={roomData.RoomNumber} onChange={(e: any) => setRoomData({ ...roomData, RoomNumber: e.target.value })} />

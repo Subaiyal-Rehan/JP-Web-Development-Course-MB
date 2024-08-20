@@ -83,7 +83,7 @@ function AddStaff() {
                     <Row>
                         <h3 className="m-0 fs-5 mt-4 text-white">Personal Details</h3>
                         <Col lg={4} md={6} sm={12}>
-                            <SRInput disabled={true} value={staffData && staffData.StaffId} label="Staff ID (Auto Generated)" />
+                            <SRInput placeholder="Loading..." disabled={true} value={staffData && staffData.StaffId} label="Staff ID (Auto Generated)" />
                         </Col>
                         <Col lg={4} md={6} sm={12}>
                             <SRInput value={staffData.StaffName} onChange={(e: any) => handleChange('StaffName', e)} label="Enter Staff Full Name" placeholder="Staff full name" />

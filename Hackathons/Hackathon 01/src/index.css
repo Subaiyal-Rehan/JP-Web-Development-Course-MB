@@ -45,6 +45,12 @@ body{
   z-index: 9999 !important;
 }
 
+.btn-close {
+  background-color: var(--white);
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+}
+
 .custom-black {
   background-color: var(--bodyBlack);
   padding: 20px;

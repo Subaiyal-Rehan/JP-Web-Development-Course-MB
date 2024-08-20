@@ -153,33 +153,33 @@ function AllStaff() {
                         <>
                             <form onSubmit={handleEdit}>
                                 <Row>
-                                    <h3 className="m-0 fs-5 mt-4 text-white">Personal Details</h3>
-                                    <Col lg={4} md={6} sm={12}>
+                                    <h3 className="m-0 fs-5 text-white">Personal Details</h3>
+                                    <Col lg={6} md={12}>
                                         <SRInput disabled={true} value={selectedRow && selectedRow.StaffId} label="Staff ID (Auto Generated)" />
                                     </Col>
-                                    <Col lg={4} md={6} sm={12}>
+                                    <Col lg={6} md={12}>
                                         <SRInput value={handleEmptyInput("StaffName")} onChange={(e: any) => handleChange('StaffName', e)} label="Enter Staff Full Name" placeholder="Staff full name" />
                                     </Col>
-                                    <Col lg={4} md={6} sm={12}>
+                                    <Col lg={6} md={12}>
                                         <SRInput type="number" value={handleEmptyInput("StaffNumber")} onChange={(e: any) => handleChange('StaffNumber', e)} label="Enter Staff Phone Number" placeholder="Staff phone number" />
                                     </Col>
-                                    <Col lg={4} md={6} sm={12}>
+                                    <Col lg={6} md={12}>
                                         <SRInput value={handleEmptyInput("StaffEmail")} onChange={(e: any) => handleChange('StaffEmail', e)} label="Enter Staff Email Address" placeholder="Staff email address" />
                                     </Col>
-                                    <Col lg={4} md={6} sm={12}>
+                                    <Col lg={6} md={12}>
                                         <SRSelect value={editedObj.StaffGender || selectedRow.StaffGender} options={["Male", "Female"]} onChange={(e: any) => handleChange('StaffGender', e)} label="Select Staff Gender" />
                                     </Col>
-                                    <Col lg={4} md={6} sm={12}>
+                                    <Col lg={6} md={12}>
                                         <SRInput value={handleEmptyInput("StaffAddress")} onChange={(e: any) => handleChange('StaffAddress', e)} label="Enter Staff Address" placeholder="Staff address" />
                                     </Col>
                                 </Row>
                                 <hr />
                                 <Row>
                                     <h3 className="m-0 fs-5 text-white">Job Details</h3>
-                                    <Col lg={4} md={6} sm={12}>
+                                    <Col lg={6} md={12}>
                                         <SRSelect value={editedObj.StaffDepartment || selectedRow.StaffDepartment} options={["Food and Beverage", "Housekeeper", "Front Desk Agent", "Security", "Guest Services", "Financial Controller", "Maintenance Technician"]} onChange={(e: any) => handleChange('StaffDepartment', e)} label="Select Staff Department" />
                                     </Col>
-                                    <Col lg={4} md={6} sm={12}>
+                                    <Col lg={6} md={12}>
                                         <SRInput type="number" value={handleEmptyInput("StaffSalary")} onChange={(e: any) => handleChange('StaffSalary', e)} label="Enter Staff Salary" placeholder="Staff salary" />
                                     </Col>
                                 </Row>
@@ -188,7 +188,7 @@ function AllStaff() {
                                 </div>
                             </form>
                         </>)}
-                    footer={(<><SRButton btnValue="Close" onClick={handleCloseModal} className="px-4" /></>)} />
+                    footer={(<SRButton btnValue="Close" onClick={handleCloseModal} className="px-4" />)} />
             </div>
         </>
     )

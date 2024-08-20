@@ -21,7 +21,7 @@ function SRTable(props: any) {
                             {cols.map((col: any, colIndex: any) => {
                                 const value = dataItem[col.id];
                                 return (
-                                    <td key={colIndex}>
+                                    <td width={col.width && col.width} key={colIndex}>
                                         {col.render ? col.render(dataItem) : (
                                             value.length > 19 ? (
                                                 <Tooltip title={value} placement="top" arrow>

@@ -221,6 +221,54 @@
     font-size: 4.5rem;
 }
 
+.DashboardLink {
+    text-decoration: none;
+}
+
+.DashboardLink:hover {
+    text-decoration: underline;
+}
+
+.heroSection {
+    background-color: var(--darkBlue);
+}
+
+.heroTextDiv {
+    height: 500px;
+}
+
+.RoomCardBottom {
+    background-color: var(--bodyBlack);
+}
+
+.RoomCard {
+    transition: all 0.3s ease-in-out;
+}
+
+.RoomCard:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 4px 20px rgba(255, 255, 255, 0.4);
+}
+
+.RoomCardBottom p {
+    height: 100px;
+}
+
+.RoomCardImg {
+    height: 250px;
+    width: 100%;
+}
+
+.RoomCardImg img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.customActive {
+
+}
+
 @media screen and (max-width:991px) {
     .textContainerPosition>div:nth-child(1) {
         border-bottom: 1px solid white;

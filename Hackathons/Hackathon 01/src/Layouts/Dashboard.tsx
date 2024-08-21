@@ -32,6 +32,7 @@ import AllStaff from '../Pages/Staff/AllStaff';
 import AddStaff from '../Pages/Staff/AddStaff';
 import RoomDetails from '../Pages/Rooms/RoomDetails';
 import StaffDetails from '../Pages/Staff/StaffDetails';
+import Signup from '../Pages/Signup';
 
 const drawerWidth = 240;
 
@@ -181,6 +182,12 @@ export default function Dashboard() {
                 },
             ],
         },
+        {
+            id: "7",
+            value: "Signup",
+            icon: <InboxIcon />,
+            link: "signup",
+        },
     ]
 
     return (
@@ -275,6 +282,7 @@ export default function Dashboard() {
                     <Route path="staff/allstaff" element={<AllStaff />} />
                     <Route path="staff/addstaff" element={<AddStaff />} />
                     <Route path="staff/:id" element={<StaffDetails />} />
+                    <Route path="signup" element={<Signup />} />
                 </Routes>
                 <div className="background dashboard-background z-n1">
                     <div className="ashape dashboard-shape"></div>

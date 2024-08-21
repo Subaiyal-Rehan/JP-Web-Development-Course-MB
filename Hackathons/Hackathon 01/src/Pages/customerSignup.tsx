@@ -7,7 +7,8 @@ import SRLoader from "../Components/SRLoader"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import app from "../Config/FirebaseConfig"
 import SRSelect from "../Components/SRSelect"
-function Signup() {
+
+function customerSignup() {
     const [signupData, setSignupData] = useState<any>({})
     const [loader, setLoader] = useState<any>(false)
     const navigate = useNavigate()
@@ -29,7 +30,7 @@ function Signup() {
     const handleSubmit = (e: any) => {
         e.preventDefault();
         setLoader(true)
-        signupUser(signupData.email, signupData.password, signupData.userName, signupData.type).then(() => {
+        signupUser(signupData.email, signupData.password, signupData.userName, "Customer").then(() => {
             setLoader(false)
             toastGreen("Account Successfully Created.")
             navigate("/dashboard")
@@ -71,4 +72,4 @@ function Signup() {
     )
 }
 
-export default Signup
+export default customerSignup

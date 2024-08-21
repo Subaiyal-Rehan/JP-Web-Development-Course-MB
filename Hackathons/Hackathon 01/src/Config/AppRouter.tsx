@@ -4,13 +4,15 @@ import Signup from '../Pages/Signup'
 import Protected from './Protected'
 import Dashboard from '../Layouts/Dashboard'
 import NotfFound from '../Pages/NotfFound'
+import Home from '../Pages/CustomerPages/Home'
 
 function AppRouter() {
   return (
     <BrowserRouter>
         <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/userSignup" element={<Signup />} />
             <Route path="/dashboard/*" element={<Protected Component={Dashboard} />} />
             <Route path="*" element={<NotfFound />} />
         </Routes>

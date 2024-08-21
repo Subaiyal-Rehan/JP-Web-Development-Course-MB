@@ -73,12 +73,14 @@ export const signupUser = (
   email: any,
   password: any,
   userName: any,
+  type: any,
 ) => {
   return new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
         setData("Users", {
           Username: userName,
+          Type: type,
           Email: email,
           Password: password,
           id: res.user.uid,

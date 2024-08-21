@@ -2,7 +2,7 @@ function Footer() {
     return (
         <>
             <div className="text-center text-white my-4">
-                <span>Copyright &copy; website {new Date().getFullYear()}</span>
+                <span>Copyright &copy; HotelVista {new Date().getFullYear()}</span>
             </div>
         </>
     )

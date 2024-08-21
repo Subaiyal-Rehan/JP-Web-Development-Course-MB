@@ -59,7 +59,7 @@ function Login() {
         </div>
         <div className="social flex-column align-items-center text-white">
           Don't have an account?
-          <Link to="/signup" className="accountBtn text-decoration-none">Sign up</Link>
+          <Link to="/userSignup" className="accountBtn text-decoration-none">Sign up</Link>
         </div>
       </form>
     </>

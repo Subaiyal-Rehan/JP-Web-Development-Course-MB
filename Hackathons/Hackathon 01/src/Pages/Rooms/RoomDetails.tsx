@@ -15,6 +15,7 @@ import SRSelect from "../../Components/SRSelect"
 import SRTextarea from "../../Components/SRTextarea"
 import { Tooltip } from "@mui/material"
 import NotFoundImg from '../../Images/Image_Not_Found.png'
+import errorImage from '../../Images/404_Page.gif'
 
 function RoomDetails() {
     const [allData, setAllData] = useState<any>({})
@@ -137,11 +138,11 @@ function RoomDetails() {
         <>
             {loader && <SRLoader />}
             <div className='custom-black'>
-                {allData && (
+                {allData.id && !loader ? (
                     <>
                         <h2 className="fs-4 text-center mb-3">Details of Room ID {allData.RoomId}</h2>
                         <div>
-                            <div className="imgContainer position-relative" style={{  backgroundImage: `url(${allData.RoomImg}), url(${NotFoundImg})` }}>
+                            <div className="imgContainer position-relative" style={{ backgroundImage: `url(${allData.RoomImg}), url(${NotFoundImg})` }}>
                                 <Row className="textContainerPosition position-absolute px-3 py-4 rounded row-gap-22">
                                     {propertiesArr.map((item: any, index: any) => (
                                         <Col key={index} lg={3} md={6} sm={12} className={`p-2 d-flex justify-content-center align-items-center ${index !== 3 && 'border-end'} flex-column mx-auto`}>
@@ -178,6 +179,10 @@ function RoomDetails() {
                             </div>
                         </div>
                     </>
+                ) : (
+                    <div className="d-flex justify-content-center">
+                        <img src={errorImage} alt="Room Not Found Image" />
+                    </div>
                 )}
                 <SRModal title="Edit Room" onClose={handleCloseModal} isOpen={isOpen}
                     body={(

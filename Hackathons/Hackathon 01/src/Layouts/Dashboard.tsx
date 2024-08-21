@@ -31,6 +31,7 @@ import AllBookings from '../Pages/Bookings/AllBookings';
 import AllStaff from '../Pages/Staff/AllStaff';
 import AddStaff from '../Pages/Staff/AddStaff';
 import RoomDetails from '../Pages/Rooms/RoomDetails';
+import StaffDetails from '../Pages/Staff/StaffDetails';
 
 const drawerWidth = 240;
 
@@ -155,6 +156,31 @@ export default function Dashboard() {
                 },
             ],
         },
+        {
+            id: "5",
+            value: "All Enquiries",
+            icon: <InboxIcon />,
+            link: "enquiries/allenquiries",
+        },
+        {
+            id: "6",
+            value: "Reservations",
+            icon: <InboxIcon />,
+            children: [
+                {
+                    value: "All Reservations",
+                    link: "reservations/allreservations"
+                },
+                {
+                    value: "Pending Reservations",
+                    link: "reservations/pendingreservations"
+                },
+                {
+                    value: "Approved Reservations",
+                    link: "reservations/approvedreservations"
+                },
+            ],
+        },
     ]
 
     return (
@@ -248,6 +274,7 @@ export default function Dashboard() {
                     <Route path="bookings/allbooking" element={<AllBookings />} />
                     <Route path="staff/allstaff" element={<AllStaff />} />
                     <Route path="staff/addstaff" element={<AddStaff />} />
+                    <Route path="staff/:id" element={<StaffDetails />} />
                 </Routes>
                 <div className="background dashboard-background z-n1">
                     <div className="ashape dashboard-shape"></div>

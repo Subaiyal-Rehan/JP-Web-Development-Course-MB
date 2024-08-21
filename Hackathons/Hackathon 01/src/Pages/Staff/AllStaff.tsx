@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getData, setData } from "../../Config/FirebaseMethods"
+import { deleteData, getData, setData } from "../../Config/FirebaseMethods"
 import Row from "react-bootstrap/esm/Row"
 import Col from "react-bootstrap/esm/Col"
 import SRInput from "../../Components/SRInput"
@@ -11,6 +11,10 @@ import { FiEdit } from "react-icons/fi";
 import { toastGreen, toastRed } from "../../Components/My Toasts"
 import SRLoader from "../../Components/SRLoader"
 import { Tooltip } from "@mui/material"
+import { useNavigate } from "react-router-dom"
+import { MdDeleteOutline } from "react-icons/md";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { cancelAlert, confirmAlert } from "../../Components/ConfirmAlert"
 
 function AllStaff() {
     const [loader, setLoader] = useState<any>(false)
@@ -24,6 +28,7 @@ function AllStaff() {
     })
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [editedObj, setEditedObj] = useState<any>({})
+    const navigate = useNavigate()
 
     const fetchData = () => {
         getData("Staff").then((res) => {
@@ -38,9 +43,29 @@ function AllStaff() {
         fetchData()
     }, [])
 
-    const handleClick = (row: any) => {
+    const handleClick = (row: any, check:string) => {
         setSelectedRow(row)
-        setIsOpen(true);
+        if (check == "edit") {   
+            setIsOpen(true);
+        } else {
+            confirmAlert({
+                mainTitle: `Delete Staff ${row.StaffName}?`,
+                mainText: `Once done, this cannot be changed.`,
+                confirmBtnText: "Yes, delete it!"
+              }).then(() => {
+                setLoader(true)
+                deleteData("Staff", row.id).then(() => {
+                  fetchData()
+                  setLoader(false)
+                  toastGreen("Staff has been deleted successfully.")
+                }).catch(() => {
+                  setLoader(false)
+                  cancelAlert({})
+                })
+              }).catch(() => {
+                cancelAlert({})
+              })
+        }
     }
 
     useEffect(() => {
@@ -135,13 +160,26 @@ function AllStaff() {
                             id: "StaffSalary"
                         },
                         {
+                            width: 230,
                             render: (row: any) => {
                                 return (
-                                    <Tooltip title="Edit" placement="top">
-                                        <span>
-                                            <SRButton btnValue={<FiEdit />} className="py-1 fs-4" onClick={() => { handleClick(row) }} />
-                                        </span>
-                                    </Tooltip>
+                                    <>
+                                        <Tooltip title="Edit" placement="top">
+                                            <span>
+                                                <SRButton btnValue={<FiEdit />} className="py-1 fs-4" onClick={() => { handleClick(row, "edit") }} />
+                                            </span>
+                                        </Tooltip>
+                                        <Tooltip title="Delete" placement="top">
+                                            <span>
+                                                <SRButton btnValue={<MdDeleteOutline />} className="py-1 ms-2 fs-4" onClick={() => { handleClick(row, "delete") }} />
+                                            </span>
+                                        </Tooltip>
+                                        <Tooltip title="View Details" placement="top">
+                                            <span>
+                                                <SRButton btnValue={<FaMagnifyingGlass />} className="py-1 ms-2 fs-4" onClick={() => { navigate(`/dashboard/staff/${row.id}`) }} />
+                                            </span>
+                                        </Tooltip>
+                                    </>
                                 )
                             },
                             value: "Actions",

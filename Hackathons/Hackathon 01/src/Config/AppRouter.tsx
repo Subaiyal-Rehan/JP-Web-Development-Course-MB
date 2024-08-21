@@ -3,6 +3,7 @@ import Login from '../Pages/Login'
 import Signup from '../Pages/Signup'
 import Protected from './Protected'
 import Dashboard from '../Layouts/Dashboard'
+import NotfFound from '../Pages/NotfFound'
 
 function AppRouter() {
   return (
@@ -11,6 +12,7 @@ function AppRouter() {
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard/*" element={<Protected Component={Dashboard} />} />
+            <Route path="*" element={<NotfFound />} />
         </Routes>
     </BrowserRouter>
   )

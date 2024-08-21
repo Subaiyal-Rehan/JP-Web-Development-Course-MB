@@ -32,7 +32,6 @@ function CreateRoom() {
 
   useEffect(() => {
     fetchData()
-    console.log(roomData)
   }, [])
 
   const handleReset = (checkSubmit:boolean) => {

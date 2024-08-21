@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import SRTable from "../../Components/SRTable"
-import { getData, setData } from "../../Config/FirebaseMethods"
+import { deleteData, getData, setData } from "../../Config/FirebaseMethods"
 import SRButton from "../../Components/SRButton"
 import { cancelAlert, confirmAlert, successAlert } from "../../Components/ConfirmAlert"
 import SRLoader from "../../Components/SRLoader"
@@ -8,7 +8,7 @@ import Row from "react-bootstrap/esm/Row"
 import Col from "react-bootstrap/esm/Col"
 import SRInput from "../../Components/SRInput"
 import SRSelect from "../../Components/SRSelect"
-import { MdPublishedWithChanges } from "react-icons/md";
+import { MdPublishedWithChanges, MdDeleteOutline } from "react-icons/md";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Tooltip } from "@mui/material"
 import { FiEdit } from "react-icons/fi";
@@ -70,6 +70,25 @@ function AllRooms() {
       })
     }
 
+    if (check == "delete") {
+      confirmAlert({
+        mainTitle: `Delete Room Number ${row.RoomNumber}?`,
+        mainText: `Once done, this cannot be changed.`,
+        confirmBtnText: "Yes, delete it!"
+      }).then(() => {
+        setLoader(true)
+        deleteData("Rooms", row.id).then(() => {
+          fetchData()
+          setLoader(false)
+          toastGreen("Room has been deleted successfully.")
+        }).catch(() => {
+          setLoader(false)
+          cancelAlert({})
+        })
+      }).catch(() => {
+        cancelAlert({})
+      })
+    }
   };
 
 
@@ -150,7 +169,7 @@ function AllRooms() {
               id: "RoomId"
             },
             {
-              render: (row: any) => (<img width={60} src={row.RoomImg} />),
+              render: (row: any) => (<img width={60} src={row.RoomImg} alt="Room Img" />),
               value: "Snapshot",
             },
             {
@@ -174,7 +193,7 @@ function AllRooms() {
               id: "RoomDescription"
             },
             {
-              width: 230,
+              width: 300,
               render: (row: any) => {
                 return (
                   <>
@@ -186,6 +205,11 @@ function AllRooms() {
                     <Tooltip title="Edit" placement="top">
                       <span>
                         <SRButton btnValue={<FiEdit />} className="ms-2 py-1 fs-4" onClick={() => handleClick(row, "edit")} />
+                      </span>
+                    </Tooltip>
+                    <Tooltip title="Delete" placement="top">
+                      <span>
+                        <SRButton btnValue={<MdDeleteOutline />} className="ms-2 py-1 fs-4" onClick={() => handleClick(row, "delete")} />
                       </span>
                     </Tooltip>
                     <Tooltip title="View Details" placement="top">

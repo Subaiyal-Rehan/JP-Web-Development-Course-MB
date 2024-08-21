@@ -14,6 +14,7 @@ import SRInput from "../../Components/SRInput"
 import SRSelect from "../../Components/SRSelect"
 import SRTextarea from "../../Components/SRTextarea"
 import { Tooltip } from "@mui/material"
+import NotFoundImg from '../../Images/Image_Not_Found.png'
 
 function RoomDetails() {
     const [allData, setAllData] = useState<any>({})
@@ -62,7 +63,7 @@ function RoomDetails() {
         if (check == "delete") {
             confirmAlert({
                 mainTitle: `Delete Room Number ${allData.RoomNumber}?`,
-                mainText: `This action can't be undone`,
+                mainText: `Once done, this cannot be changed.`,
                 confirmBtnText: "Yes, delete it!"
             }).then(() => {
                 setLoader(true)
@@ -140,10 +141,10 @@ function RoomDetails() {
                     <>
                         <h2 className="fs-4 text-center mb-3">Details of Room ID {allData.RoomId}</h2>
                         <div>
-                            <div className="imgContainer position-relative" style={{ backgroundImage: `url(${allData.RoomImg})` }}>
-                                <Row className="textContainerPosition position-absolute bg-grey px-3 py-4 rounded">
+                            <div className="imgContainer position-relative" style={{  backgroundImage: `url(${allData.RoomImg}), url(${NotFoundImg})` }}>
+                                <Row className="textContainerPosition position-absolute px-3 py-4 rounded row-gap-22">
                                     {propertiesArr.map((item: any, index: any) => (
-                                        <Col key={index} lg={3} className={`d-flex justify-content-center align-items-center ${index !== 3 && 'border-end border-black'} flex-column mx-auto`}>
+                                        <Col key={index} lg={3} md={6} sm={12} className={`p-2 d-flex justify-content-center align-items-center ${index !== 3 && 'border-end'} flex-column mx-auto`}>
                                             <h3 className="fs-4">{item.label}:</h3>
                                             <h4 className="fs-4">{allData[item.id]}</h4>
                                         </Col>
@@ -151,7 +152,7 @@ function RoomDetails() {
                                 </Row>
                             </div>
                             <div className="descDiv d-flex">
-                                <h3 className="fs-4">Room Description:</h3>
+                                <h3 className="fs-4 me-2">Room Description:</h3>
                                 <h4 className="fs-4">{allData.RoomDescription}</h4>
                             </div>
 

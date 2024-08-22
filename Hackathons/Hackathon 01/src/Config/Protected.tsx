@@ -21,15 +21,15 @@ function Protected({ Component }: any) {
                 const uid = user.uid;
                 getData("Users", uid)
                     .then((res: any) => {
-                        if (res.Type === "Accountant") {
-                            dispatch(setUser({
-                                username: res.Username,
-                                uid: res.id,
-                                type: res.Type,
-                                email: res.Email,
-                                password: res.Password,
-                            }));
-                        } else {
+                        dispatch(setUser({
+                            username: res.Username,
+                            uid: res.id,
+                            type: res.Type,
+                            email: res.Email,
+                            password: res.Password,
+                        }));
+                        if (res.Type !== "Accountant") {
+                        // } else {
                             toastRed("Access denied. Only accountants can view this page.");
                             navigate("/");
                         }

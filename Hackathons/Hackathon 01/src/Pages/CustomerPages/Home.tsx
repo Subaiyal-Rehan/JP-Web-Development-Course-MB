@@ -25,7 +25,7 @@ function Home() {
                     </div>
                 </div>
                 <div className="RoomsSection container mt-5">
-                    <h2 className="text-center text-white fs-1">Featured Rooms</h2>
+                    <h2 className="text-center text-white fs-1 mb-4">Featured Rooms</h2>
                     {roomsData !== "ERROR" ? (
                         <>
                             <Row className="row-gap-4">
@@ -41,6 +41,9 @@ function Home() {
                                                 </div>
                                                 <div className="RoomCardDesc">
                                                     <p className="fs-5">{item.RoomDescription.length >= 70 ? item.RoomDescription.slice(0, 70) : item.RoomDescription}</p>
+                                                </div>
+                                                <div className="RoomCardStatus">
+                                                    <h3 className={`fs-5 text-start ${item.RoomStatus == "Available" ? "text-success" : "text-danger"}`}>{item.RoomStatus}</h3>
                                                 </div>
                                                 <div className="RoomCardFooter d-flex align-items-center justify-content-between">
                                                     <div className="RoomCardPrice">

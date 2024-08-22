@@ -229,7 +229,7 @@
 }
 
 .heroSection {
-    background-color: #1845ad52;
+    background-color: var(--extremeBlue);
 }
 
 .heroTextDiv {
@@ -237,6 +237,24 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.RoomsSection>h2,
+.Completed>h2 {
+    position: relative;
+    padding: 6px;
+}
+
+.RoomsSection>h2::after, 
+.Completed>h2::after {
+    content: "";
+    position: absolute;
+    left: 50% !important;
+    transform: translate(-50%);
+    bottom: 0;
+    width: 9%;
+    height: 2px;
+    background-color: var(--white);
 }
 
 .overlayDiv {

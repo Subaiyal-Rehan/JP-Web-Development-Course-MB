@@ -1,5 +1,4 @@
 import { Avatar } from "@mui/material";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { signoutUser } from "../Config/FirebaseMethods";
@@ -8,10 +7,6 @@ import { delUser } from "../Config/Redux/Slices/UserSlice";
 
 function SRHeader() {
     const data = useSelector((user: any) => user.user)
-
-    useEffect(() => {
-        console.log(data)
-    }, [data])
 
     const dispatch = useDispatch()
     const handleLogout = () => {
@@ -73,6 +68,7 @@ function SRHeader() {
                                         </div>
                                         <ul className="dropdown-menu">
                                             <li><Link className="dropdown-item" to="/login">My Account</Link></li>
+                                            {data.Type == "Accountant" && (<li><Link className="dropdown-item" to="/dashboard">Dashboard</Link></li>)}
                                             <li onClick={handleLogout}><span className="ms-3 cursor-pointer">Logout</span></li>
                                         </ul>
                                     </>

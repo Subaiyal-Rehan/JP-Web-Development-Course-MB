@@ -33,6 +33,7 @@ import AddStaff from '../Pages/Staff/AddStaff';
 import RoomDetails from '../Pages/Rooms/RoomDetails';
 import StaffDetails from '../Pages/Staff/StaffDetails';
 import Signup from '../Pages/Signup';
+import AllReservations from '../Pages/AllReservations';
 
 const drawerWidth = 240;
 
@@ -165,28 +166,21 @@ export default function Dashboard() {
         },
         {
             id: "6",
-            value: "Reservations",
+            value: "All Reservations",
             icon: <InboxIcon />,
-            children: [
-                {
-                    value: "All Reservations",
-                    link: "reservations/allreservations"
-                },
-                {
-                    value: "Pending Reservations",
-                    link: "reservations/pendingreservations"
-                },
-                {
-                    value: "Approved Reservations",
-                    link: "reservations/approvedreservations"
-                },
-            ],
+            link: "allreservations"
         },
         {
             id: "7",
             value: "Signup",
             icon: <InboxIcon />,
             link: "signup",
+        },
+        {
+            id: "8",
+            value: "Home",
+            icon: <MailIcon />,
+            link: "/",
         },
     ]
 
@@ -249,7 +243,7 @@ export default function Dashboard() {
                                         >
                                             <TreeItem
                                                 itemId={`${text.id}-${indexIn}`}
-                                                className="py-1 bg-gradientBlue"
+                                                className=" py-1 bg-darkBluee"
                                                 label={item.value}
                                             />
                                         </NavLink>
@@ -263,7 +257,7 @@ export default function Dashboard() {
                                         isActive ? "text-decoration-none text-white customActive" : "text-decoration-none text-white"
                                     }
                                 >
-                                    <TreeItem itemId={`${text.id}`} className="py-1 bg-gradientBlue" label={text.value} />
+                                    <TreeItem itemId={`${text.id}`} className="py-1" label={text.value} />
                                 </NavLink>
                             )}
                         </SimpleTreeView>
@@ -281,6 +275,7 @@ export default function Dashboard() {
                     <Route path="bookings/allbooking" element={<AllBookings />} />
                     <Route path="staff/allstaff" element={<AllStaff />} />
                     <Route path="staff/addstaff" element={<AddStaff />} />
+                    <Route path="allreservations" element={<AllReservations />} />
                     <Route path="staff/:id" element={<StaffDetails />} />
                     <Route path="signup" element={<Signup />} />
                 </Routes>

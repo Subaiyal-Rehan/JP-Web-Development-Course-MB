@@ -14,6 +14,7 @@
   --primaryBlack: #0c0a17;
   --grey: #bdbdbd;
   --darkBlue: #1845ad;
+  --extremeBlue: #1845ad52;
   --lightBlue: #23a2f6;
   --darkOrange: #ff512f;
   --lightOrange: #f09819;
@@ -44,6 +45,10 @@ body{
   background-color: var(--primaryBlack) !important;
 }
 
+.bg-darkBluee {
+  background-color: #143c99 !important;
+}
+
 .cursor-pointer {
   cursor: pointer !important;
 }
@@ -66,6 +71,14 @@ body{
 .MuiButtonBase-root.MuiIconButton-root {
   color: var(--white) !important;
 } 
+
+.MuiCollapse-root.MuiCollapse-vertical {
+  padding-left: 0px !important;
+}
+
+.MuiTreeItem-label {
+  padding: 3px 0 !important;
+}
 
 .custom-black {
   background-color: var(--bodyBlack);

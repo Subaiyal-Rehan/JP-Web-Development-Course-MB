@@ -32,35 +32,95 @@ function CustomerBooking() {
 
     const { RoomStatus, RoomDescription, RoomId, RoomImg, RoomNumber, RoomPrice, RoomType } = roomData;
 
+    // const handleSubmit = async (e: any) => {
+    //     e.preventDefault();
+    //     const finalObj = { ...bookingData, RoomId: roomData.id, RoomNumber: RoomNumber, RoomPrice: RoomPrice, CustomerName: userData.Username, Number : userData.Number }
+    //     console.log(finalObj)
+    //     setLoader(true)
+    //     if (finalObj.RoomStatus == "Occupied") {
+    //         setLoader(false)
+    //         toastRed("The Room is already occupied.")
+    //         return;
+    //     }
+    //     try {
+    //         await Promise.all([
+    //             setData("Reservations", finalObj),
+    //             setData("Rooms", { ...roomData, RoomStatus: "Occupied" })
+    //         ]);
+
+    //         setLoader(false)
+    //         toastGreen("Your booking has been confirmed successfully!");
+    //         setSuccessful("Complete")
+    //         setBookingData({
+    //             CheckInDate: "",
+    //             CheckOutDate: "",
+    //             BookingId: bookingData.BookingId + 1,
+    //         })
+    //         setRoomData({ ...roomData, RoomStatus: "Occupied" })
+    //     } catch (err) {
+    //         setLoader(false)
+    //         toastRed("Booking could not be processed. Please try again later.");
+    //     }
+    // }
+
+
+
+
+    // CHECK THIS FUNC
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        const finalObj = { ...bookingData, RoomId: roomData.id, RoomNumber: RoomNumber, RoomPrice: RoomPrice, CustomerName: userData.Username, Number : userData.Number }
-        setLoader(true)
-        if (finalObj.RoomStatus == "Occupied") {
-            setLoader(false)
-            toastRed("The Room is already occupied.")
+        
+        // Create the final object with the current state values
+        const finalObj = {
+            ...bookingData,
+            RoomId: roomData.id,
+            RoomNumber: roomData.RoomNumber,  // Using the destructured value
+            RoomPrice: roomData.RoomPrice,    // Using the destructured value
+            CustomerName: userData.Username,
+            Number: userData.Number
+        };
+        
+        console.log(finalObj);
+    
+        setLoader(true);
+    
+        if (finalObj.RoomStatus === "Occupied") {
+            setLoader(false);
+            toastRed("The Room is already occupied.");
             return;
         }
+    
         try {
+            // Perform both database operations concurrently
             await Promise.all([
                 setData("Reservations", finalObj),
                 setData("Rooms", { ...roomData, RoomStatus: "Occupied" })
             ]);
-
-            setLoader(false)
+    
+            // After successful operations, update the UI state
+            setLoader(false);
             toastGreen("Your booking has been confirmed successfully!");
-            setSuccessful("Complete")
+            setSuccessful("Complete");
+            
+            // Reset the booking data but preserve the new BookingId
             setBookingData({
                 CheckInDate: "",
                 CheckOutDate: "",
                 BookingId: bookingData.BookingId + 1,
-            })
-            setRoomData({ ...roomData, RoomStatus: "Occupied" })
+            });
+    
+            // Update the room data to reflect the new status
+            setRoomData((prevData:any) => ({
+                ...prevData,
+                RoomStatus: "Occupied"
+            }));
         } catch (err) {
-            setLoader(false)
+            setLoader(false);
             toastRed("Booking could not be processed. Please try again later.");
         }
-    }
+    };
+
+
 
 
     return (

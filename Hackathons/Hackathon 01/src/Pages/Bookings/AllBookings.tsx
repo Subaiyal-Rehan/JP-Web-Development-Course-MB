@@ -79,6 +79,10 @@ function AllBookings() {
                             id: "CustomerName"
                         },
                         {
+                            value: "Customer Ph Number",
+                            id: "Number"
+                        },
+                        {
                             value: "Check-In",
                             id: "CheckInDate"
                         },

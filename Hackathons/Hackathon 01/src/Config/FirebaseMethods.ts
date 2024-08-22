@@ -88,7 +88,6 @@ export const signupUser = (
           id: res.user.uid,
         })
           .then((response) => {
-            console.log(userName)
             resolve(response);
           })
           .catch((err) => {

@@ -31,7 +31,7 @@ function Admin() {
       bgColor: "#d58714",
       color: "white",
       icon: <MdPending />,
-      link: "/dashboard/rooms/allrooms"
+      link: "/dashboard/allreservations"
     },
     {
       title: "Approved Reservations",
@@ -39,7 +39,7 @@ function Admin() {
       bgColor: "var(--lightBlue)",
       color: "white",
       icon: <FaCheckCircle />,
-      link: "/dashboard/rooms/allrooms"
+      link: "/dashboard/allreservations"
     },
     {
       title: "Canceled Reservations",
@@ -47,7 +47,7 @@ function Admin() {
       bgColor: "var(--darkBlue)",
       color: "white",
       icon: <MdCancel />,
-      link: "/dashboard/rooms/allrooms"
+      link: "/dashboard/allreservations"
     },
     {
       title: "Total Rooms",

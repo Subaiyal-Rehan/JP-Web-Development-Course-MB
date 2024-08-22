@@ -15,7 +15,6 @@ function CustomerBooking() {
     const [loader, setLoader] = useState<any>(false)
     const [roomData, setRoomData] = useState<any>({})
     const [bookingData, setBookingData] = useState<any>([])
-    const [isAdmin, setIsAdmin] = useState<boolean>(true)
     const [successful, setSuccessful] = useState<string>("")
     const userData = useSelector((user: any) => user.user)
     const params = useParams()
@@ -29,17 +28,13 @@ function CustomerBooking() {
             let a = res[res.length - 1].BookingId
             a && setBookingData({ ...roomData, BookingId: Number(a) + 1 })
         }).catch((err) => err && setBookingData({ ...roomData, BookingId: 1 }))
-
-        if (userData.Type == "Accountant") {
-            setIsAdmin(false)
-        }
     }, [userData])
 
     const { RoomStatus, RoomDescription, RoomId, RoomImg, RoomNumber, RoomPrice, RoomType } = roomData;
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        const finalObj = { ...bookingData, RoomId: roomData.id, RoomNumber: RoomNumber, RoomPrice: RoomPrice, CustomerName: userData.Username }
+        const finalObj = { ...bookingData, RoomId: roomData.id, RoomNumber: RoomNumber, RoomPrice: RoomPrice, CustomerName: userData.Username, Number : userData.Number }
         setLoader(true)
         if (finalObj.RoomStatus == "Occupied") {
             setLoader(false)
@@ -85,7 +80,8 @@ function CustomerBooking() {
                     {successful == "Complete" ?
                         (
                             <div className="RoomsSection container mt-5">
-                                <h2 className="text-center text-white fs-2">Your booking has been confirmed successfully</h2>
+                                <h2 className="text-center text-white fs-2">Booking Request Received!</h2>
+                                <p className="text-white text-center fs-5">Thank you for your booking! Your reservation request has been received and is currently under review. Please allow us some time to process your request. You can check the status wether it's checked or not in 'My Account'. We appreciate your patience!</p>
                             </div>
                         ) : (
                             Object.keys(roomData).length !== 0 ? (
@@ -111,9 +107,9 @@ function CustomerBooking() {
                                         <h2>Booking Form</h2>
                                         <form onSubmit={handleSubmit}>
                                             <h3 className="fs-5 mb-0 border-bottom pb-1">Personal Details (Auto Filled)</h3>
-                                            <SRInput disabled={isAdmin} label="User Name" value={userData.Username} placeholder="Enter user name" />
-                                            <SRInput disabled={isAdmin} label="Email Address" value={userData.Email} placeholder="Enter email address" />
-                                            <SRInput disabled={isAdmin} label="Phone Number" value={userData.Number} placeholder="Enter phone number" />
+                                            <SRInput disabled={true} label="User Name" value={userData.Username} placeholder="Enter user name" />
+                                            <SRInput disabled={true} label="Email Address" value={userData.Email} placeholder="Enter email address" />
+                                            <SRInput disabled={true} label="Phone Number" value={userData.Number} placeholder="Enter phone number" />
                                             <h3 className="fs-5 mb-0 mt-4 border-bottom pb-1">Booking Details</h3>
                                             <Row>
                                                 <Col lg={12}>

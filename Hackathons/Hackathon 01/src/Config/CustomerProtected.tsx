@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./Redux/Slices/UserSlice";
 import { getData } from "./FirebaseMethods";
 
-function Protected({ Component }: any) {
+function CustomerProtected({ Component, Booking }: any) {
     const [isInitialCheck, setIsInitialCheck] = useState(true);
     const [loader, setLoader] = useState<any>(true)
     const navigate = useNavigate()
@@ -21,17 +21,15 @@ function Protected({ Component }: any) {
                 const uid = user.uid;
                 getData("Users", uid)
                     .then((res: any) => {
-                        if (res.Type === "Accountant") {
+                        if (res.Type === "Customer") {
                             dispatch(setUser({
                                 username: res.Username,
                                 uid: res.id,
                                 type: res.Type,
+                                number: res.Number,
                                 email: res.Email,
                                 password: res.Password,
                             }));
-                        } else {
-                            toastRed("Access denied. Only accountants can view this page.");
-                            navigate("/");
                         }
                     })
                     .catch(() => {
@@ -42,14 +40,16 @@ function Protected({ Component }: any) {
                     });
             } else {
                 setLoader(false);
-                if (isInitialCheck) {
-                    toastRed("User is not logged in.");
-                }
-                navigate("/");
+                    if (Booking) {
+                        toastRed("Login is required to proceed with booking.");
+                            navigate("/");
+                    } else {
+                        navigate("/");
+                    }
             }
             setIsInitialCheck(false);
         });
-
+    
         return () => unsubscribe();
     }, [auth, navigate, dispatch, isInitialCheck]);
 
@@ -60,4 +60,4 @@ function Protected({ Component }: any) {
     )
 }
 
-export default Protected
+export default CustomerProtected

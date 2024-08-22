@@ -31,7 +31,7 @@ function Home() {
                             <Row className="row-gap-4">
                                 {roomsData.map((item: any, index: any) => (
                                     <Col lg={4} md={6} sm={12} className="mx-auto" key={index}>
-                                        <div className="RoomCard rounded">
+                                        <div className="RoomCard overflow-hidden rounded">
                                             <div className="RoomCardImg">
                                                 <img src={item.RoomImg} alt="Room Img" />
                                             </div>
@@ -46,7 +46,7 @@ function Home() {
                                                     <div className="RoomCardPrice">
                                                         <h4 className="fs-3">{item.RoomPrice} / Day</h4>
                                                     </div>
-                                                    <SRButton btnValue="Book Now" />
+                                                    <SRButton link={`/customerBooking/${item.id}`} btnValue="Book Now" />
                                                 </div>
                                             </div>
                                         </div>
@@ -61,7 +61,9 @@ function Home() {
                     )}
                 </div>
             </main>
-            <Footer />
+            <footer className="py-4">
+                <Footer />
+            </footer>
         </>
     )
 }

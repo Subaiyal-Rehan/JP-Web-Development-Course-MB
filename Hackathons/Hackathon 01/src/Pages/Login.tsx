@@ -18,7 +18,7 @@ function Login() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user && isInitialCheck) {
         toastRed("User is already logged in.");
-        navigate("/dashboard");
+        navigate("/");
       }
       setIsInitialCheck(false);
     });
@@ -32,7 +32,7 @@ function Login() {
     signinUser(loginData.email, loginData.password).then(() => {
       setLoader(false)
       toastGreen("Successfully Logged in")
-      navigate("/dashboard")
+      navigate("/")
     }).catch((err) => {
       setLoader(false)
       toastRed(err)
@@ -59,7 +59,10 @@ function Login() {
         </div>
         <div className="social flex-column align-items-center text-white">
           Don't have an account?
+          <div className="d-flex gap-2">
           <Link to="/userSignup" className="accountBtn text-decoration-none">Sign up</Link>
+          <Link to="/" className="accountBtn text-decoration-none">Go to Home</Link>
+          </div>
         </div>
       </form>
     </>

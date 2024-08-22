@@ -40,6 +40,14 @@ body{
   background-color: var(--grey) !important;
 }
 
+.bg-darkBlue {
+  background-color: var(--primaryBlack) !important;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
 .modal-content  {
   background-color: var(--black) !important;
   border: 1px solid var(--grey);

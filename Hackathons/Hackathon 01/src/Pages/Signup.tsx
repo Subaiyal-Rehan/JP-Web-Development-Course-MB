@@ -29,7 +29,7 @@ function Signup() {
     const handleSubmit = (e: any) => {
         e.preventDefault();
         setLoader(true)
-        signupUser(signupData.email, signupData.password, signupData.userName, signupData.type).then(() => {
+        signupUser(signupData.email, signupData.password, signupData.userName, signupData.type, signupData.number).then(() => {
             setLoader(false)
             toastGreen("Account Successfully Created.")
             navigate("/dashboard")
@@ -56,6 +56,9 @@ function Signup() {
                 <label className="text-white mb-1 mt-4 fw-semibold formLabel" htmlFor="email">Email Address</label>
                 <input type="email" placeholder="Email Address" onChange={(e: any) => setSignupData({ ...signupData, email: e.target.value })} required className="textInputs" id="email" />
 
+                <label className="text-white mb-1 mt-4 fw-semibold formLabel" htmlFor="number">Phone Number</label>
+                <input type="number" placeholder="Phone Number" onChange={(e: any) => setSignupData({ ...signupData, number: e.target.value })} required className="textInputs" id="number" />
+
                 <label className="text-white mb-1 mt-4 fw-semibold formLabel" htmlFor="password">Password</label>
                 <input type="password" placeholder="Password" onChange={(e: any) => setSignupData({ ...signupData, password: e.target.value })} required className="textInputs" id="password" />
 
@@ -64,7 +67,7 @@ function Signup() {
                 </div>
                 <div className="social flex-column align-items-center text-white">
                     Already have an account?
-                    <Link to="/" className="accountBtn text-decoration-none">Login</Link>
+                    <Link to="/login" className="accountBtn text-decoration-none">Login</Link>
                 </div>
             </form>
         </>

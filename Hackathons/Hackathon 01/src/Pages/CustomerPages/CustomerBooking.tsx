@@ -15,102 +15,102 @@ function CustomerBooking() {
     const [loader, setLoader] = useState<any>(false)
     const [roomData, setRoomData] = useState<any>({})
     const [bookingData, setBookingData] = useState<any>([])
+    const [allBookingData, setAllBookingData] = useState<any>([])
+    const [allReservationsData, setAllReservationsData] = useState<any>([])
     const [successful, setSuccessful] = useState<string>("")
     const userData = useSelector((user: any) => user.user)
     const params = useParams()
 
-    useEffect(() => {
-        getData("Rooms", params.id).then((res: any) => {
-            setRoomData(res)
-        }).catch(() => setRoomData("ERROR"))
 
-        getData("Bookings").then((res: any) => {
-            let a = res[res.length - 1].BookingId
-            a && setBookingData({ ...roomData, BookingId: Number(a) + 1 })
-        }).catch((err) => err && setBookingData({ ...roomData, BookingId: 1 }))
-    }, [userData])
+    const fetchRoomsData = () => {
+        getData("Rooms", params.id)
+            .then((res: any) => {
+                setRoomData(res);
+            }).catch((err) => {
+                console.error("Error while fetching rooms data", err)
+            });
+    }
+
+    const fetchReservationsData = () => {
+        getData("Reservations")
+        .then((res: any) => {
+            setAllReservationsData(res)
+        }).catch(() => {});
+    }
+
+    const fetchBookingsData = () => {
+        getData("Bookings")
+            .then((res: any) => {
+                setAllBookingData(res)
+            }).catch(() => {});
+    }
+
+    useEffect(() => {
+        if (allReservationsData.length !== 0) {
+            const lastReservationBookingId = allReservationsData[allReservationsData.length - 1].BookingId;
+
+            setBookingData((prevBookingData: any) => ({
+                ...prevBookingData,
+                BookingId: lastReservationBookingId + 1
+            }));
+        } else if (allBookingData.length !== 0) {
+            const lastBookingId = allBookingData[allBookingData.length - 1].BookingId;
+            setBookingData((prevBookingData: any) => ({
+                ...prevBookingData,
+                BookingId: lastBookingId + 1
+            }));
+        } else {
+            setBookingData((prevBookingData: any) => ({
+                ...prevBookingData,
+                BookingId: 1
+            }));
+        }
+    }, [allReservationsData, allBookingData]);
+    
+
+    useEffect(() => {
+        fetchRoomsData();
+        fetchReservationsData();
+        fetchBookingsData();
+    }, [])
 
     const { RoomStatus, RoomDescription, RoomId, RoomImg, RoomNumber, RoomPrice, RoomType } = roomData;
 
-    // const handleSubmit = async (e: any) => {
-    //     e.preventDefault();
-    //     const finalObj = { ...bookingData, RoomId: roomData.id, RoomNumber: RoomNumber, RoomPrice: RoomPrice, CustomerName: userData.Username, Number : userData.Number }
-    //     console.log(finalObj)
-    //     setLoader(true)
-    //     if (finalObj.RoomStatus == "Occupied") {
-    //         setLoader(false)
-    //         toastRed("The Room is already occupied.")
-    //         return;
-    //     }
-    //     try {
-    //         await Promise.all([
-    //             setData("Reservations", finalObj),
-    //             setData("Rooms", { ...roomData, RoomStatus: "Occupied" })
-    //         ]);
-
-    //         setLoader(false)
-    //         toastGreen("Your booking has been confirmed successfully!");
-    //         setSuccessful("Complete")
-    //         setBookingData({
-    //             CheckInDate: "",
-    //             CheckOutDate: "",
-    //             BookingId: bookingData.BookingId + 1,
-    //         })
-    //         setRoomData({ ...roomData, RoomStatus: "Occupied" })
-    //     } catch (err) {
-    //         setLoader(false)
-    //         toastRed("Booking could not be processed. Please try again later.");
-    //     }
-    // }
-
-
-
-
-    // CHECK THIS FUNC
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        
-        // Create the final object with the current state values
+
         const finalObj = {
             ...bookingData,
             RoomId: roomData.id,
-            RoomNumber: roomData.RoomNumber,  // Using the destructured value
-            RoomPrice: roomData.RoomPrice,    // Using the destructured value
+            RoomNumber: roomData.RoomNumber,
+            RoomPrice: roomData.RoomPrice,
             CustomerName: userData.Username,
             Number: userData.Number
         };
-        
-        console.log(finalObj);
-    
-        setLoader(true);
-    
-        if (finalObj.RoomStatus === "Occupied") {
-            setLoader(false);
+
+        if (RoomStatus === "Occupied") {
             toastRed("The Room is already occupied.");
             return;
         }
-    
+
+        setLoader(true);
         try {
-            // Perform both database operations concurrently
             await Promise.all([
                 setData("Reservations", finalObj),
                 setData("Rooms", { ...roomData, RoomStatus: "Occupied" })
             ]);
-    
-            // After successful operations, update the UI state
+
             setLoader(false);
             toastGreen("Your booking has been confirmed successfully!");
             setSuccessful("Complete");
-            
-            // Reset the booking data but preserve the new BookingId
+
             setBookingData({
                 CheckInDate: "",
                 CheckOutDate: "",
                 BookingId: bookingData.BookingId + 1,
             });
-    
-            // Update the room data to reflect the new status
-            setRoomData((prevData:any) => ({
+
+            setRoomData((prevData: any) => ({
                 ...prevData,
                 RoomStatus: "Occupied"
             }));
@@ -119,9 +119,6 @@ function CustomerBooking() {
             toastRed("Booking could not be processed. Please try again later.");
         }
     };
-
-
-
 
     return (
         <>

@@ -8,7 +8,12 @@ import { getData } from "../Config/FirebaseMethods";
 
 function Admin() {
   const [allRoomsData, setAllRoomsData] = useState<any>([])
+  const [allReservationsData, setAllReservationsData] = useState<any>([])
+  const [allBookingssData, setAllBookingssData] = useState<any>([])
+  const [allCancelledData, setAllCancelledData] = useState<any>([])
+  const [allStaffData, setAllStaffData] = useState<any>([])
   const [availableRooms, setAvailableRooms] = useState<any>([])
+  const [acceptedReservations, setAcceptedReservations] = useState<any>([])
   const [occupiedRooms, setOccupiedRooms] = useState<any>([])
 
   const fetchRoomsData = () => {
@@ -16,18 +21,47 @@ function Admin() {
       setAllRoomsData(res)
       setAvailableRooms(res.filter((item:any)=>item.RoomStatus == "Available"))
       setOccupiedRooms(res.filter((item:any)=>item.RoomStatus == "Occupied"))
-    }).catch((err)=>console.log(err, "Error while fetching room data"))
+    })
   }
   
+  const fetchReservationsData = () => {
+    getData("Reservations").then((res)=>{
+      setAllReservationsData(res)
+    })
+  }
+  
+  const fetchBookingssData = () => {
+    getData("Bookings").then((res:any)=>{
+      setAllBookingssData(res)
+      setAcceptedReservations(res.filter((item: any) => item.Accepted));
+    })
+  }
+  
+  const fetchCancelledReserData = () => {
+    getData("Cancelled").then((res:any)=>{
+      setAllCancelledData(res)
+    })
+  }
+  
+  const fetchStaffData = () => {
+    getData("Staff").then((res:any)=>{
+      setAllStaffData(res)
+    })
+  }
+
   useEffect(() => {
     fetchRoomsData()
+    fetchReservationsData()
+    fetchBookingssData()
+    fetchCancelledReserData()
+    fetchStaffData()
   }, [])
   
 
   const Boxes: any = [
     {
       title: "Pending Reservations",
-      count: [1, 2, 3].length,
+      count: allReservationsData.length,
       bgColor: "#d58714",
       color: "white",
       icon: <MdPending />,
@@ -35,7 +69,7 @@ function Admin() {
     },
     {
       title: "Approved Reservations",
-      count: [1, 2, 3].length,
+      count: acceptedReservations.length,
       bgColor: "var(--lightBlue)",
       color: "white",
       icon: <FaCheckCircle />,
@@ -43,7 +77,7 @@ function Admin() {
     },
     {
       title: "Canceled Reservations",
-      count: [1, 2, 3].length,
+      count: allCancelledData.length,
       bgColor: "var(--darkBlue)",
       color: "white",
       icon: <MdCancel />,
@@ -75,19 +109,19 @@ function Admin() {
     },
     {
       title: "Total Staff",
-      count: [1, 2, 3].length,
+      count: allStaffData.length,
       bgColor: "#01a55b",
       color: "white",
       icon: <MdMeetingRoom />,
-      link: "/dashboard/rooms/allrooms"
+      link: "/dashboard/staff/allstaff"
     },
     {
-      title: "Total Enquiries",
-      count: [1, 2, 3].length,
+      title: "Total Bookings",
+      count: allBookingssData.length,
       bgColor: "var(--lightBlue)",
       color: "white",
       icon: <MdMeetingRoom />,
-      link: "/dashboard/rooms/allrooms"
+      link: "/dashboard/bookings/allbooking"
     },
   ]
   return (

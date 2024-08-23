@@ -24,6 +24,8 @@ function Booking() {
     const [roomNumberOption, setRoomNumberOption] = useState<any>([])
     const [bookingData, setBookingData] = useState<any>(initialObj)
     const [RoomId, setRoomId] = useState<any>("")
+    const [allBookingData, setAllBookingData] = useState<any>([])
+    const [allReservationsData, setAllReservationsData] = useState<any>([])
     const fetchData = (id?: any) => {
         if (id) {
             getData("Rooms", id).then((res: any) => {
@@ -46,28 +48,55 @@ function Booking() {
             });
         }
     }
+
     const fetchBookingData = () => {
         getData("Bookings").then((res: any) => {
-            let a = res[res.length - 1].BookingId
-            a && setBookingData({ ...roomData, BookingId: Number(a) + 1 })
-        }).catch((err) => {
-            err && setBookingData({ ...roomData, BookingId: 1 })
-        })
+            setAllBookingData(res)
+        }).catch(() => { })
     }
 
+    const fetchReservationsData = () => {
+        getData("Reservations")
+            .then((res: any) => {
+                setAllReservationsData(res)
+            }).catch(() => { });
+    }
     useEffect(() => {
         fetchData()
         fetchBookingData()
+        fetchReservationsData()
     }, [])
 
-    const handleReset = (checkSubmit?:boolean) => {
+    useEffect(() => {
+        if (allReservationsData.length !== 0) {
+            const lastReservationBookingId = allReservationsData[allReservationsData.length - 1].BookingId;
+
+            setBookingData((prevBookingData: any) => ({
+                ...prevBookingData,
+                BookingId: lastReservationBookingId + 1,
+            }));
+        } else if (allBookingData.length !== 0) {
+            const lastBookingId = allBookingData[allBookingData.length - 1].BookingId;
+            setBookingData((prevBookingData: any) => ({
+                ...prevBookingData,
+                BookingId: lastBookingId + 1,
+            }));
+        } else {
+            setBookingData((prevBookingData: any) => ({
+                ...prevBookingData,
+                BookingId: 1,
+            }));
+        }
+    }, [allReservationsData, allBookingData]);
+
+    const handleReset = (checkSubmit?: boolean) => {
         let currentBookingID;
         if (checkSubmit) {
             currentBookingID = bookingData.BookingId + 1
         } else {
             currentBookingID = bookingData.BookingId
         }
-        setBookingData({...initialObj, BookingId : currentBookingID});
+        setBookingData({ ...initialObj, BookingId: currentBookingID });
         setRoomData({ RoomId: "" });
         setSelectedData({})
     }
@@ -149,7 +178,7 @@ function Booking() {
                     </Row>
                     <div className="mt-4">
                         <SRButton btnValue="Book" className="px-4" type="submit" />
-                        <SRButton btnValue="Reset" onClick={()=>handleReset(false)} className="px-4 ms-3" />
+                        <SRButton btnValue="Reset" onClick={() => handleReset(false)} className="px-4 ms-3" />
                     </div>
                 </form>
             </div>

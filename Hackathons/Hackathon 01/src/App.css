@@ -240,13 +240,15 @@
 }
 
 .RoomsSection>h2,
-.Completed>h2 {
+.Completed>h2,
+.heading-h1 {
     position: relative;
     padding: 6px;
 }
 
 .RoomsSection>h2::after, 
-.Completed>h2::after {
+.Completed>h2::after,
+.heading-h1::after {
     content: "";
     position: absolute;
     left: 50% !important;
@@ -292,14 +294,16 @@
     object-fit: cover;
 }
 
-.RoomDetails h2 {
+.RoomDetails h2,
+.left-heading {
     font-size: 26px;
     padding-bottom: 10px;
     margin-bottom: 20px;
     position: relative;
 }
 
-.RoomDetails h2::after {
+.RoomDetails h2::after,
+.left-heading::after {
     content: "";
     position: absolute;
     left: 0;
@@ -311,6 +315,10 @@
 
 .customActive {
     border-bottom: 2px solid white !important;
+}
+
+.AccountMenu {
+    height: 110px;
 }
 
 @media screen and (max-width:991px) {

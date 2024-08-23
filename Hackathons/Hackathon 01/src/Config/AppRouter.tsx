@@ -7,6 +7,8 @@ import Home from '../Pages/CustomerPages/Home'
 import CustomerBooking from '../Pages/CustomerPages/CustomerBooking'
 import CustomerSignup from '../Pages/CustomerPages/CustomerSignup'
 import CustomerProtected from './CustomerProtected'
+import Account from '../Pages/CustomerPages/Account'
+import MyBookings from '../Pages/CustomerPages/MyBookings'
 
 function AppRouter() {
   return (
@@ -16,6 +18,8 @@ function AppRouter() {
             <Route path="/login" element={<Login />} />
             <Route path="/userSignup" element={<CustomerSignup />} />
             <Route path="/customerBooking/:id" element={<CustomerProtected Component={CustomerBooking} Booking={true} />} />
+            <Route path="/account" element={<CustomerProtected Component={Account} Booking={true} />} />
+            <Route path="/mybookings" element={<CustomerProtected Component={MyBookings} Booking={true} />} />
             <Route path="/dashboard/*" element={<Protected Component={Dashboard} />} />
             <Route path="*" element={<NotfFound />} />
         </Routes>

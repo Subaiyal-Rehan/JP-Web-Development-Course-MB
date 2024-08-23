@@ -31,6 +31,11 @@ function CustomerBooking() {
             });
     }
 
+    useEffect(() => {
+      console.log(userData)
+    }, [userData])
+    
+
     const fetchReservationsData = () => {
         getData("Reservations")
         .then((res: any) => {
@@ -97,7 +102,8 @@ function CustomerBooking() {
         try {
             await Promise.all([
                 setData("Reservations", finalObj),
-                setData("Rooms", { ...roomData, RoomStatus: "Occupied" })
+                setData("Rooms", { ...roomData, RoomStatus: "Occupied" }),
+                setData(`Users/${userData.Uid}/Bookings`, finalObj)
             ]);
 
             setLoader(false);

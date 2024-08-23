@@ -67,7 +67,7 @@ function SRHeader() {
                                             />
                                         </div>
                                         <ul className="dropdown-menu">
-                                            <li><Link className="dropdown-item" to="/login">My Account</Link></li>
+                                            {data.Type !== "Accountant" && (<li><Link className="dropdown-item" to='/account'>My Account</Link></li>)}
                                             {data.Type == "Accountant" && (<li><Link className="dropdown-item" to="/dashboard">Dashboard</Link></li>)}
                                             <li onClick={handleLogout}><span className="ms-3 cursor-pointer">Logout</span></li>
                                         </ul>

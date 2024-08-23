@@ -21,7 +21,6 @@ function CustomerProtected({ Component, Booking }: any) {
                 const uid = user.uid;
                 getData("Users", uid)
                     .then((res: any) => {
-                        // if (res.Type === "Customer") {
                             dispatch(setUser({
                                 username: res.Username,
                                 uid: res.id,
@@ -30,7 +29,6 @@ function CustomerProtected({ Component, Booking }: any) {
                                 email: res.Email,
                                 password: res.Password,
                             }));
-                        // }
                     })
                     .catch(() => {
                         toastRed("Something went wrong. Please try again.");
@@ -41,7 +39,7 @@ function CustomerProtected({ Component, Booking }: any) {
             } else {
                 setLoader(false);
                     if (Booking) {
-                        toastRed("Login is required to proceed with booking.");
+                        toastRed("Please log in to continue.");
                             navigate("/");
                     } else {
                         navigate("/");

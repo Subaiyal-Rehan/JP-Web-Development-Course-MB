@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
 import { deleteData, getData, setData } from "../Config/FirebaseMethods"
 import SRTable from "../Components/SRTable"
-import { Tooltip } from "@mui/material"
-import SRButton from "../Components/SRButton"
 import { toastGreen, toastRed } from "../Components/My Toasts"
 import { confirmAlert } from "../Components/ConfirmAlert"
 import SRLoader from "../Components/SRLoader"
@@ -21,7 +19,6 @@ function AllReservations() {
       setAllData([])
     })
   }
-
 
   useEffect(() => {
     console.log(allData)

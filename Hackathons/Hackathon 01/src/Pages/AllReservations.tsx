@@ -36,9 +36,8 @@ function AllReservations() {
   }, [allData])
 
   const handleApprove = (row: any) => {
-    console.log(row)
     confirmAlert({
-      mainTitle: `Approve Booking for ${row.CustomerName} for room ${row.RoomNumber}?`,
+      mainTitle: `Approve the Booking for ${row.CustomerName} for room ${row.RoomNumber}?`,
       mainText: `Once done, this cannot be changed.`,
       confirmBtnText: "Yes, Approve!"
     }).then(() => {
@@ -57,7 +56,23 @@ function AllReservations() {
   }
 
   const handleCancel = (row: any) => {
-    console.log(row)
+    confirmAlert({
+      mainTitle: `Reject the Booking for ${row.CustomerName} for room ${row.RoomNumber}?`,
+      mainText: `Once done, this cannot be changed.`,
+      confirmBtnText: "Yes, Reject!"
+    }).then(() => {
+      setLoader(true)
+      setData("Cancelled", { ...row, Rejected: `By ${userData.Username}` }).then(() => {
+        deleteData("Reservations", row.id).then(() => {
+          fetchData()
+          setLoader(false)
+          toastGreen("Booking has been rejected.")
+        })
+      }).catch(() => {
+        setLoader(false)
+        toastRed("Failed to Reject the booking.")
+      })
+    })
   }
 
   return (
@@ -104,7 +119,7 @@ function AllReservations() {
                     <ul className="dropdown-menu">
                       <li><button className="dropdown-item py-2" onClick={() => handleApprove(row)} type="button">Approve</button></li>
                       <li><hr className="dropdown-divider m-0" /></li>
-                      <li><button className="dropdown-item py-2" onClick={() => handleCancel(row)} type="button">Cancel</button></li>
+                      <li><button className="dropdown-item py-2" onClick={() => handleCancel(row)} type="button">Reject</button></li>
                     </ul>
                   </div>
                 </>

@@ -13,6 +13,7 @@ function MyBookings() {
     const userData = useSelector((state: any) => state.user)
     const [allData, setAllData] = useState<any>([])
     const [allRoomsData, setAllRoomsData] = useState<any>([])
+    const [allReservationsData, setAllReservationsData] = useState<any>([])
     const [selectedRooms, setSelectedRooms] = useState<any>([])
 
     const fetchUserData = () => {
@@ -28,6 +29,12 @@ function MyBookings() {
         })
     }
 
+    const fetchReservationsData = () => {
+        getData("Reservations").then((res) => {
+            setAllReservationsData(res)
+        })
+    }
+
     useEffect(() => {
         if (allRoomsData.length !== 0 && allData.length !== 0) {
             let arr: any = []
@@ -35,7 +42,6 @@ function MyBookings() {
                 allRoomsData.map((room: any) => {
                     if (room.id == item.RoomId) {
                         arr.push(room)
-                        console.log(arr)
                     }
                 })
             })
@@ -47,6 +53,7 @@ function MyBookings() {
     useEffect(() => {
         fetchUserData()
         fetchRoomsData()
+        fetchReservationsData()
     }, [])
 
     return (
@@ -88,6 +95,16 @@ function MyBookings() {
                             value: "Room Description",
                             id: "RoomDescription"
                         },
+                        {
+                            render: (row: any) => {
+                                return (
+                                    <div className="pt-2">
+                                        <span className="px-3 py-2 rounded-pill bg-success bg-danger bg-warning text-white">Approved</span>
+                                    </div>
+                                )
+                            },
+                            value: "Status",
+                        }
                     ]} />
                 </Col>
             </Row>

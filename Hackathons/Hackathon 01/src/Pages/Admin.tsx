@@ -85,7 +85,7 @@ function Admin() {
     },
     {
       title: "Total Rooms",
-      count: allRoomsData ? allRoomsData.length : "***",
+      count: allRoomsData.length,
       bgColor: "#d58714",
       color: "white",
       icon: <MdMeetingRoom />,
@@ -93,7 +93,7 @@ function Admin() {
     },
     {
       title: "Available Rooms",
-      count: availableRooms ? availableRooms.length : "***",
+      count: availableRooms.length,
       bgColor: "#01a55b",
       color: "white",
       icon: <MdMeetingRoom />,
@@ -101,7 +101,7 @@ function Admin() {
     },
     {
       title: "Occupied Rooms",
-      count: occupiedRooms ? occupiedRooms.length : "***",
+      count: occupiedRooms.length,
       bgColor: "var(--darkBlue)",
       color: "white",
       icon: <MdMeetingRoom />,

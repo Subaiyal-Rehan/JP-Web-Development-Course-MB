@@ -164,12 +164,12 @@ export default function Dashboard() {
             icon: <InboxIcon />,
             link: "allreservations"
         },
-        {
-            id: "6",
-            value: "All Enquiries",
-            icon: <InboxIcon />,
-            link: "enquiries/allenquiries",
-        },
+        // {
+        //     id: "6",
+        //     value: "All Enquiries",
+        //     icon: <InboxIcon />,
+        //     link: "enquiries/allenquiries",
+        // },
         {
             id: "7",
             value: "Signup",

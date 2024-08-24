@@ -14,6 +14,7 @@ function MyBookings() {
     const [allData, setAllData] = useState<any>([])
     const [allRoomsData, setAllRoomsData] = useState<any>([])
     const [allReservationsData, setAllReservationsData] = useState<any>([])
+    const [allCancelledData, setAllCancelledData] = useState<any>([])
     const [selectedRooms, setSelectedRooms] = useState<any>([])
 
     const fetchUserData = () => {
@@ -35,26 +36,67 @@ function MyBookings() {
         })
     }
 
+    const fetchCancelledData = () => {
+        getData("Cancelled").then((res) => {
+            setAllCancelledData(res)
+        })
+    }
+    
     useEffect(() => {
         if (allRoomsData.length !== 0 && allData.length !== 0) {
-            let arr: any = []
-            allData.map((item: any) => {
-                allRoomsData.map((room: any) => {
-                    if (room.id == item.RoomId) {
-                        arr.push(room)
+            let arr: any = [];
+    
+            allData.forEach((item: any) => {
+                const matchingRoom = allRoomsData.find((room: any) => room.id === item.RoomId);
+    
+                if (matchingRoom) {
+                    let status = 'Approved';
+    
+                    if (allReservationsData.some((reservation: any) => reservation.BookingId === item.BookingId)) {
+                        status = 'Pending';
                     }
-                })
-            })
-            setSelectedRooms(arr)
+
+                    if (allCancelledData.some((cancelled: any) => cancelled.BookingId === item.BookingId)) {
+                        status = 'Rejected';
+                    }
+    
+                    const roomWithStatus = {
+                        ...matchingRoom,
+                        Status: status,
+                    };
+    
+                    arr.push(roomWithStatus);
+                }
+            });
+    
+            setSelectedRooms(arr);
         }
-    }, [allRoomsData, allData])
+    }, [allRoomsData, allReservationsData, allCancelledData, allData]);
 
 
     useEffect(() => {
         fetchUserData()
         fetchRoomsData()
         fetchReservationsData()
+        fetchCancelledData()
     }, [])
+
+    const classFunc = (status: any) => {
+        console.log(status)
+        let baseClasses = "px-3 py-2 rounded-pill";
+
+        switch (status) {
+            case "Pending":
+                return `${baseClasses} bg-warning text-black`;
+            case "Rejected":
+                return `${baseClasses} bg-danger`;
+            case "Approved":
+                return `${baseClasses} bg-success`;
+            default:
+                return baseClasses;
+        }
+    }
+
 
     return (
         <>
@@ -96,13 +138,11 @@ function MyBookings() {
                             id: "RoomDescription"
                         },
                         {
-                            render: (row: any) => {
-                                return (
-                                    <div className="pt-2">
-                                        <span className="px-3 py-2 rounded-pill bg-success bg-danger bg-warning text-white">Approved</span>
-                                    </div>
-                                )
-                            },
+                            render: (row: any) => (
+                                <div className="pt-2">
+                                    <span className={`${classFunc(row.Status)}`}>{row.Status === "Pending" ? "Pending" : row.Status === "Rejected" ? "Rejected" : "Approved"}</span>
+                                </div>
+                            ),
                             value: "Status",
                         }
                     ]} />

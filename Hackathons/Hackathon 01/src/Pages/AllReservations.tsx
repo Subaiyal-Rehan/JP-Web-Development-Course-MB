@@ -21,11 +21,6 @@ function AllReservations() {
   }
 
   useEffect(() => {
-    console.log(allData)
-  }, [allData])
-
-
-  useEffect(() => {
     fetchData()
   }, [])
 

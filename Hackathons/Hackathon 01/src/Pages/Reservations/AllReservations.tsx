@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import { deleteData, getData, setData } from "../Config/FirebaseMethods"
-import SRTable from "../Components/SRTable"
-import { toastGreen, toastRed } from "../Components/My Toasts"
-import { confirmAlert } from "../Components/ConfirmAlert"
-import SRLoader from "../Components/SRLoader"
+import { deleteData, getData, setData } from "../../Config/FirebaseMethods"
+import SRTable from "../../Components/SRTable"
+import { toastGreen, toastRed } from "../../Components/My Toasts"
+import { confirmAlert } from "../../Components/ConfirmAlert"
+import SRLoader from "../../Components/SRLoader"
 import { useSelector } from "react-redux"
 
 function AllReservations() {
@@ -74,7 +74,7 @@ function AllReservations() {
     <>
       {loader && <SRLoader />}
       <div className='custom-black'>
-        <h2 className='fs-heading'>All Reservations</h2>
+        <h2 className='fs-heading mb-4'>All Reservations</h2>
         <SRTable data={filteredData} cols={[
           {
             value: "Booking Id",

@@ -4,27 +4,24 @@ import { useEffect, useState } from "react"
 import { signupUser } from "../Config/FirebaseMethods"
 import { toastGreen, toastRed } from "../Components/My Toasts"
 import SRLoader from "../Components/SRLoader"
-import { getAuth, onAuthStateChanged } from "firebase/auth"
-import app from "../Config/FirebaseConfig"
 import SRSelect from "../Components/SRSelect"
+import { useSelector } from "react-redux"
 function Signup() {
     const [signupData, setSignupData] = useState<any>({})
     const [loader, setLoader] = useState<any>(false)
     const navigate = useNavigate()
-    const auth = getAuth(app);
-    const [isInitialCheck, setIsInitialCheck] = useState(true);
+    const userData = useSelector((state: any) => state.user)
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-          if (user && isInitialCheck) {
-            toastRed("User is already logged in.");
-            navigate("/dashboard");
-          }
-          setIsInitialCheck(false);
-        });
-    
-        return () => unsubscribe();
-      }, [auth, navigate, isInitialCheck]);
+        console.log(userData)
+        if (userData) {
+            if (userData.Type !== "Accountant") {
+                toastRed('Only admins can enter that page.')
+                navigate('/')
+            }
+        }
+    }, [userData])
+
 
     const handleSubmit = (e: any) => {
         e.preventDefault();

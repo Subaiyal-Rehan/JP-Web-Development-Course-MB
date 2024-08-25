@@ -32,8 +32,10 @@ import AllStaff from '../Pages/Staff/AllStaff';
 import AddStaff from '../Pages/Staff/AddStaff';
 import RoomDetails from '../Pages/Rooms/RoomDetails';
 import StaffDetails from '../Pages/Staff/StaffDetails';
-import Signup from '../Pages/Signup';
-import AllReservations from '../Pages/AllReservations';
+import AllReservations from '../Pages/Reservations/AllReservations';
+import CancelledReservations from '../Pages/Reservations/CancelledReservations';
+import ApprovedReservations from '../Pages/Reservations/ApprovedReservations';
+import NotfFound from '../Pages/NotfFound';
 
 const drawerWidth = 240;
 
@@ -160,9 +162,22 @@ export default function Dashboard() {
         },
         {
             id: "5",
-            value: "All Reservations",
+            value: "Reservations",
             icon: <InboxIcon />,
-            link: "allreservations"
+            children: [
+                {
+                    value: "Pending Reservations",
+                    link: "reservations/pendingreservations"
+                },
+                {
+                    value: "Approved Reservations",
+                    link: "reservations/approvedreservations"
+                },
+                {
+                    value: "Cancelled Reservations",
+                    link: "reservations/cancelledreservations"
+                },
+            ],
         },
         // {
         //     id: "6",
@@ -174,7 +189,7 @@ export default function Dashboard() {
             id: "7",
             value: "Signup",
             icon: <InboxIcon />,
-            link: "signup",
+            link: "/signup",
         },
         {
             id: "8",
@@ -275,9 +290,11 @@ export default function Dashboard() {
                     <Route path="bookings/allbooking" element={<AllBookings />} />
                     <Route path="staff/allstaff" element={<AllStaff />} />
                     <Route path="staff/addstaff" element={<AddStaff />} />
-                    <Route path="allreservations" element={<AllReservations />} />
+                    <Route path="reservations/pendingreservations" element={<AllReservations />} />
+                    <Route path="reservations/approvedreservations" element={<ApprovedReservations />} />
+                    <Route path="reservations/cancelledreservations" element={<CancelledReservations />} />
                     <Route path="staff/:id" element={<StaffDetails />} />
-                    <Route path="signup" element={<Signup />} />
+                    <Route path="*" element={<NotfFound from="Dashboard" />} />
                 </Routes>
                 <div className="background dashboard-background z-n1">
                     <div className="ashape dashboard-shape"></div>

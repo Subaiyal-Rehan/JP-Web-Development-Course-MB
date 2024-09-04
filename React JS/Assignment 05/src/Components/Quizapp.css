@@ -1,0 +1,32 @@
+.mainContainer {
+    min-height: 100vh;
+}
+
+.questionContainer {
+    background-color: rgb(70, 78, 84);
+}
+
+.customContainer {
+    width: 700px;
+}
+
+.border-custom {
+    border: 2px solid transparent !important;
+}
+
+.correctAns {
+    background-color: #8effc8 !important;
+    border: 2px solid #46ffa6 !important;
+}
+
+.wrongAns {
+    background-color: #ffc5c5 !important;
+    border: 2px solid #ffa5a5 !important;
+}
+
+.nextBtn {
+    background-color: rgb(128, 128, 129) !important;
+    color: white !important;
+    padding: 8px 20% !important;
+    border: 2px solid #4b2a9d;
+}

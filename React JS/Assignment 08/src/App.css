@@ -1,0 +1,144 @@
+.HeroDiv {
+    height: 100vh;
+    background-image: url("./Images/Hero-Background.jpg");
+    background-repeat: no-repeat;
+}
+
+.AboutHero.HeroDiv {
+    height: 44vh;
+}
+
+.HeroOverlay {
+    height: 100%;
+    background-color: transparent;
+    background-image: linear-gradient(rgb(79, 79, 79) 0%, rgb(39, 44, 65) 100%);
+    opacity: .8;
+}
+
+.customNav:hover {
+    color: rgb(112, 112, 112) !important;
+    text-decoration: underline !important;
+}
+
+.customActive {
+    text-decoration: underline !important;
+}
+
+.customActive:hover {
+    color: rgb(255, 255, 255) !important;
+    text-decoration: underline !important;
+}
+
+.text-black.customActive:hover {
+    color: rgb(0, 0, 0) !important;
+}
+
+.HeroText {
+    max-width: 35%;
+    margin-left: 20%;
+}
+
+.CreditsLine {
+    width: 200px;
+    height: 1px;
+    background-color: #00000059;
+}
+
+.divider {
+    background-image: url("./Images/Pattern.png");
+    height: 10px;
+}
+
+.SingleMain {
+    background-color: whitesmoke;
+}
+
+.singleImageContainer img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.ProductDetailContainer,
+.relatedProductsContainer {
+    padding: 0px 70px;
+}
+
+.TextContainer {
+    background-color: whitesmoke;
+}
+
+.customLoader {
+    animation: customLoaderanime 1s ease-in-out infinite forwards;
+}
+
+@keyframes customLoaderanime {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.cartBtn {
+    background-color: rgb(84, 89, 95);
+    color: white;
+    padding: 8px 20px;
+    letter-spacing: 2px;
+    border-radius: 6px;
+}
+
+.cartBtn:hover {
+    background-color: rgb(0, 0, 0);
+}
+
+.latestImg img {
+    transition: all 0.2s ease-in-out;
+}
+
+.LatestCard:hover .latestImg img {
+    transform: scale(1.07) rotate(7deg);
+}
+
+.TheyLoveCardImg {
+    opacity: 0.40;
+    height: 230px;
+    transition: all 0.2s ease-in-out;
+}
+
+.TheyLoveCard:hover .TheyLoveCardImg {
+    opacity: 0.28;
+}
+
+.TheyLoveCardImg img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.TheyLoveCardText {
+    bottom: 0px;
+    left: 30px;
+}
+
+.WdigetBox {
+    box-shadow: 0px 0px 30px -8px rgb(0, 0, 0);
+}
+
+@media screen and (max-width: 991px) {
+    .WidgetBoxContainer {
+        /* flex-direction: column; */
+        flex-wrap: wrap;
+        row-gap: 40px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .HeroText {
+        max-width: 75%;
+        margin: auto;
+    }
+}

@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+* {
+    font-family: "Quicksand", sans-serif;
+}
+
+.section-padding {
+    padding: 70px 0px;
+}
